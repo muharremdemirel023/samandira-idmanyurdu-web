@@ -25,15 +25,26 @@ border: "1px solid rgba(255,255,255,0.08)",
 backdropFilter: "blur(12px)",
 }}
 >
-<h1
+<img
+src="/Samandıralogo.png"
+alt="Samandıra İdman Yurdu S.K."
 style={{
-fontSize: "42px",
-marginBottom: "18px",
-lineHeight: 1.2,
+width: "120px",
+height: "120px",
+objectFit: "contain",
+marginBottom: "24px",
 }}
->
-Samandıra İdman Yurdu S.K.
-</h1>
+/>
+
+    <h1
+      style={{
+        fontSize: "42px",
+        marginBottom: "18px",
+        lineHeight: 1.2,
+      }}
+    >
+      Samandıra İdman Yurdu S.K.
+    </h1>
 
     <p
       style={{
