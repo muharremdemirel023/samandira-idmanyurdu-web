@@ -50,6 +50,8 @@ function readPayload(formData: FormData) {
     ends_at: readOptionalTimestamp(formData, "ends_at"),
     open_delay_ms: readNumber(formData, "open_delay_ms", 500),
     auto_close_seconds: readNumber(formData, "auto_close_seconds", 6),
+    // -160..80 px: negatif değer mesaj kartını görselin üzerine doğru çeker
+    content_gap_px: Math.max(-160, Math.min(80, readNumber(formData, "content_gap_px", 12))),
     show_every_reload: formData.get("show_every_reload") === "on",
     show_once_per_user: formData.get("show_once_per_user") === "on",
     updated_at: new Date().toISOString(),

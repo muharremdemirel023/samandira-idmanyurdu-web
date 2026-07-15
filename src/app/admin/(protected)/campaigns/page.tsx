@@ -22,6 +22,7 @@ type CampaignRow = {
   auto_close_seconds: number | null;
   show_every_reload: boolean | null;
   show_once_per_user: boolean | null;
+  content_gap_px: number | null;
 };
 
 const inputClass =
@@ -146,6 +147,24 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
             className={inputClass}
           />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className={labelClass}>Görsel ile Mesaj Kartı Boşluğu (px)</label>
+        <input
+          name="content_gap_px"
+          type="number"
+          min={-160}
+          max={80}
+          step={4}
+          defaultValue={row?.content_gap_px ?? 12}
+          className={inputClass}
+        />
+        <p className="text-xs leading-5 text-slate-400">
+          Görselin altındaki başlık/buton kartının mesafesi. Görselin alt kısmında şeffaf boşluk
+          varsa <span className="font-semibold text-slate-300">negatif değer</span> (örn. -40)
+          girerek kartı görsele yaklaştırabilirsiniz. Varsayılan: 12.
+        </p>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row">

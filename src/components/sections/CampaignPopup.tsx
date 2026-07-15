@@ -23,6 +23,7 @@ export async function CampaignPopup() {
         openDelayMs: campaign.open_delay_ms ?? 500,
         autoCloseSeconds: campaign.auto_close_seconds ?? 6,
         showOncePerUser: campaign.show_once_per_user ?? false,
+        contentGapPx: campaign.content_gap_px ?? 12,
       }}
     />
   );

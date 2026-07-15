@@ -174,6 +174,7 @@ export type Campaign = {
   auto_close_seconds: number;
   show_every_reload: boolean;
   show_once_per_user: boolean;
+  content_gap_px: number | null;
 };
 
 export const getActiveCampaign = cache(async (): Promise<Campaign | null> => {

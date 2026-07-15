@@ -33,55 +33,117 @@ const topics: Topic[] = [
   {
     key: "age-groups",
     label: "Yaş Grupları",
-    keywords: ["yas", "yaş", "grup", "kaç yaş", "age"],
+    keywords: ["yas", "yaş", "grup", "kaç yaş", "kac yas", "age", "u8", "u9", "u10", "u11", "u12", "u13", "u14", "u15", "küçük", "kucuk", "büyük", "buyuk", "6 yaş", "7 yaş", "8 yaş"],
     answer: () =>
       "Akademimizde şu yaş grupları bulunur:\n\n" +
-      akademiPage.ageDetail.groups.map((g) => `• ${g.range} yaş: ${g.focus}`).join("\n\n"),
+      akademiPage.ageDetail.groups.map((g) => `• ${g.range} yaş: ${g.focus}`).join("\n\n") +
+      "\n\nÇocuğunuzun hangi gruba uygun olduğunu netleştirmek için ön kayıt oluşturabilir veya WhatsApp'tan yazabilirsiniz.",
   },
   {
     key: "training",
     label: "Antrenman Programı",
-    keywords: ["antrenman", "program", "gün", "saat", "idman"],
+    keywords: ["antrenman", "program", "gün", "gun", "saat", "idman", "çalışma", "calisma", "haftada kaç", "haftada kac", "hangi günler", "hangi gunler"],
     answer: () =>
       `${akademiPage.training.subtitle}\n\n` +
       akademiPage.training.pillars.map((p) => `• ${p.title}: ${p.body}`).join("\n") +
-      "\n\nHaftalık program yaş grubuna ve saha planına göre belirlenir; velilere düzenli paylaşılır.",
+      "\n\nHaftalık antrenman günleri ve saatleri yaş grubuna ve saha planına göre belirlenir; kayıt sırasında velilerle net program paylaşılır. Güncel programı öğrenmek için WhatsApp'tan yazabilirsiniz.",
   },
   {
     key: "fee",
     label: "Ücret Bilgisi",
-    keywords: ["ücret", "ucret", "fiyat", "aidat", "ödeme", "para", "kaç tl", "kac tl"],
+    keywords: ["ücret", "ucret", "fiyat", "aidat", "ödeme", "odeme", "para", "kaç tl", "kac tl", "maliyet", "taksit", "indirim", "kardeş", "kardes", "burs"],
     answer: () =>
-      "Ücret ve ödeme planı yaş grubuna ve döneme göre değişebilir. Güncel ücret bilgisi için WhatsApp hattımızdan bize yazabilir veya ön kayıt formunu doldurabilirsiniz; ekibimiz size dönüş yapar.",
+      "Ücret ve ödeme planı yaş grubuna ve döneme göre değişebilir. Kardeş kaydı ve dönemlik ödeme gibi seçenekler için de ekibimizle görüşebilirsiniz. Güncel ücret bilgisi için WhatsApp hattımızdan bize yazabilir veya ön kayıt formunu doldurabilirsiniz; ekibimiz size dönüş yapar.",
   },
   {
     key: "trial",
     label: "Deneme Antrenmanı",
-    keywords: ["deneme", "trial", "seçme", "secme", "test"],
+    keywords: ["deneme", "trial", "seçme", "secme", "test", "yetenek", "önce görelim", "once gorelim", "denemek"],
     answer: () =>
       akademiPage.faq.items.find((i) => i.q.includes("Deneme"))?.a ??
       "Deneme antrenmanı için ön kayıt oluşturmanız yeterli; ekibimiz sizinle planlama yapar.",
   },
   {
+    key: "equipment",
+    label: "Gerekli Malzemeler",
+    keywords: ["malzeme", "ekipman", "forma", "kıyafet", "kiyafet", "krampon", "ayakkabı", "ayakkabi", "tekmelik", "top", "çanta", "canta", "ne getirmeli", "ne gerekli"],
+    answer: () =>
+      "Antrenmanlar için temel ihtiyaçlar: antrenman kıyafeti, krampon (veya halı saha ayakkabısı), tekmelik ve su matarası. Akademi formaları ve detaylı malzeme listesi kayıt sırasında velilerle paylaşılır. Merak ettiklerinizi WhatsApp'tan sorabilirsiniz.",
+  },
+  {
+    key: "coaches",
+    label: "Teknik Kadro",
+    keywords: ["antrenör", "antrenor", "hoca", "koç", "koc", "eğitmen", "egitmen", "teknik kadro", "lisans", "kim çalıştırıyor", "kim calistiriyor"],
+    answer: () =>
+      "Antrenmanlarımız lisanslı ve deneyimli antrenörler tarafından yürütülür; ekipte UEFA lisanslı ve TFF sertifikalı antrenörler görev alır. Teknik kadromuzu ve özgeçmişlerini sitedeki \"Teknik Kadro\" sayfasından inceleyebilirsiniz (Akademi menüsü altında).",
+  },
+  {
+    key: "matches",
+    label: "Maç ve Turnuvalar",
+    keywords: ["maç", "mac", "turnuva", "lig", "müsabaka", "musabaka", "fikstür", "fikstur", "rekabet", "karşılaşma", "karsilasma"],
+    answer: () =>
+      "Sporcularımız yaş grubuna uygun şekilde hazırlık maçları ve turnuvalarla kontrollü olarak rekabet ortamına katılır. Amaç erken yaşta sonuç baskısı değil, oyuncunun gelişimidir. Maç ve turnuva takvimi dönem içinde velilerle paylaşılır.",
+  },
+  {
+    key: "parents",
+    label: "Veli Bilgilendirme",
+    keywords: ["veli", "izle", "gelişim takibi", "gelisim takibi", "rapor", "geri bildirim", "bilgilendirme", "takip"],
+    answer: () =>
+      "Velilerimizle düzenli iletişim önceliğimizdir: oyuncunun gelişimi hakkında dönemsel geri bildirim verilir, program değişiklikleri ve etkinlikler net şekilde duyurulur. Sorularınız için akademi ekibine WhatsApp üzerinden her zaman ulaşabilirsiniz.",
+  },
+  {
+    key: "safety",
+    label: "Güvenlik ve Sağlık",
+    keywords: ["güvenlik", "guvenlik", "sağlık", "saglik", "sakatlık", "sakatlik", "sigorta", "ilk yardım", "ilk yardim", "doktor", "emniyet"],
+    answer: () =>
+      "Antrenmanlar güvenli saha koşullarında, yaş grubuna uygun yüklenme prensipleriyle yapılır; ısınma ve toparlanma rutinleri programın parçasıdır. Sporcu lisans ve sağlık süreçleriyle ilgili detaylar kayıt sırasında velilerle paylaşılır.",
+  },
+  {
     key: "address",
-    label: "Adres",
-    keywords: ["adres", "nerede", "konum", "lokasyon", "tesis", "saha"],
-    answer: () => `Tesisimiz:\n${siteConfig.addressLines.join("\n")}`,
+    label: "Adres ve Ulaşım",
+    keywords: ["adres", "nerede", "konum", "lokasyon", "tesis", "saha", "ulaşım", "ulasim", "nasıl gelirim", "nasil gelirim", "servis", "otopark", "harita"],
+    answer: () =>
+      `Tesisimiz:\n${siteConfig.addressLines.join("\n")}\n\nKonumu İletişim sayfamızdaki haritadan görebilirsiniz. Servis ve ulaşım seçenekleri için WhatsApp'tan bilgi alabilirsiniz.`,
   },
   {
     key: "contact",
     label: "İletişim",
-    keywords: ["iletişim", "iletisim", "telefon", "numara", "mail", "e-posta", "whatsapp", "ulaş"],
+    keywords: ["iletişim", "iletisim", "telefon", "numara", "mail", "e-posta", "eposta", "whatsapp", "ulaş", "ulas", "arayın", "arayin", "instagram"],
     answer: () =>
-      `Bize şu kanallardan ulaşabilirsiniz:\n• Telefon: ${siteConfig.phoneDisplay}\n• E-posta: ${siteConfig.email}\n• WhatsApp üzerinden hızlı mesaj gönderebilirsiniz.`,
+      `Bize şu kanallardan ulaşabilirsiniz:\n• Telefon: ${siteConfig.phoneDisplay}\n• E-posta: ${siteConfig.email}\n• WhatsApp üzerinden hızlı mesaj gönderebilirsiniz.\n• Instagram hesaplarımızı İletişim sayfasında bulabilirsiniz.`,
   },
   {
     key: "pre-registration",
     label: "Ön Kayıt",
-    keywords: ["kayıt", "kayit", "başvuru", "basvuru", "form", "katıl", "katil", "üye"],
+    keywords: ["kayıt", "kayit", "başvuru", "basvuru", "form", "katıl", "katil", "üye", "uye", "yazdır", "yazdir", "nasıl başlarım", "nasil baslarim", "başlamak", "baslamak"],
     answer: () =>
       akademiPage.faq.items.find((i) => i.q.includes("Kayıt"))?.a ??
       "Ön kayıt formunu doldurarak başvurabilirsiniz; ekibimiz size dönüş yapar.",
+  },
+  {
+    key: "about",
+    label: "Akademi Hakkında",
+    keywords: ["hakkında", "hakkinda", "kimsiniz", "akademi ne", "tarihçe", "tarihce", "kaç yıl", "kac yil", "ne zaman kuruldu", "35", "kulüp", "kulup", "felsefe", "misyon", "vizyon"],
+    answer: () =>
+      `${siteConfig.name}, 35 yıllık spor kültürünü genç nesillere aktaran köklü bir kulüptür. ${akademiPage.philosophy.intro}`,
+  },
+];
+
+/** Selamlaşma / teşekkür gibi sohbet mesajları — konu eşleşmesinden önce denenir */
+const smallTalk: Array<{ keywords: string[]; answer: string }> = [
+  {
+    keywords: ["merhaba", "selam", "günaydın", "gunaydin", "iyi günler", "iyi gunler", "iyi akşamlar", "iyi aksamlar", "hello", "hi"],
+    answer:
+      "Merhaba, hoş geldiniz! 👋 Size yaş grupları, antrenman programı, ücret, deneme antrenmanı, adres veya kayıt süreci hakkında yardımcı olabilirim. Aşağıdaki hızlı seçenekleri de kullanabilirsiniz.",
+  },
+  {
+    keywords: ["teşekkür", "tesekkur", "sağol", "sagol", "sağ ol", "sag ol", "eyvallah", "thanks"],
+    answer:
+      "Rica ederim! Başka bir sorunuz olursa buradayım. Dilerseniz WhatsApp hattımızdan ekibimizle de görüşebilirsiniz. ⚽",
+  },
+  {
+    keywords: ["görüşürüz", "gorusuruz", "hoşça kal", "hosca kal", "iyi geceler", "bay bay", "bye"],
+    answer: "Görüşmek üzere! Sahada görüşmek dileğiyle. ⚽",
   },
 ];
 
@@ -93,6 +155,9 @@ function normalize(text: string) {
 function resolveAnswer(input: string): { text: string; fallback: boolean } {
   const q = normalize(input);
   if (!q) return { text: "", fallback: false };
+
+  const chat = smallTalk.find((s) => s.keywords.some((k) => q.includes(normalize(k))));
+  if (chat) return { text: chat.answer, fallback: false };
 
   const topic = topics.find((t) => t.keywords.some((k) => q.includes(normalize(k))));
   if (topic) return { text: topic.answer(), fallback: false };
@@ -114,7 +179,7 @@ function resolveAnswer(input: string): { text: string; fallback: boolean } {
 const greeting: Message = {
   id: 0,
   from: "bot",
-  text: "Merhaba! Ben Akademi Asistanı. Yaş grupları, antrenman programı, ücret, deneme antrenmanı, adres, iletişim ve ön kayıt hakkında sorularınızı yanıtlayabilirim. Aşağıdaki hızlı seçenekleri de kullanabilirsiniz.",
+  text: "Merhaba! Ben Akademi Asistanı. Yaş grupları, antrenman programı, ücretler, deneme antrenmanı, gerekli malzemeler, teknik kadro, maç ve turnuvalar, adres ve kayıt süreci hakkında sorularınızı yanıtlayabilirim. Aşağıdaki hızlı seçenekleri kullanabilir veya sorunuzu yazabilirsiniz.",
 };
 
 export function AcademyAssistant() {

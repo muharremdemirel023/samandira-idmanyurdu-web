@@ -16,6 +16,8 @@ export type CampaignPopupData = {
   openDelayMs: number;
   autoCloseSeconds: number;
   showOncePerUser: boolean;
+  /** Görsel ile mesaj kartı arası dikey boşluk (px); negatif değer kartı görsele yaklaştırır */
+  contentGapPx: number;
 };
 
 export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData }) {
@@ -152,7 +154,10 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
             />
 
             {(campaign.title || campaign.description || (campaign.buttonLabel && campaign.buttonHref)) && (
-              <div className="mt-3 rounded-2xl bg-surface-card px-5 py-4 text-center">
+              <div
+                className="relative rounded-2xl bg-surface-card px-5 py-4 text-center"
+                style={{ marginTop: campaign.contentGapPx }}
+              >
                 {campaign.title ? (
                   <p className="type-heading-md text-maroon-deep">{campaign.title}</p>
                 ) : null}
