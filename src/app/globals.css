@@ -1,26 +1,491 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+
+  /* Marka: bordo + turuncu + beyaz — açık zemin, mat, kurumsal */
+  --surface-deep: #ffffff;
+  --surface-base: #faf7f6;
+  --surface-muted: #f4edeb;
+  --surface-elevated: #ffffff;
+  --surface-card: #ffffff;
+
+  --maroon: #6d1f2e;
+  --maroon-deep: #4a1220;
+
+  --text-primary: #421019;
+  --text-muted: #6d5a5c;
+
+  --accent: #ea580c;
+  --accent-strong: #c2410c;
+  /* Koyu bordo zemin (footer) üzerinde okunur turuncu */
+  --accent-bright: #fb923c;
+  --accent-soft: color-mix(in oklab, var(--accent) 14%, transparent);
+
+  --border-subtle: #eadfdc;
+
+  --shadow-shell: 0 18px 44px -26px rgba(74, 18, 32, 0.28);
+
+  --header-height: 4.3125rem;
+  --gutter: clamp(1.1rem, 3vw, 2.25rem);
+
+  --container-ultra-cap: min(1760px, 100vw - 2 * min(var(--gutter), 48px));
+
+  --container-max: min(1180px, 100vw - 2 * var(--gutter));
+  --container-prose-max: min(42rem, 100vw - 2 * var(--gutter));
+  --container-hero-max: min(1440px, 100vw);
+
+  /**
+   * Editorial tipografi — Real Madrid / Bayern tarzı: güçlü ama kontrollü üst ölçek.
+   * Tek kaynak: bileşenlerde ad-hoc clamp kullanmayın; @layer utilities sınıflarına bağlanın.
+   */
+  --font-display: clamp(1.38rem, 1.08rem + 1.05vw, 2.02rem);
+  --font-section: clamp(1.2rem, 1.02rem + 0.72vw, 1.58rem);
+  --font-subsection: clamp(1.06rem, 0.95rem + 0.42vw, 1.26rem);
+  --font-card-title: clamp(1.04rem, 0.96rem + 0.32vw, 1.18rem);
+  --font-lead: clamp(0.875rem, 0.83rem + 0.16vw, 0.96875rem);
+  --font-body: clamp(0.875rem, 0.81rem + 0.18vw, 0.9375rem);
+  --font-body-relaxed: clamp(0.9rem, 0.84rem + 0.18vw, 1rem);
+  --font-small: 0.6875rem;
+  --font-eyebrow: clamp(0.56rem, 0.52rem + 0.08vw, 0.625rem);
+
+  /* Bölüm dikey ritim — geniş ama “boş demo” değil */
+  --space-section-y-mobile: clamp(4.25rem, 11vw, 6.75rem);
+  --space-section-y-desktop: clamp(6rem, 10vw, 9rem);
+  --space-stack-gap: clamp(1rem, 2.4vw, 1.65rem);
+  --space-intra-heading: clamp(1rem, 2vw, 1.35rem);
+
+  --scrollbar-track: var(--surface-base);
+  --scrollbar-thumb: color-mix(in oklab, var(--maroon) 55%, var(--surface-muted));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (width >= 90rem) {
+  :root {
+    --container-max: min(1540px, 100vw - 3rem);
+  }
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-surface-deep: var(--surface-deep);
+  --color-surface-base: var(--surface-base);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-card: var(--surface-card);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-muted: var(--text-muted);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+
+  --color-maroon: var(--maroon);
+  --color-maroon-deep: var(--maroon-deep);
+  --color-accent-bright: var(--accent-bright);
+
+  --color-border-subtle: var(--border-subtle);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+*,
+*::before,
+*::after {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  height: 0.5625rem;
+  width: 0.5625rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+
+@layer utilities {
+  /* --- Hiyerarşi --- */
+
+  /** Ana sayfa / akademi hero başlığı — bordo, büyük ama kontrollü */
+  .type-display {
+    font-size: var(--font-display);
+    line-height: 1.11;
+    font-weight: 700;
+    letter-spacing: -0.022em;
+    text-wrap: pretty;
+    color: var(--maroon-deep);
+  }
+
+  /** Bölüm H2 (site geneli) — bordo başlık */
+  .type-heading-lg {
+    font-size: var(--font-section);
+    line-height: 1.14;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+    color: var(--maroon-deep);
+  }
+
+  /** Alt bölüm / CTA bandı / kapanış başlığı */
+  .type-heading-md {
+    font-size: var(--font-subsection);
+    line-height: 1.16;
+    font-weight: 650;
+    letter-spacing: -0.018em;
+    text-wrap: pretty;
+    color: var(--maroon-deep);
+  }
+
+  /** Kart / liste başlığı (H3) */
+  .type-card-title {
+    font-size: var(--font-card-title);
+    line-height: 1.22;
+    font-weight: 700;
+    letter-spacing: -0.014em;
+  }
+
+  /** Hero ve önemli giriş paragrafları — supporting */
+  .type-lead {
+    font-size: var(--font-lead);
+    line-height: 1.58;
+    font-weight: 400;
+    color: color-mix(in oklab, var(--text-muted) 94%, transparent);
+    text-wrap: pretty;
+  }
+
+  /** Kart gövdesi, bölüm açıklaması */
+  .type-body-lg {
+    font-size: var(--font-body-relaxed);
+    line-height: 1.62;
+    font-weight: 450;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .type-body {
+    font-size: var(--font-body);
+    line-height: 1.68;
+    font-weight: 450;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  /** Üst etiket / bölüm eyebrow */
+  .type-overline {
+    font-size: var(--font-eyebrow);
+    line-height: 1.45;
+    font-weight: 650;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--text-muted) 84%, transparent);
+  }
+
+  /** Meta, rozet, medya şeridi — küçük caps */
+  .type-label-caps {
+    font-size: var(--font-small);
+    line-height: 1.35;
+    font-weight: 650;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--text-muted) 88%, transparent);
+  }
+
+  .type-label-caps-accent {
+    font-size: var(--font-small);
+    line-height: 1.35;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /** Rozet / lisans satırı — çok küçük meta */
+  .type-meta {
+    font-size: var(--font-small);
+    line-height: 1.35;
+    font-weight: 650;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--text-muted) 90%, transparent);
+  }
+
+  /** Yaş / istatistik rakamı */
+  .type-stat {
+    font-size: clamp(1.62rem, 1.28rem + 1.05vw, 2.05rem);
+    line-height: 1.06;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.032em;
+  }
+
+  /** Bölüm üst blok: overline → başlık → gövde dikey aralık */
+  .stack-section-intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-intra-heading);
+  }
+
+  /** --- Satır genişliği (editoryal) --- */
+  .max-w-prose-display {
+    max-width: min(100%, 40rem);
+  }
+
+  .max-w-prose-section {
+    max-width: min(100%, 38rem);
+  }
+
+  .max-w-prose-lead {
+    max-width: min(100%, 34rem);
+  }
+
+  .max-w-prose-body {
+    max-width: min(100%, 36rem);
+  }
+
+  /**
+   * Bölüm geçişi: ince ayırıcı + çok düşük vignette (neon değil).
+   */
+  .section-edge-top {
+    background-image: linear-gradient(
+      180deg,
+      color-mix(in oklab, var(--surface-muted) 40%, transparent) 0%,
+      transparent 42%
+    );
+  }
+
+  .club-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .club-section > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .club-rule {
+    display: none;
+  }
+
+  .club-kicker-line {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .club-kicker-line::before {
+    content: none;
+  }
+
+  .club-soft-panel {
+    border-radius: clamp(1.25rem, 3vw, 2.25rem);
+    background: var(--surface-base);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-shell);
+  }
+
+  /**
+   * Sabit aksiyon butonları (WhatsApp + Akademi Asistanı):
+   * sayfa açılışında yumuşak giriş, ardından dikkat çeken hafif nabız halkası.
+   */
+  .fab-animated {
+    animation:
+      fab-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both,
+      fab-pulse 3.2s ease-out 1.2s infinite;
+    transition: transform 0.2s ease;
+  }
+
+  .fab-animated:hover {
+    transform: scale(1.05);
+  }
+
+  .fab-animated:active {
+    transform: scale(0.97);
+  }
+
+  .fab-delay {
+    animation-delay: 0.18s, 1.55s;
+  }
+
+  /** Chatbot paneli açıkken başlatıcı butonun nabzı durur */
+  .fab-animated[aria-expanded="true"] {
+    animation: fab-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .fab-pulse-accent {
+    --fab-pulse-color: color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+
+  .fab-pulse-maroon {
+    --fab-pulse-color: color-mix(in oklab, var(--maroon) 45%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fab-animated {
+      animation: none;
+      transition: none;
+    }
+
+    .fab-animated:hover,
+    .fab-animated:active {
+      transform: none;
+    }
+  }
+
+  /** Gerçek akademi/antrenman fotoğrafı gelene kadar bordo yer tutucu bant */
+  .club-image-band {
+    min-height: clamp(16rem, 34vw, 30rem);
+    border-radius: clamp(1rem, 2.4vw, 1.75rem);
+    background: linear-gradient(150deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+    box-shadow: var(--shadow-shell);
   }
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  background: var(--surface-deep);
+  color: var(--text-primary);
+  font-feature-settings:
+    "ss01",
+    "ss02";
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--accent-soft) 88%, transparent);
+  color: var(--text-primary);
+}
+
+.shadow-shell {
+  box-shadow: var(--shadow-shell);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-media-drift {
+    animation: hero-media-drift 32s ease-in-out infinite alternate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media-drift {
+    animation: none;
+  }
+}
+
+@keyframes fab-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.86);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fab-pulse {
+  0% {
+    box-shadow:
+      var(--shadow-shell),
+      0 0 0 0 var(--fab-pulse-color, transparent);
+  }
+  55% {
+    box-shadow:
+      var(--shadow-shell),
+      0 0 0 11px transparent;
+  }
+  100% {
+    box-shadow:
+      var(--shadow-shell),
+      0 0 0 0 transparent;
+  }
+}
+
+@keyframes hero-media-drift {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.035) translate3d(0.6%, -0.75%, 0);
+  }
+}
+
+@keyframes sponsor-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer components {
+  /* Sponsor logo slider: kesintisiz yatay akış, hover'da durur. */
+  .sponsor-marquee {
+    overflow: hidden;
+  }
+
+  .sponsor-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: sponsor-marquee-scroll 24s linear infinite;
+  }
+
+  .sponsor-marquee:hover .sponsor-marquee-track,
+  .sponsor-marquee:focus-within .sponsor-marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sponsor-marquee-track {
+      animation: none;
+    }
+  }
+
+  .club-section {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+  }
+
+  .club-section + .club-section {
+    margin-top: 0;
+  }
+
+  .stack-section-intro {
+    gap: clamp(0.75rem, 1.4vw, 1.25rem);
+  }
+
+  @media (max-width: 767px) {
+    .club-section {
+      padding-top: clamp(2.75rem, 9vw, 4.5rem);
+      padding-bottom: clamp(2.75rem, 9vw, 4.5rem);
+    }
+  }
 }
