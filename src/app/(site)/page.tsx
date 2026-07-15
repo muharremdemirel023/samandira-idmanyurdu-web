@@ -13,6 +13,7 @@ import {
 } from "@/components/sections";
 import { CampaignPopup } from "@/components/sections/CampaignPopup";
 import { DigitalPartnerSection } from "@/components/sections/DigitalPartnerSection";
+import { InstagramFeedSection } from "@/components/sections/InstagramFeedSection";
 import { SponsorsSlider } from "@/components/sections/SponsorsSlider";
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
       <TrainingModelSection />
       <TechnicalStaffSection />
       <ProgramSection />
+      <InstagramFeedSection />
       <FeesSection />
       <HomeFaqSection />
       <HomeContactSection />

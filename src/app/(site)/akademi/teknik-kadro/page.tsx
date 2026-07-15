@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { FeaturedCoachProfile } from "./FeaturedCoachProfile";
+import { featuredCoaches } from "./featured-coaches";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -116,20 +118,14 @@ export default async function TeknikKadroPage() {
             </p>
           </header>
 
-          {staff.length > 0 ? (
-            <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
-              {staff.map((member) => (
-                <StaffProfile key={member.id} member={member} />
-              ))}
-            </div>
-          ) : (
-            <section className="mt-10 max-w-3xl border-l border-accent/45 pl-6">
-              <h2 className="type-heading-md text-text-primary">Teknik kadro bilgileri yakında eklenecektir.</h2>
-              <p className="type-body-lg mt-4 max-w-prose-body">
-                Akademi teknik ekibi aktif edildiğinde bu sayfada görüntülenecektir.
-              </p>
-            </section>
-          )}
+          <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
+            {featuredCoaches.map((coach) => (
+              <FeaturedCoachProfile key={coach.name} coach={coach} />
+            ))}
+            {staff.map((member) => (
+              <StaffProfile key={member.id} member={member} />
+            ))}
+          </div>
         </Container>
       </section>
     </main>
