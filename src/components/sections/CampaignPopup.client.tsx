@@ -112,7 +112,7 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
                     opacity: { duration: 0.25 },
                   }
             }
-            className="relative w-[92vw] max-w-[720px]"
+            className="relative flex max-h-[calc(100svh-2.5rem)] w-[92vw] max-w-[720px] flex-col"
             onClick={(event) => event.stopPropagation()}
           >
             <button
@@ -141,7 +141,7 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
               height={1536}
               priority
               unoptimized={campaign.desktopImage.startsWith("http")}
-              className="hidden h-auto max-h-[82svh] w-full rounded-2xl object-contain sm:block"
+              className="hidden h-auto max-h-[66svh] w-full rounded-2xl object-contain sm:block"
             />
             <Image
               src={mobileImage}
@@ -150,12 +150,12 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
               height={1536}
               priority
               unoptimized={mobileImage.startsWith("http")}
-              className="h-auto max-h-[82svh] w-full rounded-2xl object-contain sm:hidden"
+              className="h-auto max-h-[66svh] w-full rounded-2xl object-contain sm:hidden"
             />
 
             {(campaign.title || campaign.description || (campaign.buttonLabel && campaign.buttonHref)) && (
               <div
-                className="relative rounded-2xl bg-surface-card px-5 py-4 text-center"
+                className="relative shrink-0 rounded-2xl bg-surface-card px-4 py-3 text-center sm:px-5 sm:py-4"
                 style={{ marginTop: campaign.contentGapPx }}
               >
                 {campaign.title ? (
