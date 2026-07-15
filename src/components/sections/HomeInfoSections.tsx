@@ -141,10 +141,9 @@ export function TrainingModelSection() {
 /** 8. Antrenman programı */
 export function ProgramSection() {
   const rows = [
-    { label: "6–8 yaş", value: "Hafta içi 1 gün + hafta sonu 1 gün • 60-75 dk seanslar" },
-    { label: "9–11 yaş", value: "Haftada 2-3 antrenman • teknik ağırlıklı bloklar" },
-    { label: "12–14 yaş", value: "Haftada 3 antrenman + hazırlık maçları" },
-    { label: "15+ yaş", value: "Haftada 3-4 antrenman + maç ve turnuva takvimi" },
+    { label: "U11 Grubu", days: "Cumartesi ve Pazar", time: "09:00–10:00" },
+    { label: "U7 Grubu", days: "Cumartesi ve Pazar", time: "10:00–11:00" },
+    { label: "U9 Grubu", days: "Cumartesi ve Pazar", time: "11:00–12:00" },
   ];
 
   return (
@@ -152,14 +151,18 @@ export function ProgramSection() {
       id="antrenman-programi"
       overline="Haftalık ritim"
       title="Antrenman Programı"
-      subtitle="Kesin gün ve saatler yaş grubuna ve saha planına göre dönem başında belirlenir; velilere düzenli olarak paylaşılır."
+      subtitle="Antrenmanlarımız Cumartesi ve Pazar günleri yaş gruplarına göre planlanmaktadır."
     >
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-shell">
         <ul className="divide-y divide-border-subtle">
           {rows.map((row) => (
-            <li key={row.label} className="flex flex-col gap-1 p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-5">
-              <span className="w-24 shrink-0 text-sm font-bold text-maroon-deep">{row.label}</span>
-              <span className="type-body">{row.value}</span>
+            <li
+              key={row.label}
+              className="flex flex-col gap-1.5 p-4 sm:flex-row sm:items-center sm:gap-6 sm:p-5"
+            >
+              <span className="w-28 shrink-0 text-sm font-bold text-maroon-deep">{row.label}</span>
+              <span className="type-body font-semibold text-text-primary">{row.days}</span>
+              <span className="text-base font-bold text-accent sm:ml-auto">{row.time}</span>
             </li>
           ))}
         </ul>

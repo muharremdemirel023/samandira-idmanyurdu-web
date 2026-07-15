@@ -9,7 +9,7 @@ export const siteConfig = {
   /** `tel:` için E.164 uyumlu (boşluksuz) */
   phoneTel: "+905326774661",
   phoneDisplay: "+90 532 677 46 61",
-  email: "info@samandiraidmanyurdu.com",
+  email: "samandiraidmanyurduakademi@gmail.com",
   academy: {
     title: "Akademi • Güçlü altyapı",
     summary:
@@ -19,8 +19,6 @@ export const siteConfig = {
   copyrightYear: 2026,
   social: [
     { label: "Instagram", href: "https://www.instagram.com/" },
-    { label: "X", href: "https://x.com/" },
-    { label: "YouTube", href: "https://www.youtube.com/" },
   ],
 
   /** Ana sayfa metinleri (tek kaynak — bileşenler buradan beslenir). */
@@ -77,40 +75,6 @@ export const siteConfig = {
       title: "Teknik Kadro",
       subtitle:
         "Akademi ve kulüp sahasında aynı futbol dilini konuşan, lisanslı ve deneyimli ekip yapısı.",
-      coaches: (
-        [
-          {
-            name: "Akademi Direktörü",
-            role: "Akademi direktörü",
-            expertise: "Periodizasyon, yaş grubu yol haritası ve antrenör gelişimi.",
-            badge: "UEFA lisans · 10+ yıl akademi",
-          },
-          {
-            name: "U15-U17 Baş Antrenörü",
-            role: "U15–U17 baş antrenörü",
-            expertise: "Yüksek yoğunluklu bloklar ve maç içi karar hızı.",
-            badge: "UEFA A / B · profesyonel geçmiş",
-          },
-          {
-            name: "U12-U14 Teknik Sorumlu",
-            role: "U12–U14 teknik sorumlu",
-            expertise: "Teknik temel, oyun modeli ve bireysel gelişim raporları.",
-            badge: "Gençlik diploması · sürekli eğitim",
-          },
-          {
-            name: "Kaleci Antrenörü",
-            role: "Kaleci antrenörü",
-            expertise: "Reaksiyon, ayak kullanımı ve oyun kurma disiplini.",
-            badge: "Uzman sertifikası · kulüp içi görev",
-          },
-        ] satisfies Array<{
-          name: string;
-          role: string;
-          expertise: string;
-          badge: string;
-        }>
-      ),
-      portraitCaption: "Saha içinden antrenman ve maç günü görselleri",
     },
     clubValues: {
       overline: "Kulüp DNA",
