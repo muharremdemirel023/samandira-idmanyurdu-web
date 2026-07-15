@@ -72,7 +72,10 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
     };
   }, [open, close, campaign.autoCloseSeconds]);
 
-  const mobileImage = campaign.mobileImage || campaign.desktopImage;
+  // Mobil görsel yüklenemezse masaüstü görseline düşülür
+  const [mobileFailed, setMobileFailed] = useState(false);
+  const mobileImage =
+    (!mobileFailed && campaign.mobileImage) || campaign.desktopImage;
 
   return (
     <AnimatePresence>
@@ -150,6 +153,7 @@ export function CampaignPopupView({ campaign }: { campaign: CampaignPopupData })
               height={1536}
               priority
               unoptimized={mobileImage.startsWith("http")}
+              onError={() => setMobileFailed(true)}
               className="h-auto max-h-[66svh] w-full rounded-2xl object-contain sm:hidden"
             />
 
