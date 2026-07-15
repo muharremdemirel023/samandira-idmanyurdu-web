@@ -30,12 +30,22 @@ function formatDate(value: string | null) {
 
 async function getNews(slug: string) {
   const supabase = await createClient();
-  const { data } = await supabase
+  // `.single()` yerine `.limit(1).maybeSingle()` kullanılıyor: slug kolonunda
+  // benzersizlik zorunluluğu olmadığından aynı slug'a sahip birden fazla kayıt
+  // varsa `.single()` hata döndürüp sayfayı yanlışlıkla 404'e düşürüyordu.
+  const { data, error } = await supabase
     .from("news")
     .select("title,slug,summary,content,cover_image_url,created_at")
     .eq("slug", slug)
     .eq("is_active", true)
-    .single();
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[duyurular/slug] Duyuru alınamadı:", error);
+    return null;
+  }
 
   return data as NewsDetail | null;
 }

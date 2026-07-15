@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 
@@ -9,9 +10,19 @@ function revalidateCampaigns() {
   revalidatePath("/");
 }
 
+/**
+ * <input type="datetime-local"> saat dilimi bilgisi olmadan "YYYY-MM-DDTHH:mm" gönderir.
+ * Bu değer İstanbul (Europe/Istanbul, sabit UTC+03:00) yerel saati olarak girildiği için,
+ * sunucunun çalıştığı ortamın saat dilimine (genelde UTC) bırakılmadan +03:00 ofseti
+ * açıkça belirtilerek doğru UTC ana çevrilir. Aksi halde sunucu bunu UTC sanır ve
+ * kampanya başlangıcı gerçekte 3 saat ileriye kayar (henüz başlamamış görünür).
+ */
 function readOptionalTimestamp(formData: FormData, name: string) {
   const value = String(formData.get(name) || "").trim();
-  return value ? new Date(value).toISOString() : null;
+  if (!value) return null;
+
+  const withSeconds = value.length === 16 ? `${value}:00` : value;
+  return new Date(`${withSeconds}+03:00`).toISOString();
 }
 
 function readNumber(formData: FormData, name: string, fallback: number) {
@@ -46,25 +57,48 @@ function readPayload(formData: FormData) {
 }
 
 export async function createCampaign(formData: FormData) {
+  let payload: ReturnType<typeof readPayload>;
+
+  try {
+    payload = readPayload(formData);
+  } catch (error) {
+    console.error("[admin/campaigns] Geçersiz form verisi:", error);
+    redirect("/admin/campaigns?error=validation");
+  }
+
   const supabase = await createClient();
-  const { error } = await supabase.from("campaigns").insert(readPayload(formData));
+  const { error } = await supabase.from("campaigns").insert(payload);
 
   if (error) {
-    throw new Error("Kampanya kaydedilemedi.");
+    // Ham Supabase hatası kullanıcıya gösterilmez; ayrıntı yalnızca sunucu terminaline yazılır.
+    console.error("[admin/campaigns] Kampanya oluşturulamadı:", error);
+    redirect("/admin/campaigns?error=create");
   }
 
   revalidateCampaigns();
+  redirect("/admin/campaigns?saved=1");
 }
 
 export async function updateCampaign(id: string, formData: FormData) {
+  let payload: ReturnType<typeof readPayload>;
+
+  try {
+    payload = readPayload(formData);
+  } catch (error) {
+    console.error("[admin/campaigns] Geçersiz form verisi:", error);
+    redirect("/admin/campaigns?error=validation");
+  }
+
   const supabase = await createClient();
-  const { error } = await supabase.from("campaigns").update(readPayload(formData)).eq("id", id);
+  const { error } = await supabase.from("campaigns").update(payload).eq("id", id);
 
   if (error) {
-    throw new Error("Kampanya güncellenemedi.");
+    console.error("[admin/campaigns] Kampanya güncellenemedi:", error);
+    redirect("/admin/campaigns?error=update");
   }
 
   revalidateCampaigns();
+  redirect("/admin/campaigns?saved=1");
 }
 
 export async function deleteCampaign(id: string) {
@@ -72,8 +106,10 @@ export async function deleteCampaign(id: string) {
   const { error } = await supabase.from("campaigns").delete().eq("id", id);
 
   if (error) {
-    throw new Error("Kampanya silinemedi.");
+    console.error("[admin/campaigns] Kampanya silinemedi:", error);
+    redirect("/admin/campaigns?error=delete");
   }
 
   revalidateCampaigns();
+  redirect("/admin/campaigns?saved=1");
 }

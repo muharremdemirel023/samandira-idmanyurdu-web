@@ -29,12 +29,28 @@ const inputClass =
 
 const labelClass = "block text-sm font-semibold text-slate-200";
 
+/**
+ * Kaydedilen UTC zaman damgasını, sunucunun çalıştığı ortamın saat dilimine bakmaksızın
+ * her zaman İstanbul saatine göre <input type="datetime-local"> değerine çevirir.
+ * (Yazma tarafındaki İstanbul-ofsetli dönüşümle simetriktir.)
+ */
 function toLocalInputValue(value: string | null) {
   if (!value) return "";
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return "";
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Istanbul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+
+  const get = (type: string) => parts.find((part) => part.type === type)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
 }
 
 function CampaignFields({ row }: { row?: CampaignRow }) {
@@ -165,13 +181,31 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
   );
 }
 
-export default async function AdminCampaignsPage() {
+const errorMessages: Record<string, string> = {
+  validation: "Kampanya adı zorunludur. Lütfen tekrar deneyin.",
+  create: "Kampanya kaydedilemedi. Lütfen bilgileri kontrol edip tekrar deneyin.",
+  update: "Kampanya güncellenemedi. Lütfen bilgileri kontrol edip tekrar deneyin.",
+  delete: "Kampanya silinemedi. Lütfen tekrar deneyin.",
+};
+
+export default async function AdminCampaignsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string; error?: string }>;
+}) {
+  const { saved, error } = await searchParams;
   const supabase = await createClient();
-  const { data } = await supabase
+  const { data, error: fetchError } = await supabase
     .from("campaigns")
     .select("*")
     .order("created_at", { ascending: false });
+
+  if (fetchError) {
+    console.error("[admin/campaigns] Kampanya listesi alınamadı:", fetchError);
+  }
+
   const rows = (data ?? []) as CampaignRow[];
+  const errorMessage = error ? errorMessages[error] || "Bir hata oluştu. Lütfen tekrar deneyin." : null;
 
   return (
     <div className="space-y-6">
@@ -185,6 +219,18 @@ export default async function AdminCampaignsPage() {
           gösterilir; hiçbiri uygun değilse popup açılmaz.
         </p>
       </header>
+
+      {saved ? (
+        <p className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300">
+          Kampanya kaydedildi.
+        </p>
+      ) : null}
+
+      {errorMessage ? (
+        <p className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-300">
+          {errorMessage}
+        </p>
+      ) : null}
 
       <section className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
         <details>
