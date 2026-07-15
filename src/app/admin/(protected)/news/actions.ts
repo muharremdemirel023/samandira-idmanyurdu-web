@@ -25,7 +25,9 @@ function readNewsPayload(formData: FormData): NewsPayload {
   if (!title) {
     throw new Error("Başlık zorunludur.");
   }
-  const slug = requestedSlug || createSlug(title);
+
+  // Elle girilen slug da URL-uyumlu hale getirilir (Türkçe karakterler, boşluk, büyük harf vb. temizlenir).
+  const slug = createSlug(requestedSlug || title) || createSlug(title);
 
   return {
     title,
@@ -35,6 +37,22 @@ function readNewsPayload(formData: FormData): NewsPayload {
     cover_image_url: coverImageUrl || null,
     is_active: formData.get("is_active") === "on",
   };
+}
+
+/** Public sayfalarda ilgili duyurunun her yerde güncel görünmesi için gereken tüm yolları yeniler. */
+function revalidateNewsPaths(slug?: string | null) {
+  revalidatePath("/");
+  revalidatePath("/duyurular");
+  if (slug) {
+    revalidatePath(`/duyurular/${slug}`);
+  }
+  revalidatePath("/admin/news");
+}
+
+async function getNewsSlug(id: string) {
+  const supabase = await createClient();
+  const { data } = await supabase.from("news").select("slug").eq("id", id).maybeSingle();
+  return data?.slug ?? null;
 }
 
 export async function createNews(formData: FormData) {
@@ -47,13 +65,14 @@ export async function createNews(formData: FormData) {
     throw new Error("Duyuru kaydedilemedi.");
   }
 
-  revalidatePath("/admin/news");
+  revalidateNewsPaths(payload.slug);
   redirect("/admin/news");
 }
 
 export async function updateNews(id: string, formData: FormData) {
   const supabase = await createClient();
   const payload = readNewsPayload(formData);
+  const previousSlug = await getNewsSlug(id);
 
   const { error } = await supabase.from("news").update(payload).eq("id", id);
 
@@ -61,13 +80,17 @@ export async function updateNews(id: string, formData: FormData) {
     throw new Error("Duyuru güncellenemedi.");
   }
 
-  revalidatePath("/admin/news");
+  revalidateNewsPaths(payload.slug);
+  if (previousSlug && previousSlug !== payload.slug) {
+    revalidatePath(`/duyurular/${previousSlug}`);
+  }
   revalidatePath(`/admin/news/${id}`);
   redirect("/admin/news");
 }
 
 export async function deleteNews(id: string) {
   const supabase = await createClient();
+  const slug = await getNewsSlug(id);
 
   const { error } = await supabase.from("news").delete().eq("id", id);
 
@@ -75,12 +98,13 @@ export async function deleteNews(id: string) {
     throw new Error("Duyuru silinemedi.");
   }
 
-  revalidatePath("/admin/news");
+  revalidateNewsPaths(slug);
   redirect("/admin/news");
 }
 
 export async function setNewsPublished(id: string, isPublished: boolean) {
   const supabase = await createClient();
+  const slug = await getNewsSlug(id);
 
   const { error } = await supabase
     .from("news")
@@ -91,6 +115,6 @@ export async function setNewsPublished(id: string, isPublished: boolean) {
     throw new Error("Duyuru yayın durumu güncellenemedi.");
   }
 
-  revalidatePath("/admin/news");
+  revalidateNewsPaths(slug);
   revalidatePath(`/admin/news/${id}`);
 }

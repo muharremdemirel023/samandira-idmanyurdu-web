@@ -2,10 +2,8 @@
 
 import { useRef, useState, useTransition } from "react";
 
-import {
-  initialAdminImageUploadState,
-  uploadAdminImageAction,
-} from "@/app/admin/(protected)/image-upload/actions";
+import { uploadAdminImageAction } from "@/app/admin/(protected)/image-upload/actions";
+import { initialAdminImageUploadState } from "@/app/admin/(protected)/image-upload/image-upload-state";
 import { adminImageAcceptValue, convertImageFileToJpeg } from "@/lib/images/client-image-conversion";
 import type { ImageStorageBucket } from "@/lib/supabase/storage/image-upload";
 

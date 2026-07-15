@@ -5,19 +5,7 @@ import {
   type ImageStorageBucket,
   uploadAdminImage,
 } from "@/lib/supabase/storage/image-upload";
-
-export type AdminImageUploadState = {
-  ok: boolean;
-  message: string;
-  publicUrl?: string;
-  path?: string;
-  bucket?: ImageStorageBucket;
-};
-
-export const initialAdminImageUploadState: AdminImageUploadState = {
-  ok: false,
-  message: "",
-};
+import type { AdminImageUploadState } from "@/app/admin/(protected)/image-upload/image-upload-state";
 
 function readString(formData: FormData, key: string) {
   const value = formData.get(key);

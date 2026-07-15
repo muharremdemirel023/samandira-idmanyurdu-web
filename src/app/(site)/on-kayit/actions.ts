@@ -5,10 +5,6 @@ import { createClient } from "@/lib/supabase/server";
 
 import type { PreRegistrationFormState } from "@/app/(site)/on-kayit/form-state";
 
-export type { PreRegistrationFormState };
-export type FormState = PreRegistrationFormState;
-export type PreRegistrationState = PreRegistrationFormState;
-
 function readFormValue(formData: FormData, names: string[]) {
   for (const name of names) {
     const value = formData.get(name);

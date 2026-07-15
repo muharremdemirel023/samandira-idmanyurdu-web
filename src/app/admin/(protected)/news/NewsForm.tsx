@@ -94,7 +94,7 @@ export function NewsForm({ action, submitLabel, values }: NewsFormProps) {
 
       <label className="flex items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-200">
         <input
-          name="is_published"
+          name="is_active"
           type="checkbox"
           defaultChecked={Boolean(values?.is_active)}
           className="size-4 accent-orange-500"

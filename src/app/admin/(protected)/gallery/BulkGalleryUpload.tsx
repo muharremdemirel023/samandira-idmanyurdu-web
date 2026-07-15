@@ -7,10 +7,8 @@ import {
   createGalleryImagesBulk,
   type GalleryAspectRatio,
 } from "@/app/admin/(protected)/gallery/actions";
-import {
-  initialAdminImageUploadState,
-  uploadAdminImageAction,
-} from "@/app/admin/(protected)/image-upload/actions";
+import { uploadAdminImageAction } from "@/app/admin/(protected)/image-upload/actions";
+import { initialAdminImageUploadState } from "@/app/admin/(protected)/image-upload/image-upload-state";
 import { adminImageAcceptValue, loadImageSource } from "@/lib/images/client-image-conversion";
 
 type GalleryAlbumOption = {
