@@ -3,10 +3,20 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
+import { getAgeGroups } from "@/lib/content";
 
 const { ageBands } = siteConfig.home;
 
-export function AgeGroupsPreviewSection({ className }: { className?: string }) {
+export async function AgeGroupsPreviewSection({ className }: { className?: string }) {
+  const dbGroups = await getAgeGroups();
+  const groups =
+    dbGroups.length > 0
+      ? dbGroups.map((group) => ({
+          rangeLabel: group.age_range.replace(/\s*yaş\s*/i, "").trim() || group.age_range,
+          copy: group.short_description || group.name,
+        }))
+      : ageBands.groups;
+
   return (
     <section
       aria-labelledby="age-groups-heading"
@@ -32,7 +42,7 @@ export function AgeGroupsPreviewSection({ className }: { className?: string }) {
           </SectionReveal>
 
           <div className="space-y-4 sm:space-y-5">
-            {ageBands.groups.map((group, index) => (
+            {groups.map((group, index) => (
               <SectionReveal key={group.rangeLabel} staggerIndex={index + 1}>
                   <article className="group flex items-start gap-4 rounded-2xl border border-border-subtle bg-surface-card p-5 shadow-shell transition-[border-color,transform] duration-200 hover:border-accent/40 motion-reduce:transition-none sm:gap-6 sm:p-6">
                     <div className="flex shrink-0 flex-col items-center gap-2">

@@ -1,101 +1,16 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { getActiveStaffCoaches } from "@/lib/staff";
 import { FeaturedCoachProfile } from "./FeaturedCoachProfile";
-import { featuredCoaches } from "./featured-coaches";
-import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Teknik Kadromuz",
   description: "Samandıra İdman Yurdu Akademi teknik kadro bilgileri.",
 };
 
-type StaffMember = {
-  id: string;
-  title: string | null;
-  name: string | null;
-  short_summary: string | null;
-  biography: string | null;
-  highlights: string[] | null;
-  photo_url: string | null;
-};
-
-async function getActiveStaff() {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("staff")
-    .select("id,title,name,short_summary,biography,highlights,photo_url")
-    .eq("is_active", true)
-    .order("sort_order", { ascending: true });
-
-  return (data ?? []) as StaffMember[];
-}
-
-function StaffProfile({ member }: { member: StaffMember }) {
-  const paragraphs = (member.biography || "")
-    .split("\n")
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
-
-  return (
-    <article className="grid gap-7 border-t border-border-subtle pt-10 first:border-t-0 first:pt-0 md:grid-cols-[15rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[17rem_minmax(0,1fr)]">
-      <div className="relative aspect-[4/5] w-full max-w-[16rem] overflow-hidden bg-[#42101c] shadow-[0_24px_70px_-48px_rgba(0,0,0,0.95)] md:max-w-none">
-        {member.photo_url ? (
-          <img
-            src={member.photo_url}
-            alt={member.name || "Teknik kadro profil fotoğrafı"}
-            className="h-full w-full object-cover"
-          />
-        ) : (
-          <div className="flex h-full items-end bg-[radial-gradient(ellipse_at_50%_18%,rgba(234,88,12,0.10),transparent_38%),linear-gradient(155deg,#6d1f2e_0%,#42101c_52%,#26060d_100%)] p-5">
-            <p className="type-label-caps-accent text-accent">Profil fotoğrafı</p>
-          </div>
-        )}
-      </div>
-
-      <div className="max-w-4xl">
-        <p className="type-overline club-kicker-line text-accent">{member.title}</p>
-        <h2 className="mt-3 text-[clamp(2rem,4vw,3.25rem)] font-black uppercase leading-none tracking-normal text-text-primary">
-          {member.name}
-        </h2>
-        {member.short_summary ? (
-          <p className="type-body-lg mt-5 max-w-prose-lead font-medium text-text-muted">
-            {member.short_summary}
-          </p>
-        ) : null}
-
-        {member.highlights && member.highlights.length > 0 ? (
-          <div className="mt-6">
-            <p className="type-label-caps-accent text-accent">Öne çıkanlar</p>
-            <ul className="mt-3 flex flex-wrap gap-2.5">
-              {member.highlights.map((highlight) => (
-                <li
-                  key={highlight}
-                  className="border border-accent/30 bg-accent/8 px-3 py-1.5 text-sm font-semibold text-text-primary"
-                >
-                  {highlight}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : null}
-
-        {paragraphs.length > 0 ? (
-          <div className="mt-7 space-y-4 border-l border-accent/40 pl-5">
-            {paragraphs.map((paragraph) => (
-              <p key={paragraph} className="type-body max-w-prose-body text-text-muted">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-        ) : null}
-      </div>
-    </article>
-  );
-}
-
 export default async function TeknikKadroPage() {
-  const staff = await getActiveStaff();
+  const staff = await getActiveStaffCoaches();
 
   return (
     <main className="flex flex-1 flex-col">
@@ -118,14 +33,20 @@ export default async function TeknikKadroPage() {
             </p>
           </header>
 
-          <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
-            {featuredCoaches.map((coach) => (
-              <FeaturedCoachProfile key={coach.name} coach={coach} />
-            ))}
-            {staff.map((member) => (
-              <StaffProfile key={member.id} member={member} />
-            ))}
-          </div>
+          {staff.length > 0 ? (
+            <div className="mt-10 space-y-10 md:mt-12 md:space-y-12">
+              {staff.map((coach) => (
+                <FeaturedCoachProfile key={coach.name} coach={coach} />
+              ))}
+            </div>
+          ) : (
+            <section className="mt-10 max-w-3xl border-l border-accent/45 pl-6">
+              <h2 className="type-heading-md text-text-primary">Teknik kadro bilgileri yakında eklenecektir.</h2>
+              <p className="type-body-lg mt-4 max-w-prose-body">
+                Akademi teknik ekibi aktif edildiğinde bu sayfada görüntülenecektir.
+              </p>
+            </section>
+          )}
         </Container>
       </section>
     </main>

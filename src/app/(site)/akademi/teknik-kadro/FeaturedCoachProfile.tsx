@@ -4,7 +4,13 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import type { FeaturedCoach } from "./featured-coaches";
+export type FeaturedCoach = {
+  name: string;
+  title: string;
+  photo: string | null;
+  summary: string;
+  biography: string[];
+};
 
 export function FeaturedCoachProfile({ coach }: { coach: FeaturedCoach }) {
   const [detailOpen, setDetailOpen] = useState(false);
@@ -32,13 +38,20 @@ export function FeaturedCoachProfile({ coach }: { coach: FeaturedCoach }) {
   return (
     <article className="grid gap-7 border-t border-border-subtle pt-10 first:border-t-0 first:pt-0 md:grid-cols-[15rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[17rem_minmax(0,1fr)]">
       <div className="relative aspect-[4/5] w-full max-w-[16rem] overflow-hidden bg-[#42101c] shadow-[0_24px_70px_-48px_rgba(0,0,0,0.95)] md:max-w-none">
-        <Image
-          src={coach.photo}
-          alt={coach.name}
-          fill
-          sizes="(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 16rem"
-          className="object-cover"
-        />
+        {coach.photo ? (
+          <Image
+            src={coach.photo}
+            alt={coach.name}
+            fill
+            sizes="(min-width: 1024px) 17rem, (min-width: 768px) 15rem, 16rem"
+            className="object-cover"
+            unoptimized={coach.photo.startsWith("http")}
+          />
+        ) : (
+          <div className="flex h-full items-end p-5">
+            <p className="type-label-caps-accent text-accent">Profil fotoğrafı</p>
+          </div>
+        )}
       </div>
 
       <div className="max-w-4xl">
@@ -50,6 +63,7 @@ export function FeaturedCoachProfile({ coach }: { coach: FeaturedCoach }) {
           {coach.summary}
         </p>
 
+        {coach.biography.length > 0 && (
         <button
           type="button"
           onClick={() => setDetailOpen(true)}
@@ -57,6 +71,7 @@ export function FeaturedCoachProfile({ coach }: { coach: FeaturedCoach }) {
         >
           Detayları Gör
         </button>
+        )}
       </div>
 
       <AnimatePresence>

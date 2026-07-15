@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { mainNavigation } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
+import { getSiteSettings } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 
 function SocialGlyph({ label }: { label: string }) {
@@ -23,7 +24,25 @@ function SocialGlyph({ label }: { label: string }) {
   );
 }
 
-export function Footer({ className }: { className?: string }) {
+export async function Footer({ className }: { className?: string }) {
+  const settings = await getSiteSettings();
+
+  const name = settings?.academy_name || siteConfig.name;
+  const phoneDisplay = settings?.phone || siteConfig.phoneDisplay;
+  const phoneTel = (settings?.phone || siteConfig.phoneTel).replace(/\s/g, "");
+  const email = settings?.email || siteConfig.email;
+  const whatsAppHref = settings?.whatsapp
+    ? `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`
+    : siteConfig.whatsAppHref;
+  const addressLines = settings?.address
+    ? settings.address.split("\n").filter(Boolean)
+    : [...siteConfig.addressLines];
+  const mapsHref = settings?.maps_url || siteConfig.mapsHref;
+  const footerDescription = settings?.footer_description || siteConfig.academy.summary;
+  const socialLinks = settings?.instagram_url
+    ? [{ label: "Instagram", href: settings.instagram_url }]
+    : [...siteConfig.social];
+
   return (
     <footer className={cn("mt-auto bg-maroon-deep text-white/75", className)}>
       <div className="mx-auto max-[var(--container-ultra-cap)] px-[var(--gutter)] py-14 lg:py-16">
@@ -33,7 +52,7 @@ export function Footer({ className }: { className?: string }) {
               Akademi
             </p>
             <div className="space-y-1">
-              <p className="text-lg font-bold text-white">{siteConfig.name}</p>
+              <p className="text-lg font-bold text-white">{name}</p>
               <p>{siteConfig.clubTagline}</p>
             </div>
           </div>
@@ -42,7 +61,7 @@ export function Footer({ className }: { className?: string }) {
             <p className="text-xs font-semibold uppercase tracking-[0.26em] text-accent-bright">
               {siteConfig.academy.title}
             </p>
-            <p className="leading-relaxed text-[0.95rem]">{siteConfig.academy.summary}</p>
+            <p className="leading-relaxed text-[0.95rem]">{footerDescription}</p>
           </div>
 
           <nav aria-label="Site haritası" className="space-y-4">
@@ -72,16 +91,16 @@ export function Footer({ className }: { className?: string }) {
                 <span className="block text-xs uppercase tracking-wider text-white/55">
                   Telefon
                 </span>
-                <a className="font-semibold text-white hover:text-accent-bright" href={`tel:${siteConfig.phoneTel}`}>
-                  {siteConfig.phoneDisplay}
+                <a className="font-semibold text-white hover:text-accent-bright" href={`tel:${phoneTel}`}>
+                  {phoneDisplay}
                 </a>
               </p>
               <p>
                 <span className="block text-xs uppercase tracking-wider text-white/55">
                   E-posta
                 </span>
-                <a className="font-semibold text-white hover:text-accent-bright" href={`mailto:${siteConfig.email}`}>
-                  {siteConfig.email}
+                <a className="font-semibold text-white hover:text-accent-bright" href={`mailto:${email}`}>
+                  {email}
                 </a>
               </p>
               <p>
@@ -90,7 +109,7 @@ export function Footer({ className }: { className?: string }) {
                 </span>
                 <a
                   className="font-semibold text-white hover:text-accent-bright"
-                  href={siteConfig.whatsAppHref}
+                  href={whatsAppHref}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -103,11 +122,11 @@ export function Footer({ className }: { className?: string }) {
                 </span>
                 <a
                   className="font-semibold text-white hover:text-accent-bright"
-                  href={siteConfig.mapsHref}
+                  href={mapsHref}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  {siteConfig.addressLines.map((line) => (
+                  {addressLines.map((line) => (
                     <span key={line} className="block">
                       {line}
                     </span>
@@ -131,7 +150,7 @@ export function Footer({ className }: { className?: string }) {
                 Sosyal
               </p>
               <ul className="flex flex-wrap gap-5 text-sm font-semibold text-white">
-                {siteConfig.social.map(({ label, href }) => (
+                {socialLinks.map(({ label, href }) => (
                   <li key={label}>
                     <a
                       href={href}
@@ -153,7 +172,7 @@ export function Footer({ className }: { className?: string }) {
 
         <div className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-8 text-[0.8rem] text-white/60 md:flex-row md:items-center md:justify-between">
           <span>
-            © {siteConfig.copyrightYear} <span className="font-medium text-white">{siteConfig.name}</span>
+            © {siteConfig.copyrightYear} <span className="font-medium text-white">{name}</span>
           </span>
           <span>Tüm hakları saklıdır.</span>
         </div>

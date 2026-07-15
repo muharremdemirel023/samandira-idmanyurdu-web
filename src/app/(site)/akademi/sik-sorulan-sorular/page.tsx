@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Container } from "@/components/ui/Container";
+import { getFaqs } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Sık Sorulan Sorular",
@@ -30,7 +31,13 @@ const faqItems = [
   },
 ];
 
-export default function SikSorulanSorularPage() {
+export default async function SikSorulanSorularPage() {
+  const faqs = await getFaqs();
+  const items =
+    faqs.length > 0
+      ? faqs.map((faq) => ({ question: faq.question, answer: faq.answer }))
+      : faqItems;
+
   return (
     <main className="flex flex-1 flex-col">
       <section className="relative isolate overflow-hidden pb-12 pt-[calc(var(--header-height)+0.75rem)] md:pb-16 md:pt-[calc(var(--header-height)+1rem)]">
@@ -53,7 +60,7 @@ export default function SikSorulanSorularPage() {
           </div>
 
           <div className="mt-8 grid gap-8 md:mt-10">
-            {faqItems.map((item) => (
+            {items.map((item) => (
               <section key={item.question} className="max-w-4xl border-l border-accent/45 pl-6">
                 <h2 className="type-heading-md text-text-primary">{item.question}</h2>
                 <p className="type-body-lg mt-4 max-w-prose-body">{item.answer}</p>

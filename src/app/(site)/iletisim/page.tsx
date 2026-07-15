@@ -1,7 +1,8 @@
 import { Container } from "@/components/ui/Container";
+import { getSiteSettings } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 
-const contactEmail = "samandiraidmanyurduakademi@gmail.com";
+const defaultContactEmail = "samandiraidmanyurduakademi@gmail.com";
 const academyMapsHref =
   "https://maps.google.com/?q=Eyüp+Sultan+Mahallesi+Hacı+Salih+Caddesi+No+22+Sancaktepe+İstanbul";
 const instagramAccounts = [
@@ -38,7 +39,23 @@ function InstagramMark() {
   );
 }
 
-export default function IletisimPage() {
+export default async function IletisimPage() {
+  const settings = await getSiteSettings();
+
+  const contactEmail = settings?.email || defaultContactEmail;
+  const mapsHref = settings?.maps_url || academyMapsHref;
+  const addressLines = settings?.address
+    ? settings.address.split("\n").filter(Boolean)
+    : ["Eyüp Sultan Mahallesi, Hacı Salih Caddesi No:22", "34885 Sancaktepe / İstanbul"];
+  const instagramLinks = settings?.instagram_url
+    ? [
+        {
+          label: settings.instagram_url.replace(/\/+$/, "").split("/").pop() || "Instagram",
+          href: settings.instagram_url,
+        },
+      ]
+    : instagramAccounts;
+
   return (
     <div className="flex flex-1 flex-col">
       <section className="relative isolate overflow-hidden pb-14 pt-[calc(var(--header-height)+2rem)] md:pb-20 md:pt-[calc(var(--header-height)+3rem)]">
@@ -80,18 +97,21 @@ export default function IletisimPage() {
                 <span className="type-label-caps text-text-muted">Akademi Adresi</span>
                 <a
                   className="type-body-lg text-text-primary hover:text-accent"
-                  href={academyMapsHref}
+                  href={mapsHref}
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  <span className="block">Eyüp Sultan Mahallesi, Hacı Salih Caddesi No:22</span>
-                  <span className="block">34885 Sancaktepe / İstanbul</span>
+                  {addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </a>
               </div>
               <div className="grid gap-3 py-5 sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-6">
                 <span className="type-label-caps text-text-muted">Instagram</span>
                 <div className="flex flex-col gap-3">
-                  {instagramAccounts.map((account) => (
+                  {instagramLinks.map((account) => (
                     <a
                       key={account.label}
                       className="inline-flex items-center gap-3 text-text-primary hover:text-accent"
@@ -125,7 +145,7 @@ export default function IletisimPage() {
             </div>
             <a
               className="type-body mt-3 inline-flex min-h-[2.75rem] items-center gap-1.5 font-semibold text-accent hover:text-accent-strong"
-              href={academyMapsHref}
+              href={mapsHref}
               target="_blank"
               rel="noreferrer noopener"
             >

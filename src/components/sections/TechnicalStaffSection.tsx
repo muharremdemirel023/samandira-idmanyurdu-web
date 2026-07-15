@@ -1,15 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { featuredCoaches } from "@/app/(site)/akademi/teknik-kadro/featured-coaches";
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
+import { getHomeContent } from "@/lib/content";
+import { getActiveStaffCoaches } from "@/lib/staff";
 
 const { technicalStaff } = siteConfig.home;
 
-export function TechnicalStaffSection({ className }: { className?: string }) {
+export async function TechnicalStaffSection({ className }: { className?: string }) {
+  const [featuredCoaches, homeContent] = await Promise.all([
+    getActiveStaffCoaches(3),
+    getHomeContent(),
+  ]);
+  const title = homeContent?.staff_title || technicalStaff.title;
+  const subtitle = homeContent?.staff_subtitle || technicalStaff.subtitle;
+
   return (
     <section
       aria-labelledby="technical-staff-heading"
@@ -22,9 +30,9 @@ export function TechnicalStaffSection({ className }: { className?: string }) {
         <SectionReveal staggerIndex={0} className="stack-section-intro max-w-prose-section">
           <p className="type-overline club-kicker-line text-accent">{technicalStaff.overline}</p>
           <h2 id="technical-staff-heading" className="type-heading-lg text-text-primary">
-            {technicalStaff.title}
+            {title}
           </h2>
-          <p className="type-body-lg max-w-prose-body">{technicalStaff.subtitle}</p>
+          <p className="type-body-lg max-w-prose-body">{subtitle}</p>
         </SectionReveal>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-12">
@@ -32,13 +40,16 @@ export function TechnicalStaffSection({ className }: { className?: string }) {
             <SectionReveal key={coach.name} staggerIndex={index + 1}>
               <article className="club-soft-panel flex h-full flex-col overflow-hidden p-5 sm:p-6">
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-maroon-deep">
-                  <Image
-                    src={coach.photo}
-                    alt={coach.name}
-                    fill
-                    sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 92vw"
-                    className="object-cover"
-                  />
+                  {coach.photo && (
+                    <Image
+                      src={coach.photo}
+                      alt={coach.name}
+                      fill
+                      sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 92vw"
+                      className="object-cover"
+                      unoptimized={coach.photo.startsWith("http")}
+                    />
+                  )}
                 </div>
                 <h3 className="type-card-title mt-5 text-text-primary">{coach.name}</h3>
                 <p className="type-body mt-1 font-semibold text-accent">{coach.title}</p>

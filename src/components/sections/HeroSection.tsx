@@ -8,9 +8,26 @@ import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
 
-const { hero } = siteConfig.home;
+const { hero: heroDefaults } = siteConfig.home;
 
-export function HeroSection({ className }: { className?: string }) {
+export type HeroContent = {
+  overline?: string | null;
+  headline?: string | null;
+  lead?: string | null;
+};
+
+export function HeroSection({
+  className,
+  content,
+}: {
+  className?: string;
+  content?: HeroContent | null;
+}) {
+  const hero = {
+    overline: content?.overline || heroDefaults.overline,
+    headline: content?.headline || heroDefaults.headline,
+    lead: content?.lead || heroDefaults.lead,
+  };
   const reduceMotion = useReducedMotion();
   const t = reduceMotion ? { duration: 0, ease: "linear" as const } : transitions.section;
   const step = reduceMotion ? 0 : 0.1;

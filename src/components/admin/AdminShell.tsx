@@ -24,11 +24,19 @@ const menuGroups: AdminMenuGroup[] = [
     title: "İçerik Yönetimi",
     items: [
       { label: "Duyurular", href: "/admin/news" },
-      { label: "Galeri", href: "/admin/gallery" },
-      { label: "Videolar", href: "/admin/videos" },
+      { label: "Instagram Paylaşımları", href: "/admin/instagram" },
       { label: "Teknik Kadro", href: "/admin/staff" },
+      { label: "Antrenman Programı", href: "/admin/training-schedule" },
+      { label: "Yaş Grupları", href: "/admin/age-groups" },
       { label: "Sık Sorulan Sorular", href: "/admin/faq" },
       { label: "Sponsorlar", href: "/admin/sponsors" },
+    ],
+  },
+  {
+    title: "Medya",
+    items: [
+      { label: "Galeri", href: "/admin/gallery" },
+      { label: "Videolar", href: "/admin/videos" },
     ],
   },
   {
@@ -40,7 +48,11 @@ const menuGroups: AdminMenuGroup[] = [
   },
   {
     title: "Site Yönetimi",
-    items: [{ label: "Site Ayarları", href: "/admin/site-settings" }],
+    items: [
+      { label: "Kampanya Yönetimi", href: "/admin/campaigns" },
+      { label: "Ana Sayfa İçerikleri", href: "/admin/home-content" },
+      { label: "Site Ayarları", href: "/admin/settings" },
+    ],
   },
 ];
 

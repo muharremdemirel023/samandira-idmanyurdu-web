@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { NewsCard, type PublicNewsItem } from "@/components/news/NewsCard";
 import { Container } from "@/components/ui/Container";
+import { getHomeContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
 
 async function getLatestNews() {
@@ -18,16 +19,19 @@ async function getLatestNews() {
 }
 
 export async function LatestNewsSection() {
-  const news = await getLatestNews();
+  const [news, homeContent] = await Promise.all([getLatestNews(), getHomeContent()]);
 
   return (
     <section className="club-section py-[var(--space-section-y-mobile)] md:py-[var(--space-section-y-desktop)]">
       <Container>
         <SectionReveal staggerIndex={0} className="stack-section-intro max-w-prose-section">
           <p className="type-overline club-kicker-line text-accent">Kulüpten haberler</p>
-          <h2 className="type-heading-lg text-text-primary">Son Duyurular</h2>
+          <h2 className="type-heading-lg text-text-primary">
+            {homeContent?.news_title || "Son Duyurular"}
+          </h2>
           <p className="type-body-lg max-w-prose-body">
-            Akademi programları, etkinlikler ve kulüp bilgilendirmeleri.
+            {homeContent?.news_subtitle ||
+              "Akademi programları, etkinlikler ve kulüp bilgilendirmeleri."}
           </p>
         </SectionReveal>
 

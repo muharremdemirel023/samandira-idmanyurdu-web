@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
+import { getFaqs, getHomeContent, getTrainingSchedules } from "@/lib/content";
 
 /**
  * Ana sayfa bilgi bölümleri — tüm metinler siteConfig'ten beslenir.
@@ -138,13 +139,23 @@ export function TrainingModelSection() {
   );
 }
 
-/** 8. Antrenman programı */
-export function ProgramSection() {
-  const rows = [
+/** 8. Antrenman programı — training_schedules tablosundan; tablo boşsa sabit fallback. */
+export async function ProgramSection() {
+  const fallbackRows = [
     { label: "U11 Grubu", days: "Cumartesi ve Pazar", time: "09:00–10:00" },
     { label: "U7 Grubu", days: "Cumartesi ve Pazar", time: "10:00–11:00" },
     { label: "U9 Grubu", days: "Cumartesi ve Pazar", time: "11:00–12:00" },
   ];
+
+  const schedules = await getTrainingSchedules();
+  const rows =
+    schedules.length > 0
+      ? schedules.map((row) => ({
+          label: row.age_group,
+          days: row.days,
+          time: `${row.start_time}–${row.end_time}`,
+        }))
+      : fallbackRows;
 
   return (
     <SectionShell
@@ -178,8 +189,9 @@ export function ProgramSection() {
   );
 }
 
-/** 9. Ücret ve kayıt bilgileri */
-export function FeesSection() {
+/** 9. Ücret ve kayıt bilgileri — başlık/açıklama home_content'ten yönetilebilir. */
+export async function FeesSection() {
+  const homeContent = await getHomeContent();
   const steps = [
     { title: "1. Ön kayıt formu", body: "Formu doldurun; yaş grubu ve iletişim bilgileriniz ekibimize ulaşsın." },
     { title: "2. Görüşme ve deneme", body: "Ekibimiz sizi arar; uygun yaş grubuna göre deneme antrenmanı planlanır." },
@@ -190,8 +202,11 @@ export function FeesSection() {
     <SectionShell
       id="ucret-ve-kayit"
       overline="Ücret ve kayıt"
-      title="Ücret ve Kayıt Bilgileri"
-      subtitle="Ücretler yaş grubuna ve döneme göre belirlenir. Güncel ücret bilgisi ve ödeme seçenekleri için bizimle iletişime geçmeniz yeterli — ekibimiz aynı gün dönüş yapar."
+      title={homeContent?.fees_title || "Ücret ve Kayıt Bilgileri"}
+      subtitle={
+        homeContent?.fees_subtitle ||
+        "Ücretler yaş grubuna ve döneme göre belirlenir. Güncel ücret bilgisi ve ödeme seçenekleri için bizimle iletişime geçmeniz yeterli — ekibimiz aynı gün dönüş yapar."
+      }
       tinted
     >
       <div className="grid gap-4 md:grid-cols-3">
@@ -217,8 +232,14 @@ export function FeesSection() {
   );
 }
 
-/** 10. SSS */
-export function HomeFaqSection() {
+/** 10. SSS — faqs tablosundan ilk 5 aktif kayıt; tablo boşsa sabit fallback. */
+export async function HomeFaqSection() {
+  const faqs = await getFaqs(5);
+  const items =
+    faqs.length > 0
+      ? faqs.map((faq) => ({ q: faq.question, a: faq.answer }))
+      : akademiPage.faq.items;
+
   return (
     <SectionShell
       id="sss"
@@ -226,7 +247,7 @@ export function HomeFaqSection() {
       title="Sık Sorulan Sorular"
     >
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-shell">
-        {akademiPage.faq.items.map((item) => (
+        {items.map((item) => (
           <details key={item.q} className="group border-b border-border-subtle px-4 last:border-b-0 sm:px-6">
             <summary className="flex min-h-[3rem] cursor-pointer list-none items-center justify-between gap-3 py-4 text-sm font-semibold text-maroon-deep [&::-webkit-details-marker]:hidden">
               {item.q}

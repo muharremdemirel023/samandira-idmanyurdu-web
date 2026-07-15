@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
+import { getAgeGroups } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Yaş Grupları",
@@ -57,7 +58,21 @@ const ageGroups = [
   },
 ];
 
-export default function YasGruplariPage() {
+export default async function YasGruplariPage() {
+  const dbGroups = await getAgeGroups();
+  const groups =
+    dbGroups.length > 0
+      ? dbGroups.map((group) => ({
+          range: group.age_range,
+          name: group.name,
+          summary: group.short_description ?? "",
+          features: (group.long_description ?? "")
+            .split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean),
+        }))
+      : ageGroups;
+
   return (
     <main className="flex flex-1 flex-col bg-surface-base">
       <section className="pb-14 pt-[calc(var(--header-height)+1.5rem)] md:pb-20 md:pt-[calc(var(--header-height)+2.5rem)]">
@@ -74,7 +89,7 @@ export default function YasGruplariPage() {
           </div>
 
           <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-4 lg:gap-6">
-            {ageGroups.map((group) => (
+            {groups.map((group) => (
               <article
                 key={group.range}
                 className="flex flex-col rounded-2xl border border-maroon/12 bg-surface-card p-6 shadow-[0_2px_10px_-6px_rgba(74,18,32,0.18)]"

@@ -1,5 +1,6 @@
-import { AdminPlaceholderPage } from "@/components/admin/AdminPlaceholderPage";
+import { redirect } from "next/navigation";
 
+/** Eski bağlantılar için: site ayarları artık /admin/settings altında. */
 export default function AdminSiteSettingsPage() {
-  return <AdminPlaceholderPage title="Site Ayarları" />;
+  redirect("/admin/settings");
 }
