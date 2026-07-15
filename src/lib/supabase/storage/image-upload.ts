@@ -102,7 +102,12 @@ export async function uploadAdminImage({
   });
 
   if (error) {
-    throw new Error("Görsel yüklenemedi. Lütfen tekrar deneyin.");
+    console.error("Supabase görsel yükleme hatası:", error);
+    throw new Error(
+      error.message === "Bucket not found"
+        ? `"${bucket}" adlı depolama alanı (bucket) Supabase projesinde bulunamadı. Supabase panelinden oluşturulması gerekiyor.`
+        : `Görsel yüklenemedi: ${error.message}`,
+    );
   }
 
   const {

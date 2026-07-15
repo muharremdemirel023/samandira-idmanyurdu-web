@@ -24,11 +24,11 @@ type ImageCropUploadFieldProps = {
 };
 
 const presetLabels: Record<CropPreset, string> = {
-  "news-cover": "Duyuru kapak gÃ¶rseli",
-  hero: "Slider / hero gÃ¶rseli",
-  gallery: "Galeri gÃ¶rseli",
+  "news-cover": "Duyuru kapak görseli",
+  hero: "Slider / hero görseli",
+  gallery: "Galeri görseli",
   "sponsor-logo": "Sponsor logosu",
-  "staff-portrait": "Teknik kadro profil fotoÄŸrafÄ±",
+  "staff-portrait": "Teknik kadro profil fotoğrafı",
 };
 
 function getDefaultRatio(preset: CropPreset) {
@@ -108,7 +108,7 @@ export function ImageCropUploadField({
         if (!cancelled) {
           setState({
             ok: false,
-            message: error instanceof Error ? error.message : "GÃ¶rsel tarayÄ±cÄ±da iÅŸlenemedi.",
+            message: error instanceof Error ? error.message : "Görsel tarayıcıda işlenemedi.",
           });
         }
       }
@@ -134,7 +134,7 @@ export function ImageCropUploadField({
 
   function uploadCroppedImage() {
     if (!canvasRef.current) {
-      setState({ ok: false, message: "LÃ¼tfen Ã¶nce bir gÃ¶rsel seÃ§in." });
+      setState({ ok: false, message: "Lütfen önce bir görsel seçin." });
       return;
     }
 
@@ -159,7 +159,7 @@ export function ImageCropUploadField({
       <div>
         <label className="block text-sm font-semibold text-slate-100">{label}</label>
         <p className="mt-1 text-sm text-slate-400">
-          {description ?? `${presetLabels[preset]} iÃ§in gÃ¶rsel seÃ§in, kÄ±rpÄ±n ve yÃ¼kleyin.`}
+          {description ?? `${presetLabels[preset]} için görsel seçin, kırpın ve yükleyin.`}
         </p>
       </div>
 
@@ -198,7 +198,7 @@ export function ImageCropUploadField({
 
             <div className="grid gap-4 sm:grid-cols-3">
               <label className="space-y-2 text-sm font-semibold text-slate-200">
-                Ã–lÃ§ek
+                Ölçek
                 <input
                   type="range"
                   min="1"
@@ -241,7 +241,7 @@ export function ImageCropUploadField({
               onClick={uploadCroppedImage}
               className="min-h-11 w-full rounded-full bg-blue-500 px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-blue-400 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
-              {pending ? "YÃ¼kleniyor..." : "KÄ±rpÄ±lmÄ±ÅŸ GÃ¶rseli YÃ¼kle"}
+              {pending ? "Yükleniyor..." : "Kırpılmış Görseli Yükle"}
             </button>
           </>
         ) : null}
