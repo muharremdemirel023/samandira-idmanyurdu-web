@@ -15,7 +15,11 @@ export const siteConfig = {
     summary:
       "Disiplin, karakter, takım kültürü ve yaş grubuna uygun antrenman planıyla çocuklarımız için güvenilir bir futbol gelişim ortamı.",
   },
-  addressLines: ["Tesis / kulüp adresi", "İstanbul • Türkiye"],
+  addressLines: ["Hacı Salih Caddesi No: 22", "34885 Sancaktepe / İstanbul"],
+  mapsHref:
+    "https://www.google.com/maps/search/?api=1&query=Hac%C4%B1+Salih+Caddesi+22+34885+Sancaktepe+%C4%B0stanbul",
+  mapsEmbedSrc:
+    "https://www.google.com/maps?q=Hac%C4%B1+Salih+Caddesi+22,+34885+Sancaktepe+%C4%B0stanbul&hl=tr&z=16&output=embed",
   copyrightYear: 2026,
   social: [
     { label: "Instagram", href: "https://www.instagram.com/" },

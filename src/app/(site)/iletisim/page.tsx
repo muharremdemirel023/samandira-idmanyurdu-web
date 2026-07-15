@@ -1,4 +1,5 @@
 import { Container } from "@/components/ui/Container";
+import { siteConfig } from "@/config/site";
 
 const contactEmail = "samandiraidmanyurduakademi@gmail.com";
 const academyMapsHref =
@@ -105,6 +106,32 @@ export default function IletisimPage() {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-12 md:mt-16">
+            <div className="mb-4 flex flex-col gap-1">
+              <p className="type-overline club-kicker-line text-accent">Konum</p>
+              <h2 className="type-heading-md text-text-primary">Tesisimize ulaşın</h2>
+            </div>
+            <div className="overflow-hidden rounded-2xl border border-border-subtle shadow-shell">
+              <iframe
+                src={siteConfig.mapsEmbedSrc}
+                title="Akademi tesisi haritası — Hacı Salih Caddesi No:22, 34885 Sancaktepe/İstanbul"
+                className="block h-[20rem] w-full border-0 sm:h-[24rem] lg:h-[28rem]"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </div>
+            <a
+              className="type-body mt-3 inline-flex min-h-[2.75rem] items-center gap-1.5 font-semibold text-accent hover:text-accent-strong"
+              href={academyMapsHref}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              Google Haritalar&apos;da aç
+              <span aria-hidden>→</span>
+            </a>
           </div>
         </Container>
       </section>

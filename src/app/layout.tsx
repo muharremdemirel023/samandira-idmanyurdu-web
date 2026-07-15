@@ -15,12 +15,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteTitle = "Samandıra İdman Yurdu S.K. Akademi | Futbol Eğitimi";
+const siteDescription =
+  "Samandıra İdman Yurdu S.K. Akademi; yaş gruplarına uygun futbol eğitimi, deneyimli antrenör kadrosu, düzenli antrenman programı ve online ön kayıt imkânı sunar.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.samandiraidmanyurdu.com"),
   title: {
-    default: `${siteConfig.name} • Elite altyapı ve kulüp`,
+    default: siteTitle,
     template: `%s • ${siteConfig.shortName}`,
   },
-  description: siteConfig.academy.summary,
+  description: siteDescription,
+  openGraph: {
+    type: "website",
+    url: "https://www.samandiraidmanyurdu.com",
+    siteName: "Samandıra İdman Yurdu S.K. Akademi",
+    title: siteTitle,
+    description: siteDescription,
+    locale: "tr_TR",
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({

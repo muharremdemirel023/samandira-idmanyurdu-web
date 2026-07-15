@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import {
   AboutAcademySection,
   AgeGroupsPreviewSection,
@@ -15,6 +17,12 @@ import { CampaignPopup } from "@/components/sections/CampaignPopup";
 import { DigitalPartnerSection } from "@/components/sections/DigitalPartnerSection";
 import { InstagramFeedSection } from "@/components/sections/InstagramFeedSection";
 import { SponsorsSlider } from "@/components/sections/SponsorsSlider";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://www.samandiraidmanyurdu.com",
+  },
+};
 
 export default function Home() {
   return (

@@ -68,21 +68,40 @@ export function HeroSection({ className }: { className?: string }) {
 
           <motion.div
             className="flex w-full min-w-0 items-center justify-center md:justify-end"
-            initial={reduceMotion ? false : { opacity: 0 }}
-            animate={reduceMotion ? undefined : { opacity: 1 }}
-            transition={reduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.15 }}
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.97, y: 14 }}
+            animate={reduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { delay: 0.45, duration: 0.85, ease: [0.22, 1, 0.36, 1] }
+            }
           >
-            <Image
-              src="/images/35-yil-logo.png"
-              alt="Samandıra İdman Yurdu 35. yıl logosu"
-              width={420}
-              height={331}
-              sizes="(max-width: 767px) min(78vw, 300px), (max-width: 1023px) 320px, 400px"
-              loading="eager"
-              fetchPriority="high"
-              unoptimized
-              className="h-auto w-[min(78vw,300px)] max-w-full object-contain sm:w-[320px] lg:w-[400px]"
-            />
+            <div className="relative w-[min(78vw,300px)] max-w-full sm:w-[320px] lg:w-[400px]">
+              <Image
+                src="/images/35-yil-logo.png"
+                alt="Samandıra İdman Yurdu 35. yıl logosu"
+                width={420}
+                height={331}
+                sizes="(max-width: 767px) min(78vw, 300px), (max-width: 1023px) 320px, 400px"
+                loading="eager"
+                fetchPriority="high"
+                unoptimized
+                className="h-auto w-full object-contain"
+              />
+              {!reduceMotion && (
+                <motion.div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 overflow-hidden [mask-image:url('/images/35-yil-logo.png')] [mask-position:center] [mask-repeat:no-repeat] [mask-size:contain]"
+                >
+                  <motion.div
+                    className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/45 to-transparent"
+                    initial={{ x: "-130%" }}
+                    animate={{ x: "430%" }}
+                    transition={{ delay: 1.35, duration: 1.1, ease: "easeInOut" }}
+                  />
+                </motion.div>
+              )}
+            </div>
           </motion.div>
         </div>
       </Container>

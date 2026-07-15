@@ -74,7 +74,7 @@ export function Header() {
 
           <div className="hidden shrink-0 items-center gap-4 md:flex lg:gap-6">
             <DesktopNav />
-            <Button href={onboardingHref} variant="primary" className="shrink-0 px-5 py-2.5 text-sm font-bold lg:px-6">
+            <Button href={onboardingHref} variant="primary" className="header-cta-breathe shrink-0 px-5 py-2.5 text-sm font-bold lg:px-6">
               Ön Kayıt
             </Button>
           </div>

@@ -97,13 +97,33 @@ export function Footer({ className }: { className?: string }) {
                   Hızlı mesaj
                 </a>
               </p>
-              <p className="text-sm leading-relaxed">
-                {siteConfig.addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
+              <p>
+                <span className="block text-xs uppercase tracking-wider text-white/55">
+                  Adres
+                </span>
+                <a
+                  className="font-semibold text-white hover:text-accent-bright"
+                  href={siteConfig.mapsHref}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {siteConfig.addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </a>
               </p>
+              <div className="overflow-hidden rounded-xl border border-white/15">
+                <iframe
+                  src={siteConfig.mapsEmbedSrc}
+                  title="Tesis adresi haritası — Hacı Salih Caddesi 22, Sancaktepe/İstanbul"
+                  className="block h-40 w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
             </div>
 
             <div>

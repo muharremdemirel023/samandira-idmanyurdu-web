@@ -438,6 +438,16 @@ body {
   }
 }
 
+@keyframes header-cta-breathe {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.05) translateY(-3px);
+  }
+}
+
 @keyframes sponsor-marquee-scroll {
   from {
     transform: translateX(0);
@@ -448,6 +458,18 @@ body {
 }
 
 @layer components {
+  /* Header Ön Kayıt CTA: sürekli hafif büyüyüp küçülen nabız (dönme yok). */
+  .header-cta-breathe {
+    animation: header-cta-breathe 2.5s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .header-cta-breathe {
+      animation: none;
+    }
+  }
+
   /* Sponsor logo slider: kesintisiz yatay akış, hover'da durur. */
   .sponsor-marquee {
     overflow: hidden;
