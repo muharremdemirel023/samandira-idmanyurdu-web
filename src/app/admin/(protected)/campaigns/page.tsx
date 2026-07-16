@@ -4,6 +4,7 @@ import {
   updateCampaign,
 } from "@/app/admin/(protected)/campaigns/actions";
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
+import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
 import { createClient } from "@/lib/supabase/server";
 
 type CampaignRow = {
@@ -62,25 +63,26 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
         <input name="name" required defaultValue={row?.name || ""} className={inputClass} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="space-y-2">
-          <label className={labelClass}>Masaüstü Görseli</label>
-          <input
-            name="desktop_image_url"
-            defaultValue={row?.desktop_image_url || ""}
-            className={inputClass}
-            placeholder="/images/campaigns/..."
-          />
-        </div>
-        <div className="space-y-2">
-          <label className={labelClass}>Mobil Görseli</label>
-          <input
-            name="mobile_image_url"
-            defaultValue={row?.mobile_image_url || ""}
-            className={inputClass}
-            placeholder="Boşsa masaüstü görseli kullanılır"
-          />
-        </div>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <ImageCropUploadField
+          bucket="site-images"
+          folder="campaigns/desktop"
+          inputName="desktop_image_url"
+          label="Masaüstü Görseli"
+          value={row?.desktop_image_url ?? ""}
+          preset="campaign-poster"
+          mode="contain"
+        />
+        <ImageCropUploadField
+          bucket="site-images"
+          folder="campaigns/mobile"
+          inputName="mobile_image_url"
+          label="Mobil Görseli"
+          value={row?.mobile_image_url ?? ""}
+          preset="campaign-poster"
+          mode="contain"
+          description="Boşsa masaüstü görseli kullanılır. Görsel seçip kırparak yükleyin."
+        />
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">

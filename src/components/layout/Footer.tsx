@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { mainNavigation } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
-import { getSiteSettings } from "@/lib/content";
+import { getCustomPageNavItems, getSiteSettings } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 
 function SocialGlyph({ label }: { label: string }) {
@@ -26,6 +26,13 @@ function SocialGlyph({ label }: { label: string }) {
 
 export async function Footer({ className }: { className?: string }) {
   const settings = await getSiteSettings();
+  const customPages = await getCustomPageNavItems();
+  const footerNavItems = [
+    ...mainNavigation,
+    ...customPages
+      .filter((page) => page.show_in_footer)
+      .map((page) => ({ label: page.title, href: `/sayfa/${page.slug}` as const })),
+  ];
 
   const name = settings?.academy_name || siteConfig.name;
   const phoneDisplay = settings?.phone || siteConfig.phoneDisplay;
@@ -69,7 +76,7 @@ export async function Footer({ className }: { className?: string }) {
               Bağlantılar
             </p>
             <ul className="space-y-2 text-sm font-medium">
-              {mainNavigation.map((item) => (
+              {footerNavItems.map((item) => (
                 <li key={item.href}>
                   <Link
                     className="block min-h-[1.75rem] text-white/75 transition-colors hover:text-white"

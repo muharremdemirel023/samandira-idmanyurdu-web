@@ -8,7 +8,13 @@ import { initialAdminImageUploadState } from "@/app/admin/(protected)/image-uplo
 import { adminImageAcceptValue, canvasToJpegFile, loadImageSource } from "@/lib/images/client-image-conversion";
 import type { ImageStorageBucket } from "@/lib/supabase/storage/image-upload";
 
-type CropPreset = "news-cover" | "hero" | "gallery" | "sponsor-logo" | "staff-portrait";
+type CropPreset =
+  | "news-cover"
+  | "hero"
+  | "gallery"
+  | "sponsor-logo"
+  | "staff-portrait"
+  | "campaign-poster";
 
 type ImageCropUploadFieldProps = {
   bucket: ImageStorageBucket;
@@ -29,11 +35,13 @@ const presetLabels: Record<CropPreset, string> = {
   gallery: "Galeri görseli",
   "sponsor-logo": "Sponsor logosu",
   "staff-portrait": "Teknik kadro profil fotoğrafı",
+  "campaign-poster": "Kampanya afişi",
 };
 
 function getDefaultRatio(preset: CropPreset) {
   if (preset === "staff-portrait" || preset === "gallery") return 4 / 5;
   if (preset === "sponsor-logo") return 1;
+  if (preset === "campaign-poster") return 2 / 3;
 
   return 16 / 9;
 }
@@ -55,6 +63,7 @@ export function ImageCropUploadField({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [state, setState] = useState(initialAdminImageUploadState);
   const [currentUrl, setCurrentUrl] = useState(value);
+  const [previewFailed, setPreviewFailed] = useState(false);
   const [sourceFile, setSourceFile] = useState<File | null>(null);
   const [scale, setScale] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
@@ -150,8 +159,14 @@ export function ImageCropUploadField({
 
       if (nextState.publicUrl) {
         setCurrentUrl(nextState.publicUrl);
+        setPreviewFailed(false);
       }
     });
+  }
+
+  function clearCurrentImage() {
+    setCurrentUrl("");
+    setPreviewFailed(false);
   }
 
   return (
@@ -170,12 +185,30 @@ export function ImageCropUploadField({
         readOnly
       />
 
-      {currentUrl ? (
+      {currentUrl && !previewFailed ? (
         <div
           className="overflow-hidden rounded-xl border border-white/10 bg-slate-950/40"
           style={{ aspectRatio: ratio }}
         >
-          <img src={currentUrl} alt="" className="h-full w-full object-cover" />
+          <img
+            src={currentUrl}
+            alt=""
+            className="h-full w-full object-cover"
+            onError={() => setPreviewFailed(true)}
+          />
+        </div>
+      ) : null}
+
+      {currentUrl && previewFailed ? (
+        <div className="flex items-center justify-between gap-3 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
+          <span>Kayıtlı görsel adresi artık yüklenemiyor. Lütfen yeni bir görsel yükleyin.</span>
+          <button
+            type="button"
+            onClick={clearCurrentImage}
+            className="min-h-9 shrink-0 rounded-full border border-red-400/60 px-3 py-1.5 text-xs font-semibold text-red-100 transition hover:bg-red-500/20"
+          >
+            Kaydı Temizle
+          </button>
         </div>
       ) : null}
 

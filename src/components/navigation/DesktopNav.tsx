@@ -3,15 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { mainNavigation } from "@/components/navigation/nav-config";
+import { mainNavigation, type NavItem } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
 
-export function DesktopNav({ className }: { className?: string }) {
+export function DesktopNav({ className, items }: { className?: string; items?: NavItem[] }) {
   const pathname = usePathname();
+  const navItems = items ?? mainNavigation;
 
   return (
     <nav aria-label="Birincil" className={cn("hidden md:flex md:items-center md:gap-0.5 lg:gap-1", className)}>
-      {mainNavigation
+      {navItems
         .filter((item) => !item.cta)
         .map((item) => {
           const active = pathname === item.href;

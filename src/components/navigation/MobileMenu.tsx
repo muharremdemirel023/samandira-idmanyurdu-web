@@ -4,16 +4,18 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { mainNavigation } from "@/components/navigation/nav-config";
+import { mainNavigation, type NavItem } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
 
 type MobileMenuProps = {
   open: boolean;
   onClose: () => void;
+  items?: NavItem[];
 };
 
-export function MobileMenu({ open, onClose }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
   const pathname = usePathname();
+  const navItems = items ?? mainNavigation;
 
   return (
     <AnimatePresence>
@@ -52,7 +54,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
           >
             <ul className="flex min-h-0 flex-col gap-1">
-              {mainNavigation.map((item) => {
+              {navItems.map((item) => {
                 const active = pathname === item.href;
                 return (
                   <li key={item.href} className="min-w-0">

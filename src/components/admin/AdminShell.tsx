@@ -50,6 +50,7 @@ const menuGroups: AdminMenuGroup[] = [
     title: "Site Yönetimi",
     items: [
       { label: "Kampanya Yönetimi", href: "/admin/campaigns" },
+      { label: "Sayfalar", href: "/admin/pages" },
       { label: "Ana Sayfa İçerikleri", href: "/admin/home-content" },
       { label: "Site Ayarları", href: "/admin/settings" },
     ],

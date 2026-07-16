@@ -5,17 +5,29 @@ import { useEffect, useState } from "react";
 
 import { ClubLogo } from "@/components/navigation/ClubLogo";
 import { DesktopNav } from "@/components/navigation/DesktopNav";
-import { headerBrand, onboardingHref } from "@/components/navigation/nav-config";
+import { headerBrand, mainNavigation, onboardingHref, type NavItem } from "@/components/navigation/nav-config";
 import { MobileMenu } from "@/components/navigation/MobileMenu";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
+import type { CustomPageNavItem } from "@/lib/content";
 
 const scrollThresholdPx = 20;
 
-export function Header() {
+type HeaderProps = {
+  customPages?: CustomPageNavItem[];
+};
+
+export function Header({ customPages = [] }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const staticItems = mainNavigation.filter((item) => !item.cta);
+  const ctaItem = mainNavigation.find((item) => item.cta);
+  const dynamicMenuItems: NavItem[] = customPages
+    .filter((page) => page.show_in_menu)
+    .map((page) => ({ label: page.title, href: `/sayfa/${page.slug}` as const }));
+  const navItems: NavItem[] = [...staticItems, ...dynamicMenuItems, ...(ctaItem ? [ctaItem] : [])];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > scrollThresholdPx);
@@ -73,7 +85,7 @@ export function Header() {
           </Link>
 
           <div className="hidden shrink-0 items-center gap-4 md:flex lg:gap-6">
-            <DesktopNav />
+            <DesktopNav items={navItems} />
             <Button href={onboardingHref} variant="primary" className="header-cta-breathe shrink-0 px-5 py-2.5 text-sm font-bold lg:px-6">
               Ön Kayıt
             </Button>
@@ -115,7 +127,7 @@ export function Header() {
         </div>
       </div>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} items={navItems} />
     </header>
   );
 }

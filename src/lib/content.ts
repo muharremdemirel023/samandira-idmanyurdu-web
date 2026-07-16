@@ -177,6 +177,31 @@ export type Campaign = {
   content_gap_px: number | null;
 };
 
+export type CustomPageNavItem = {
+  id: string;
+  title: string;
+  slug: string;
+  show_in_menu: boolean;
+  show_in_footer: boolean;
+  sort_order: number;
+};
+
+/** Menü ve/veya footer'da gösterilecek yayında olan dinamik sayfalar (Sayfalar modülü). */
+export const getCustomPageNavItems = cache(async (): Promise<CustomPageNavItem[]> => {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("custom_pages")
+      .select("id,title,slug,show_in_menu,show_in_footer,sort_order")
+      .eq("is_active", true)
+      .or("show_in_menu.eq.true,show_in_footer.eq.true")
+      .order("sort_order", { ascending: true });
+    return (data ?? []) as CustomPageNavItem[];
+  } catch {
+    return [];
+  }
+});
+
 export const getActiveCampaign = cache(async (): Promise<Campaign | null> => {
   try {
     const supabase = await createClient();
