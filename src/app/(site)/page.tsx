@@ -12,6 +12,7 @@ import {
   RegistrationCTABand,
   TechnicalStaffSection,
   TrainingModelSection,
+  TrainingVideosSection,
   VisionMissionSection,
 } from "@/components/sections";
 import { CampaignPopup } from "@/components/sections/CampaignPopup";
@@ -45,6 +46,7 @@ export default async function Home() {
       <TrainingModelSection />
       <TechnicalStaffSection />
       <ProgramSection />
+      <TrainingVideosSection />
       <InstagramFeedSection />
       <FeesSection />
       <LatestNewsSection />

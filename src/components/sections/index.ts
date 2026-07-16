@@ -16,4 +16,5 @@ export { MediaPlaceholderSection } from "@/components/sections/MediaPlaceholderS
 export { RegistrationCTABand } from "@/components/sections/RegistrationCTABand";
 export { SponsorsSection } from "@/components/sections/SponsorsSection";
 export { TechnicalStaffSection } from "@/components/sections/TechnicalStaffSection";
+export { TrainingVideosSection } from "@/components/sections/TrainingVideosSection";
 export { TrustMetricsSection } from "@/components/sections/TrustMetricsSection";

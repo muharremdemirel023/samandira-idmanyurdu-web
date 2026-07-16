@@ -16,7 +16,8 @@ const introDurationSec = 0.4;
 
 /**
  * Kulüp logosu: `public/Samandiralogo.png`. Yüklenemezse SİY monogramı gösterilir.
- * Logo dosyasının kendi zemini korunur; wrapper arka plan/kutu/frame vermez.
+ * Logo dosyasının kendi zemini köşeli beyaz kare olduğundan, dış köşelerin koyu
+ * arka planlarda görünmemesi için beyaz bir daire içine alınıp kırpılır.
  */
 export function ClubLogo({ alt, className }: ClubLogoProps) {
   const [useFallback, setUseFallback] = useState(false);
@@ -29,7 +30,7 @@ export function ClubLogo({ alt, className }: ClubLogoProps) {
   return (
     <motion.span
       className={cn(
-        "relative flex size-11 shrink-0 items-center justify-center sm:size-14",
+        "relative flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white sm:size-14",
         "transition-transform duration-[380ms] ease-out motion-reduce:transition-none",
         className,
       )}

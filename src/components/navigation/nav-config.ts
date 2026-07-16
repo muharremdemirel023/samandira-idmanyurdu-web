@@ -2,6 +2,7 @@ export type NavItem = {
   label: string;
   href: `/${string}` | "/";
   cta?: boolean;
+  children?: { label: string; href: `/${string}` | "/" }[];
 };
 
 /** `public/` altı — ASCII dosya adı (URL güvenli) */
@@ -21,6 +22,14 @@ export const mainNavigation: NavItem[] = [
   { label: "Yaş Grupları", href: "/akademi/yas-gruplari" },
   { label: "Antrenörler", href: "/akademi/teknik-kadro" },
   { label: "Program", href: "/akademi/antrenman-modeli" },
+  {
+    label: "Galeri",
+    href: "/galeri/fotograflar",
+    children: [
+      { label: "Fotoğraflar", href: "/galeri/fotograflar" },
+      { label: "Videolar", href: "/galeri/videolar" },
+    ],
+  },
   { label: "SSS", href: "/akademi/sik-sorulan-sorular" },
   { label: "İletişim", href: "/iletisim" },
   { label: "Ön Kayıt", href: "/on-kayit", cta: true },

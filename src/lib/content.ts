@@ -202,6 +202,75 @@ export const getCustomPageNavItems = cache(async (): Promise<CustomPageNavItem[]
   }
 });
 
+export type GalleryAlbumRow = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  cover_image_url: string | null;
+  sort_order: number | null;
+};
+
+export type GalleryImageRow = {
+  id: string;
+  album_id: string | null;
+  image_url: string;
+  alt_text: string | null;
+  caption: string | null;
+  aspect_ratio: string | null;
+  sort_order: number | null;
+};
+
+export const getGalleryAlbums = cache(async (): Promise<GalleryAlbumRow[]> => {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("gallery_albums")
+      .select("id,title,description,cover_image_url,sort_order")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    return (data ?? []) as GalleryAlbumRow[];
+  } catch {
+    return [];
+  }
+});
+
+export const getGalleryImages = cache(async (): Promise<GalleryImageRow[]> => {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("gallery_images")
+      .select("id,album_id,image_url,alt_text,caption,aspect_ratio,sort_order")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    return (data ?? []) as GalleryImageRow[];
+  } catch {
+    return [];
+  }
+});
+
+export type VideoRow = {
+  id: string;
+  title: string | null;
+  description: string | null;
+  video_url: string;
+  provider: string | null;
+  thumbnail_url: string | null;
+};
+
+export const getActiveVideos = cache(async (): Promise<VideoRow[]> => {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("videos")
+      .select("id,title,description,video_url,provider,thumbnail_url")
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true });
+    return (data ?? []) as VideoRow[];
+  } catch {
+    return [];
+  }
+});
+
 export const getActiveCampaign = cache(async (): Promise<Campaign | null> => {
   try {
     const supabase = await createClient();

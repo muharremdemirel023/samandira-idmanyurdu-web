@@ -72,6 +72,30 @@ export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
                     >
                       {item.label}
                     </Link>
+
+                    {item.children?.length ? (
+                      <ul className="ml-3 flex flex-col gap-0.5 border-l border-border-subtle pl-3">
+                        {item.children.map((child) => {
+                          const childActive = pathname === child.href;
+                          return (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                onClick={onClose}
+                                className={cn(
+                                  "block min-h-[2.5rem] truncate rounded-lg px-3 py-2 text-sm transition-colors duration-150",
+                                  childActive
+                                    ? "bg-surface-muted font-semibold text-text-primary"
+                                    : "text-text-muted hover:bg-surface-muted/70 hover:text-text-primary",
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : null}
                   </li>
                 );
               })}
