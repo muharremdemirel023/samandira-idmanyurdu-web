@@ -1,19 +1,26 @@
 # Ön Kayıt E-posta Bildirimi
 
-Public ön kayıt formu başarılı şekilde Supabase `pre_registrations` tablosuna kaydedildikten sonra akademi ekibine e-posta bildirimi gönderir.
+Public ön kayıt formu `pre_registrations` tablosuna kaydedildikten sonra kullanıcı
+cevabını bekletmeden Next.js `after()` içinde akademi ekibine e-posta bildirimi gönderir.
 
-Gerekli ortam değişkenleri:
+## Ortam değişkenleri
 
 ```env
 RESEND_API_KEY=
 PRE_REGISTRATION_NOTIFY_EMAIL=samandiraidmanyurduakademi@gmail.com
+PRE_REGISTRATION_FROM_EMAIL=Samandıra İdman Yurdu <kayit@samandiraidmanyurdu.com>
 ```
 
-Akış:
+`PRE_REGISTRATION_FROM_EMAIL` için Resend üzerinde doğrulanmış bir alan adı kullanılmalıdır.
 
-1. Form verisi sunucu tarafında alınır.
-2. Ön kayıt Supabase'e kaydedilir.
-3. Kayıt başarılıysa Resend API ile e-posta bildirimi gönderilir.
-4. E-posta gönderimi başarısız olursa kayıt silinmez; kullanıcıya başarılı kayıt mesajı gösterilmeye devam eder.
+## Akış
 
-Not: `RESEND_API_KEY` tarayıcıya gönderilmez, yalnızca server action içinde kullanılır.
+1. Form verisi doğrulanır ve Supabase'e kaydedilir.
+2. Kullanıcıya başarılı cevap döner.
+3. `after()` görevi Resend API çağrısını 8 saniyelik timeout ile en fazla üç kez dener.
+4. Sonuç kaydın `notification_status`, `notification_attempts`,
+   `notification_last_error` ve `notification_sent_at` alanlarına yazılır.
+5. Başarısız veya yapılandırılmamış bildirim admin başvuru kartından yeniden denenebilir.
+
+E-posta hatası başvuru kaydını geri almaz. `RESEND_API_KEY` ve service-role anahtarı
+yalnız sunucuda kullanılır; tarayıcıya gönderilmez.

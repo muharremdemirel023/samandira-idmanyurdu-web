@@ -23,9 +23,13 @@ export function IntroSplash() {
     } catch {
       return;
     }
-    setShow(true);
-    const timer = setTimeout(() => setShow(false), splashDurationMs);
-    return () => clearTimeout(timer);
+
+    const showTimer = setTimeout(() => setShow(true), 0);
+    const hideTimer = setTimeout(() => setShow(false), splashDurationMs);
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
   }, [reduceMotion]);
 
   return (

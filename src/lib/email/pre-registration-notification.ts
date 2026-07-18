@@ -1,10 +1,18 @@
-type PreRegistrationNotificationInput = {
+import "server-only";
+
+export type PreRegistrationNotificationInput = {
   guardianName: string;
   phone: string;
   studentName: string;
   birthYear: string;
   note: string;
   submittedAt: Date;
+};
+
+export type PreRegistrationNotificationResult = {
+  status: "sent" | "failed" | "skipped";
+  attempts: number;
+  error?: string;
 };
 
 const resendApiUrl = "https://api.resend.com/emails";
@@ -27,14 +35,23 @@ function formatSubmittedAt(date: Date) {
   }).format(date);
 }
 
-export async function sendPreRegistrationNotification(input: PreRegistrationNotificationInput) {
+function wait(milliseconds: number) {
+  return new Promise((resolve) => setTimeout(resolve, milliseconds));
+}
+
+export async function sendPreRegistrationNotification(
+  input: PreRegistrationNotificationInput,
+): Promise<PreRegistrationNotificationResult> {
   const apiKey = process.env.RESEND_API_KEY;
 
   if (!apiKey) {
-    return;
+    return { status: "skipped", attempts: 0, error: "RESEND_API_KEY tanımlı değil." };
   }
 
   const notifyEmail = process.env.PRE_REGISTRATION_NOTIFY_EMAIL ?? defaultNotifyEmail;
+  const fromEmail =
+    process.env.PRE_REGISTRATION_FROM_EMAIL ??
+    "Samandıra İdman Yurdu <onboarding@resend.dev>";
   const submittedAt = formatSubmittedAt(input.submittedAt);
   const safeNote = input.note.trim() || "Not eklenmedi.";
 
@@ -61,22 +78,39 @@ export async function sendPreRegistrationNotification(input: PreRegistrationNoti
     </div>
   `;
 
-  const response = await fetch(resendApiUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: "Samandıra İdman Yurdu <onboarding@resend.dev>",
-      to: notifyEmail,
-      subject: "Yeni Akademi Ön Kayıt Başvurusu",
-      text,
-      html,
-    }),
-  });
+  let lastError = "E-posta bildirimi gönderilemedi.";
 
-  if (!response.ok) {
-    throw new Error("Ön kayıt e-posta bildirimi gönderilemedi.");
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const response = await fetch(resendApiUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: fromEmail,
+          to: notifyEmail,
+          subject: "Yeni Akademi Ön Kayıt Başvurusu",
+          text,
+          html,
+        }),
+        signal: AbortSignal.timeout(8_000),
+        cache: "no-store",
+      });
+
+      if (response.ok) return { status: "sent", attempts: attempt };
+      lastError = `Resend HTTP ${response.status}`;
+
+      if (response.status < 500 && response.status !== 429) {
+        return { status: "failed", attempts: attempt, error: lastError };
+      }
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : lastError;
+    }
+
+    if (attempt < 3) await wait(300 * 2 ** (attempt - 1));
   }
+
+  return { status: "failed", attempts: 3, error: lastError };
 }
