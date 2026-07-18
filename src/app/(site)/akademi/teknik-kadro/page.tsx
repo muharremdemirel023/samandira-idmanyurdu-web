@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
 import { Container } from "@/components/ui/Container";
 import { getActiveStaffCoaches } from "@/lib/staff";
 import { FeaturedCoachProfile } from "./FeaturedCoachProfile";
 
-export const metadata: Metadata = {
-  title: "Teknik Kadromuz",
-  description: "Samandıra İdman Yurdu Akademi teknik kadro bilgileri.",
-};
+export const metadata: Metadata = createPageMetadata({ title: "Antrenör Kadromuz | Samandıra İdman Yurdu Akademi", description: "Samandıra İdman Yurdu Akademi deneyimli antrenör kadrosunu tanıyın.", path: "/akademi/teknik-kadro" });
 
 export default async function TeknikKadroPage() {
   const staff = await getActiveStaffCoaches();

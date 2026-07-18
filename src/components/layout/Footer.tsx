@@ -69,6 +69,7 @@ export async function Footer({ className }: { className?: string }) {
               {siteConfig.academy.title}
             </p>
             <p className="leading-relaxed text-[0.95rem]">{footerDescription}</p>
+            <p className="text-sm leading-relaxed">Sancaktepe?nin Samand?ra mahallesinde hizmet veren futbol akademisi.</p>
           </div>
 
           <nav aria-label="Site haritası" className="space-y-4">

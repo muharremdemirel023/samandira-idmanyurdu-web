@@ -22,7 +22,7 @@ export const siteConfig = {
     "https://www.google.com/maps?q=Hac%C4%B1+Salih+Caddesi+22,+34885+Sancaktepe+%C4%B0stanbul&hl=tr&z=16&output=embed",
   copyrightYear: 2026,
   social: [
-    { label: "Instagram", href: "https://www.instagram.com/" },
+    { label: "Instagram", href: "https://www.instagram.com/samandiraidmanyurdu.academy?igsh=OW1wZjd0ajN4YzV0" },
   ],
 
   /** Ana sayfa metinleri (tek kaynak — bileşenler buradan beslenir). */

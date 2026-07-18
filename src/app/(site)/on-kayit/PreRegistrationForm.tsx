@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { submitPreRegistration } from "@/app/(site)/on-kayit/actions";
 import { initialPreRegistrationFormState } from "@/app/(site)/on-kayit/form-state";
@@ -17,10 +18,13 @@ const labelClass = "flex flex-col gap-2 type-label-caps text-text-muted";
 const groupTitleClass = "type-label-caps-accent text-accent";
 
 export function PreRegistrationForm() {
+  const router = useRouter();
   const [state, formAction, pending] = useActionState(
     submitPreRegistration,
     initialState,
   );
+
+  useEffect(() => { if (state.ok) router.push("/tesekkurler"); }, [state.ok, router]);
 
   return (
     <form

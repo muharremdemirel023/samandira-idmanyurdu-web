@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
+
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
@@ -35,7 +37,7 @@ export const metadata: Metadata = {
     locale: "tr_TR",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
   },
@@ -53,6 +55,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-surface-deep font-sans text-text-primary motion-reduce:scroll-auto">
         {children}
+        <AnalyticsScripts />
       </body>
     </html>
   );

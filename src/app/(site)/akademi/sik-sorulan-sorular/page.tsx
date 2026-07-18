@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
 import { Container } from "@/components/ui/Container";
 import { getFaqs } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Sık Sorulan Sorular",
-  description: "Samandıra İdman Yurdu Akademi sık sorulan sorular.",
-};
+export const metadata: Metadata = createPageMetadata({ title: "Sık Sorulan Sorular | Samandıra İdman Yurdu Akademi", description: "Akademi kayıtları, 6–13 yaş grupları, deneme antrenmanı ve gerekli ekipmanlar hakkında sık sorulan soruların yanıtları.", path: "/akademi/sik-sorulan-sorular" });
 
 const faqItems = [
   {
@@ -15,7 +13,7 @@ const faqItems = [
   },
   {
     question: "Hangi yaş aralığı kabul ediliyor?",
-    answer: "Akademide 5-12 yaş aralığındaki çocuklar için gelişim grupları planlanır. Gruplar çocuğun yaşı ve mevcut futbol deneyimi dikkate alınarak belirlenir.",
+    answer: "Akademide 6?13 yaş aralığındaki çocuklar için gelişim grupları planlanır. Gruplar çocuğun yaşı ve mevcut futbol deneyimi dikkate alınarak belirlenir.",
   },
   {
     question: "Kayıt süreci nasıl ilerliyor?",
@@ -38,8 +36,12 @@ export default async function SikSorulanSorularPage() {
       ? faqs.map((faq) => ({ question: faq.question, answer: faq.answer }))
       : faqItems;
 
+  const faqJsonLd = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: items.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) };
+
   return (
-    <main className="flex flex-1 flex-col">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\u003c") }} />
+      <main className="flex flex-1 flex-col">
       <section className="relative isolate overflow-hidden pb-12 pt-[calc(var(--header-height)+0.75rem)] md:pb-16 md:pt-[calc(var(--header-height)+1rem)]">
         <div
           aria-hidden
@@ -70,5 +72,6 @@ export default async function SikSorulanSorularPage() {
         </Container>
       </section>
     </main>
+    </>
   );
 }

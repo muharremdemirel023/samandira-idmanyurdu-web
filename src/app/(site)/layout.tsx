@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { IntroSplash } from "@/components/layout/IntroSplash";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { CampaignSlideIn } from "@/components/sections/CampaignSlideIn";
 import { getCustomPageNavItems } from "@/lib/content";
 
 export default async function SiteLayout({
@@ -23,6 +24,7 @@ export default async function SiteLayout({
       </main>
       <Footer />
       <AcademyAssistant />
+      <CampaignSlideIn />
     </>
   );
 }

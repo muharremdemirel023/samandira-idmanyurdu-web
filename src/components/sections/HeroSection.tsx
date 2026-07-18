@@ -213,6 +213,8 @@ export function HeroSection({
                 ))}
               </motion.ul>
 
+              <Link href="/on-kayit" className="inline-flex w-fit rounded-full bg-yellow-300 px-4 py-2 text-xs font-bold text-maroon-deep">🎉 Online Kayıtlara Özel %15 İndirim</Link>
+
               {/* CTA'lar */}
               <motion.div
                 className="flex flex-col gap-3 sm:flex-row sm:items-center"

@@ -1,7 +1,12 @@
+import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
+
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
 import { PreRegistrationForm } from "@/app/(site)/on-kayit/PreRegistrationForm";
+
+export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Ön Kayıt — %15 Online İndirim | Samandıra İY Akademi", description: "Samandıra İdman Yurdu Akademi ön kayıt formu. Online kayıtlara özel %15 indirim. 1 iş günü içinde dönüş, ücretsiz deneme antrenmanı imkânı.", path: "/on-kayit" });
 
 const applicationSteps = [
   {
@@ -29,6 +34,7 @@ export default function OnKayitPage() {
         />
 
         <Container>
+          <div className="mb-8 rounded-2xl bg-yellow-300 px-5 py-4 text-center font-bold text-maroon-deep shadow-shell">🎉 Online Kayıtlara Özel %15 İndirim — Bu form üzerinden yapılan kayıtlarda geçerlidir.</div>
           <div className="stack-section-intro mx-auto max-w-prose-display text-center">
             <p className="type-overline club-kicker-line justify-center text-accent">
               Akademi başvuru
@@ -112,3 +118,4 @@ export default function OnKayitPage() {
     </div>
   );
 }
+

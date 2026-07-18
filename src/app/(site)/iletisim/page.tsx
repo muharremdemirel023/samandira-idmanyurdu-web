@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
+import { createPageMetadata, sportsActivityLocationJsonLd } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { getSiteSettings } from "@/lib/content";
 import { siteConfig } from "@/config/site";
+
+export const metadata: Metadata = createPageMetadata({ title: "İletişim ve Ulaşım — Sancaktepe | Samandıra İY Akademi", description: "Sancaktepe Samandıra’daki futbol akademimize ulaşım, telefon, e-posta, Instagram ve harita bilgileri.", path: "/iletisim" });
 
 const defaultContactEmail = "samandiraidmanyurduakademi@gmail.com";
 const academyMapsHref =
@@ -18,7 +22,9 @@ const instagramAccounts = [
 
 function InstagramMark() {
   return (
-    <span
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsActivityLocationJsonLd).replace(/</g, "\\u003c") }} />
+      <span
       aria-hidden
       className="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-accent/10 text-accent"
     >
@@ -36,6 +42,7 @@ function InstagramMark() {
         <path d="M17.4 6.9h.01" />
       </svg>
     </span>
+    </>
   );
 }
 

@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { getAgeGroups } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Yaş Grupları",
-  description:
-    "Samandıra İdman Yurdu Akademi yaş grupları: 6-8, 9-11, 12-14 ve 15+ yaş için futbol eğitim programları.",
-};
+export const metadata: Metadata = createPageMetadata({ title: "Yaş Grupları ve Futbol Eğitim Programı | Samandıra İY Akademi", description: "6–13 yaş arası çocuklar için yaşa ve seviyeye uygun teknik, koordinasyon ve takım oyunu odaklı futbol eğitim gruplarını inceleyin.", path: "/akademi/yas-gruplari" });
 
 const ageGroups = [
   {

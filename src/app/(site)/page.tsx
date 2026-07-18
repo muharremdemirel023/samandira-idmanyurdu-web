@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { createPageMetadata, sportsActivityLocationJsonLd } from "@/lib/seo";
 
 import {
   AboutAcademySection,
@@ -15,24 +16,20 @@ import {
   TrainingVideosSection,
   VisionMissionSection,
 } from "@/components/sections";
-import { CampaignPopup } from "@/components/sections/CampaignPopup";
 import { DigitalPartnerSection } from "@/components/sections/DigitalPartnerSection";
 import { getHomeContent } from "@/lib/content";
 import { InstagramFeedSection } from "@/components/sections/InstagramFeedSection";
 import { SponsorsSlider } from "@/components/sections/SponsorsSlider";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "https://www.samandiraidmanyurdu.com",
-  },
-};
+export const metadata: Metadata = createPageMetadata({ title: "Samandıra İdman Yurdu S.K. Akademi | Sancaktepe Futbol Akademisi", description: "Samandıra İdman Yurdu S.K. Akademi; 6–13 yaş için Sancaktepe Samandıra’da futbol eğitimi ve ücretsiz deneme antrenmanı sunar.", path: "/" });
 
 export default async function Home() {
   const homeContent = await getHomeContent();
 
   return (
-    <div className="flex flex-1 flex-col">
-      <CampaignPopup />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsActivityLocationJsonLd).replace(/</g, "\\u003c") }} />
+      <div className="flex flex-1 flex-col">
       <HeroSection
         content={{
           overline: homeContent?.hero_overline,
@@ -56,5 +53,6 @@ export default async function Home() {
       <SponsorsSlider />
       <DigitalPartnerSection />
     </div>
+    </>
   );
 }

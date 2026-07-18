@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo";
 
 import { Container } from "@/components/ui/Container";
 
-export const metadata: Metadata = {
-  title: "Antrenman Modeli",
-  description: "Samandıra İdman Yurdu Akademi antrenman modeli.",
-};
+export const metadata: Metadata = createPageMetadata({ title: "Antrenman Modeli ve Haftalık Program | Samandıra İY Akademi", description: "6–13 yaş futbolcular için teknik, koordinasyon, oyun zekâsı ve karakter gelişimi odaklı antrenman modelimizi inceleyin.", path: "/akademi/antrenman-modeli" });
 
 const trainingBlocks = [
   {

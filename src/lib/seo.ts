@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+export const SITE_URL = "https://www.samandiraidmanyurdu.com";
+export const OG_IMAGE = "/og-image.jpg";
+export const INSTAGRAM_URL = "https://www.instagram.com/samandiraidmanyurdu.academy?igsh=OW1wZjd0ajN4YzV0";
+export function createPageMetadata({title,description,path,noIndex=false}:{title:string;description:string;path:string;noIndex?:boolean}):Metadata { const canonical=path==="/"?SITE_URL:`${SITE_URL}${path}`; return {title:{absolute:title},description,alternates:{canonical},openGraph:{type:"website",url:canonical,siteName:"Samand?ra ?dman Yurdu S.K. Akademi",title,description,locale:"tr_TR",images:[{url:OG_IMAGE,width:1200,height:630}]},twitter:{card:"summary_large_image",title,description,images:[OG_IMAGE]},robots:noIndex?{index:false,follow:false}:undefined}; }
+export const sportsActivityLocationJsonLd={"@context":"https://schema.org","@type":"SportsActivityLocation",name:"Samand?ra ?dman Yurdu S.K. Akademi",address:{"@type":"PostalAddress",streetAddress:"Hac? Salih Caddesi No: 22",addressLocality:"Sancaktepe",addressRegion:"?stanbul",postalCode:"34885",addressCountry:"TR"},telephone:"+90 532 677 46 61",url:SITE_URL,logo:`${SITE_URL}/Samandiralogo.png`,image:`${SITE_URL}${OG_IMAGE}`,openingHours:["Sa-Su 09:00-12:00"],sameAs:[INSTAGRAM_URL]};
