@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useActionState, useMemo, useState } from "react";
 
+import { initialVideoActionState, type VideoActionState } from "@/app/admin/(protected)/videos/actions";
 import { detectVideoProvider } from "@/app/admin/(protected)/videos/video-provider";
 import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
 import { VideoFileUploadField } from "@/components/admin/VideoFileUploadField";
@@ -16,7 +17,7 @@ type VideoFormValues = {
 };
 
 type VideoFormProps = {
-  action: (formData: FormData) => void | Promise<void>;
+  action: (prevState: VideoActionState, formData: FormData) => Promise<VideoActionState>;
   submitLabel: string;
   values?: VideoFormValues;
 };
@@ -35,6 +36,7 @@ const providerLabels = {
 };
 
 export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
+  const [state, formAction, pending] = useActionState(action, initialVideoActionState);
   const [videoUrl, setVideoUrl] = useState(values?.video_url || "");
   const [source, setSource] = useState<"link" | "upload">(
     detectVideoProvider(values?.video_url || "") === "upload" ? "upload" : "link",
@@ -42,7 +44,7 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
   const provider = useMemo(() => detectVideoProvider(videoUrl), [videoUrl]);
 
   return (
-    <form action={action} className="space-y-5">
+    <form action={formAction} className="space-y-5">
       <div className="grid gap-5 md:grid-cols-[1fr_10rem]">
         <div className="space-y-2">
           <label className={labelClass} htmlFor="video-title">
@@ -104,7 +106,7 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
           </div>
         ) : (
           <div className="space-y-3">
-            <input type="hidden" name="video_url" value={videoUrl} required />
+            <input type="hidden" name="video_url" value={videoUrl} />
             {videoUrl ? (
               <video src={videoUrl} controls className="w-full max-w-xs rounded-xl border border-slate-700" />
             ) : null}
@@ -132,9 +134,19 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
         Aktif Olarak Göster
       </label>
 
+      {state.message ? (
+        <p className={state.ok ? "text-sm font-semibold text-emerald-300" : "text-sm font-semibold text-red-300"}>
+          {state.message}
+        </p>
+      ) : null}
+
       <div className="flex justify-end">
-        <button type="submit" className="min-h-11 w-full rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-orange-600 sm:w-auto">
-          {submitLabel}
+        <button
+          type="submit"
+          disabled={pending}
+          className="min-h-11 w-full rounded-full bg-orange-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+        >
+          {pending ? "Kaydediliyor..." : submitLabel}
         </button>
       </div>
     </form>

@@ -9,12 +9,6 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: dirname,
   },
-  experimental: {
-    /** Varsayılan 1 MB limiti, admin panelden yüklenen video dosyaları (50 MB'a kadar) için yetersiz kalır */
-    serverActions: {
-      bodySizeLimit: "50mb",
-    },
-  },
 };
 
 export default nextConfig;
