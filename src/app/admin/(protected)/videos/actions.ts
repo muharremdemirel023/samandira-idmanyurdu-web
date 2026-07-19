@@ -5,16 +5,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 import { detectVideoProvider } from "@/app/admin/(protected)/videos/video-provider";
-
-export type VideoActionState = {
-  ok: boolean;
-  message: string;
-};
-
-export const initialVideoActionState: VideoActionState = {
-  ok: false,
-  message: "",
-};
+import type { VideoActionState } from "@/app/admin/(protected)/videos/video-action-state";
 
 function readString(formData: FormData, key: string) {
   return String(formData.get(key) || "").trim();

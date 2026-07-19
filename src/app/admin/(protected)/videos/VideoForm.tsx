@@ -2,7 +2,7 @@
 
 import { useActionState, useMemo, useState } from "react";
 
-import { initialVideoActionState, type VideoActionState } from "@/app/admin/(protected)/videos/actions";
+import { initialVideoActionState, type VideoActionState } from "@/app/admin/(protected)/videos/video-action-state";
 import { detectVideoProvider } from "@/app/admin/(protected)/videos/video-provider";
 import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
 import { VideoFileUploadField } from "@/components/admin/VideoFileUploadField";
