@@ -1,11 +1,13 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { useActionState, useEffect, useMemo, useRef, useState } from "react";
 
 import { initialVideoActionState, type VideoActionState } from "@/app/admin/(protected)/videos/video-action-state";
 import { detectVideoProvider } from "@/app/admin/(protected)/videos/video-provider";
 import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
-import { VideoFileUploadField } from "@/components/admin/VideoFileUploadField";
+import { VideoFileUploadField, type AutoThumbnailResult } from "@/components/admin/VideoFileUploadField";
+import { createClient } from "@/lib/supabase/client";
+import { videoStorageBucket } from "@/lib/video-upload-constraints";
 
 type VideoFormValues = {
   title?: string | null;
@@ -42,6 +44,30 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
     detectVideoProvider(values?.video_url || "") === "upload" ? "upload" : "link",
   );
   const provider = useMemo(() => detectVideoProvider(videoUrl), [videoUrl]);
+
+  const [manualThumbnailUrl, setManualThumbnailUrl] = useState(values?.thumbnail_url || "");
+  const [autoThumbnail, setAutoThumbnail] = useState<AutoThumbnailResult | null>(null);
+  const thumbnailUrl = manualThumbnailUrl || autoThumbnail?.url || "";
+
+  const autoThumbnailRef = useRef<AutoThumbnailResult | null>(null);
+  autoThumbnailRef.current = autoThumbnail;
+
+  useEffect(() => {
+    if (!state.message) return;
+
+    if (!state.ok && autoThumbnailRef.current) {
+      const supabase = createClient();
+      const path = autoThumbnailRef.current.path;
+      void supabase.storage
+        .from(videoStorageBucket)
+        .remove([path])
+        .catch(() => {
+          // En kötü ihtimalle depoda kullanılmayan bir dosya kalır; kullanıcı akışını engellemez.
+        });
+    }
+
+    setAutoThumbnail(null);
+  }, [state]);
 
   return (
     <form action={formAction} className="space-y-5">
@@ -110,7 +136,12 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
             {videoUrl ? (
               <video src={videoUrl} controls className="w-full max-w-xs rounded-xl border border-slate-700" />
             ) : null}
-            <VideoFileUploadField folder="files" onUploaded={setVideoUrl} />
+            <VideoFileUploadField
+              folder="files"
+              thumbnailFolder="thumbnails"
+              onUploaded={setVideoUrl}
+              onThumbnailGenerated={setAutoThumbnail}
+            />
           </div>
         )}
 
@@ -120,14 +151,23 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
       <ImageCropUploadField
         bucket="videos"
         folder="thumbnails"
-        inputName="thumbnail_url"
-        label="Kapak Görseli"
-        description="Video kapak görselini 9:16 oranında kırpıp yükleyin."
+        inputName="thumbnail_manual_source"
+        label="Kapak Görseli (Manuel, İsteğe Bağlı)"
+        description="Video seçildiğinde kapak otomatik oluşturulur. Farklı bir görsel istiyorsanız burada 9:16 oranında kırpıp yükleyin; bu, otomatik kapağın önüne geçer."
         preset="gallery"
         aspectRatio={9 / 16}
         outputWidth={1080}
         value={values?.thumbnail_url || ""}
+        onUploaded={setManualThumbnailUrl}
       />
+
+      <input type="hidden" name="thumbnail_url" value={thumbnailUrl} />
+
+      {!manualThumbnailUrl && autoThumbnail ? (
+        <div className="overflow-hidden rounded-xl border border-white/10 bg-slate-950/40" style={{ aspectRatio: 16 / 9 }}>
+          <img src={autoThumbnail.url} alt="Otomatik oluşturulan video kapağı" className="h-full w-full object-cover" />
+        </div>
+      ) : null}
 
       <label className="flex min-h-11 items-center gap-3 rounded-xl border border-slate-800 bg-slate-950/70 px-4 py-3 text-sm font-semibold text-slate-200">
         <input name="is_active" type="checkbox" defaultChecked={values?.is_active ?? true} className="size-4 accent-orange-500" />

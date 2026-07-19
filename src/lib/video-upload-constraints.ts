@@ -31,7 +31,7 @@ function getVideoExtension(file: File) {
   return "mp4";
 }
 
-function sanitizeFolder(folder?: string) {
+export function sanitizeFolder(folder?: string) {
   if (!folder) return "uploads";
 
   const cleaned = folder
@@ -51,4 +51,53 @@ export function createVideoStoragePath(file: File, folder?: string) {
   const month = String(now.getUTCMonth() + 1).padStart(2, "0");
 
   return `${safeFolder}/${year}/${month}/${crypto.randomUUID()}.${extension}`;
+}
+
+/** Video karesinden otomatik üretilen kapak görseli için depolama yolu oluşturur. */
+export function createAutoThumbnailStoragePath(extension: string, folder?: string) {
+  const safeFolder = sanitizeFolder(folder);
+  const now = new Date();
+  const year = now.getUTCFullYear();
+  const month = String(now.getUTCMonth() + 1).padStart(2, "0");
+
+  return `${safeFolder}/${year}/${month}/auto-${crypto.randomUUID()}.${extension}`;
+}
+
+/** Tarayıcının canvas.toDataURL ile gerçekten WebP kodlayıp kodlayamadığını test eder (bazı tarayıcılar sessizce PNG'ye düşer). */
+function supportsWebpEncoding() {
+  try {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1;
+    canvas.height = 1;
+    return canvas.toDataURL("image/webp").startsWith("data:image/webp");
+  } catch {
+    return false;
+  }
+}
+
+export type ThumbnailEncodeResult = {
+  blob: Blob;
+  mime: "image/webp" | "image/jpeg";
+  extension: "webp" | "jpg";
+};
+
+/** Canvas'ı 16:9 video kapak görseli olarak WebP'ye (desteklenmiyorsa JPEG'e) kodlar. */
+export function canvasToThumbnailBlob(canvas: HTMLCanvasElement, quality = 0.82): Promise<ThumbnailEncodeResult> {
+  const useWebp = supportsWebpEncoding();
+  const mime: ThumbnailEncodeResult["mime"] = useWebp ? "image/webp" : "image/jpeg";
+  const extension: ThumbnailEncodeResult["extension"] = useWebp ? "webp" : "jpg";
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Kapak görseli oluşturulamadı."));
+          return;
+        }
+        resolve({ blob, mime, extension });
+      },
+      mime,
+      quality,
+    );
+  });
 }

@@ -27,6 +27,7 @@ type ImageCropUploadFieldProps = {
   mode?: "cover" | "contain";
   description?: string;
   outputWidth?: number;
+  onUploaded?: (publicUrl: string) => void;
 };
 
 const presetLabels: Record<CropPreset, string> = {
@@ -58,6 +59,7 @@ export function ImageCropUploadField({
   mode = "cover",
   description,
   outputWidth,
+  onUploaded,
 }: ImageCropUploadFieldProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -160,6 +162,7 @@ export function ImageCropUploadField({
       if (nextState.publicUrl) {
         setCurrentUrl(nextState.publicUrl);
         setPreviewFailed(false);
+        onUploaded?.(nextState.publicUrl);
       }
     });
   }
@@ -167,6 +170,7 @@ export function ImageCropUploadField({
   function clearCurrentImage() {
     setCurrentUrl("");
     setPreviewFailed(false);
+    onUploaded?.("");
   }
 
   return (
