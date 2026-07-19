@@ -62,7 +62,7 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
   }, [activeVideo, closeModal]);
 
   function handleCardClick(video: VideoRow) {
-    if (video.provider === "youtube" || video.provider === "instagram") {
+    if (video.provider === "youtube" || video.provider === "instagram" || video.provider === "upload") {
       setActiveVideo(video);
       return;
     }
@@ -167,6 +167,14 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="h-full w-full"
+                />
+              ) : activeVideo.provider === "upload" ? (
+                <video
+                  src={activeVideo.video_url}
+                  controls
+                  autoPlay
+                  playsInline
+                  className="h-full w-full object-contain"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center overflow-y-auto">

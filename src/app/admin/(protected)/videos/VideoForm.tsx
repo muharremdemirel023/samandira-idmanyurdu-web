@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 import { detectVideoProvider } from "@/app/admin/(protected)/videos/video-provider";
 import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
+import { VideoFileUploadField } from "@/components/admin/VideoFileUploadField";
 
 type VideoFormValues = {
   title?: string | null;
@@ -29,11 +30,15 @@ const providerLabels = {
   youtube: "YouTube",
   instagram: "Instagram",
   tiktok: "TikTok",
+  upload: "Yüklenen Video",
   other: "Diğer",
 };
 
 export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
   const [videoUrl, setVideoUrl] = useState(values?.video_url || "");
+  const [source, setSource] = useState<"link" | "upload">(
+    detectVideoProvider(values?.video_url || "") === "upload" ? "upload" : "link",
+  );
   const provider = useMemo(() => detectVideoProvider(videoUrl), [videoUrl]);
 
   return (
@@ -61,20 +66,52 @@ export function VideoForm({ action, submitLabel, values }: VideoFormProps) {
         <textarea id="video-description" name="description" rows={3} defaultValue={values?.description || ""} className={inputClass} placeholder="Video açıklaması" />
       </div>
 
-      <div className="space-y-2">
-        <label className={labelClass} htmlFor="video-url">
-          Video Linki
-        </label>
-        <input
-          id="video-url"
-          name="video_url"
-          type="url"
-          required
-          value={videoUrl}
-          onChange={(event) => setVideoUrl(event.target.value)}
-          className={inputClass}
-          placeholder="YouTube Shorts veya Instagram Reel linki"
-        />
+      <div className="space-y-3">
+        <label className={labelClass}>Video Kaynağı</label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setSource("link")}
+            className={`min-h-11 rounded-full px-4 py-2 text-sm font-semibold transition ${
+              source === "link" ? "bg-orange-500 text-white" : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+            }`}
+          >
+            Link ile Ekle
+          </button>
+          <button
+            type="button"
+            onClick={() => setSource("upload")}
+            className={`min-h-11 rounded-full px-4 py-2 text-sm font-semibold transition ${
+              source === "upload" ? "bg-orange-500 text-white" : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+            }`}
+          >
+            Dosya Yükle
+          </button>
+        </div>
+
+        {source === "link" ? (
+          <div className="space-y-2">
+            <input
+              id="video-url"
+              name="video_url"
+              type="url"
+              required
+              value={videoUrl}
+              onChange={(event) => setVideoUrl(event.target.value)}
+              className={inputClass}
+              placeholder="YouTube Shorts veya Instagram Reel linki"
+            />
+          </div>
+        ) : (
+          <div className="space-y-3">
+            <input type="hidden" name="video_url" value={videoUrl} required />
+            {videoUrl ? (
+              <video src={videoUrl} controls className="w-full max-w-xs rounded-xl border border-slate-700" />
+            ) : null}
+            <VideoFileUploadField folder="files" onUploaded={setVideoUrl} />
+          </div>
+        )}
+
         <p className="text-sm text-slate-400">Algılanan sağlayıcı: {providerLabels[provider]}</p>
       </div>
 
