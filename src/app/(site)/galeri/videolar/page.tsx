@@ -5,7 +5,7 @@ import { TrainingVideosSectionView } from "@/components/sections/TrainingVideosS
 import { Container } from "@/components/ui/Container";
 import { getActiveVideos } from "@/lib/content";
 
-export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Video Galerisi | Samand?ra ?Y Akademi", description: "Samand?ra ?dman Yurdu Akademi geli?im odakl? antrenman ve saha videolar?.", path: "/galeri/videolar" });
+export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Video Galerisi | Samandıra İY Akademi", description: "Samandıra İdman Yurdu Akademi gelişim odaklı antrenman ve saha videoları.", path: "/galeri/videolar" });
 
 export default async function GaleriVideolarPage() {
   const videos = await getActiveVideos();

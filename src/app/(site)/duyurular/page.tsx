@@ -5,7 +5,7 @@ import { NewsCard, type PublicNewsItem } from "@/components/news/NewsCard";
 import { Container } from "@/components/ui/Container";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata: Metadata = createPageMetadata({ title: "Duyurular | Samand?ra ?dman Yurdu Akademi", description: "Akademi kay?t d?nemleri, antrenman programlar? ve Samand?ra ?dman Yurdu duyurular?.", path: "/duyurular" });
+export const metadata: Metadata = createPageMetadata({ title: "Duyurular | Samandıra İdman Yurdu Akademi", description: "Akademi kayıt dönemleri, antrenman programları ve Samandıra İdman Yurdu duyuruları.", path: "/duyurular" });
 
 async function getActiveNews() {
   const supabase = await createClient();

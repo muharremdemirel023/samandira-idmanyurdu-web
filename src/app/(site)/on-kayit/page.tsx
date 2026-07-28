@@ -46,7 +46,7 @@ export default function OnKayitPage() {
               yapıyoruz; acil sorularınız için WhatsApp hattımız her zaman açık.
             </p>
             <div className="mx-auto mt-2 flex flex-wrap justify-center gap-2">
-              {["Ücretsiz değerlendirme", "1 iş günü içinde dönüş", "6–15+ yaş grupları"].map(
+              {["Ücretsiz değerlendirme", "1 iş günü içinde dönüş", "6–13 yaş grupları"].map(
                 (item) => (
                   <span
                     key={item}

@@ -65,8 +65,7 @@ export const siteConfig = {
         [
           { rangeLabel: "6–8", copy: "Oyun • motor • ilk temas" },
           { rangeLabel: "9–11", copy: "Teknik rutin • koordinasyon • takım bağları" },
-          { rangeLabel: "12–14", copy: "Hız • seçimleri hızlandırma • rekabet sıcaklığı" },
-          { rangeLabel: "15+", copy: "Fizik güç • oyunsal öz • performans zemini" },
+          { rangeLabel: "12–13", copy: "Hız • seçimleri hızlandırma • rekabet sıcaklığı" },
         ] satisfies Array<{ rangeLabel: string; copy: string }>
       ),
       cta: {
@@ -210,12 +209,8 @@ export const siteConfig = {
             focus: "Teknik rutinlerin oturması, yön değiştirme ve takım içi rollerin fark edilmesi. Oyun kurallarına uyum ve ilk taktik farkındalığı.",
           },
           {
-            range: "12–14",
+            range: "12–13",
             focus: "Hız, mesafe ve baskı altında karar hızı. Pozisyon bilinci ve maç temposuna adaptasyon; fiziksel hazırlığın dengeli yükseltilmesi.",
-          },
-          {
-            range: "15+",
-            focus: "Performans disiplini, maç içi iletişim ve bireysel sorumluluk alanları. Rekabet ortamına kontrollü geçiş ve mental dayanıklılık.",
           },
         ] satisfies Array<{ range: string; focus: string }>
       ),
@@ -278,7 +273,7 @@ export const siteConfig = {
           },
           {
             q: "Hangi yaş grupları kabul ediliyor?",
-            a: "6–8, 9–11, 12–14 ve 15+ blokları için yer açılır; her dönem kontenjan güncellenir.",
+            a: "6–8, 9–11 ve 12–13 blokları için yer açılır; her dönem kontenjan güncellenir.",
           },
           {
             q: "Antrenman günleri nasıl belirleniyor?",

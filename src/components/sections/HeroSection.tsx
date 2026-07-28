@@ -21,7 +21,7 @@ const heroExtras = {
   headlineFallback: "Futbolu Sev\nSahada Gelış\nGeleceğini Kur",
   introText:
     "Samandıra'da çocuklara yaş gruplarına uygun, gelişim odaklı futbol eğitimi sunuyoruz.",
-  ageTag: "6–11 Yaş Grupları",
+  ageTag: "6–13 Yaş Grupları",
   mediaAlt: "Samandıra İdman Yurdu Akademi antrenman anı",
   advantages: [
     "Yaş Gruplarına Uygun Eğitim",

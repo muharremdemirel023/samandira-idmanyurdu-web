@@ -32,7 +32,7 @@ const ageGroups = [
     ],
   },
   {
-    range: "12–14 Yaş",
+    range: "12–13 Yaş",
     name: "Teknik Gelişim Grubu",
     summary: "Teknik becerilerin derinleştiği, oyun bilgisinin ve fiziksel kapasitenin arttığı dönem.",
     features: [
@@ -40,17 +40,6 @@ const ageGroups = [
       "Oyun bilgisi",
       "Hız ve dayanıklılık",
       "Pozisyon eğitimi",
-    ],
-  },
-  {
-    range: "15+ Yaş",
-    name: "Performans Grubu",
-    summary: "Rekabete hazır sporcular için ileri düzey teknik ve fiziksel çalışma dönemi.",
-    features: [
-      "İleri teknik çalışma",
-      "Fiziksel gelişim",
-      "Maç ve performans hazırlığı",
-      "Rekabetçi futbol eğitimi",
     ],
   },
 ];
@@ -85,7 +74,7 @@ export default async function YasGruplariPage() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-4 lg:gap-6">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 md:mt-14 lg:grid-cols-3 lg:gap-6">
             {groups.map((group) => (
               <article
                 key={group.range}

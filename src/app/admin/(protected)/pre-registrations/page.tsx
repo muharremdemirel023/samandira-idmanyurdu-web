@@ -90,6 +90,9 @@ export default async function AdminPreRegistrationsPage({
       {error ? (
         <section role="alert" className="rounded-2xl border border-red-800 bg-red-950/45 p-5 text-red-100">
           Başvurular yüklenemedi. RLS politikası ve veritabanı migration durumunu kontrol edin.
+          <pre className="mt-3 whitespace-pre-wrap break-words text-xs text-red-200">
+            {JSON.stringify({ message: error.message, code: error.code, details: error.details, hint: error.hint }, null, 2)}
+          </pre>
         </section>
       ) : registrations.length > 0 ? (
         <div className="space-y-3">

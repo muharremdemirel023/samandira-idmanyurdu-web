@@ -5,7 +5,7 @@ import { GalleryPhotosView } from "@/components/gallery/GalleryPhotosView.client
 import { Container } from "@/components/ui/Container";
 import { getGalleryAlbums, getGalleryImages } from "@/lib/content";
 
-export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Foto?raf Galerisi | Samand?ra ?Y Akademi", description: "Samand?ra ?dman Yurdu Akademi antrenman, ma? ve etkinlik foto?raflar?.", path: "/galeri/fotograflar" });
+export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Fotoğraf Galerisi | Samandıra İY Akademi", description: "Samandıra İdman Yurdu Akademi antrenman, maç ve etkinlik fotoğrafları.", path: "/galeri/fotograflar" });
 
 export default async function GaleriFotograflarPage() {
   const [albums, images] = await Promise.all([getGalleryAlbums(), getGalleryImages()]);
