@@ -143,8 +143,22 @@ export function PreRegistrationForm() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [successLeaving, setSuccessLeaving] = useState(false);
 
+  // GEÇİCİ TEŞHİS LOGLARI — sorun çözülünce kaldırılacak. Kişisel veri loglanmaz.
+  useEffect(() => {
+    console.log("[on-kayit-debug] action state değişti:", {
+      ok: state.ok,
+      hasMessage: Boolean(state.message),
+      fieldErrorKeys: Object.keys(state.fieldErrors ?? {}),
+    });
+  }, [state]);
+
+  useEffect(() => {
+    console.log("[on-kayit-debug] showSuccess:", showSuccess, "leaving:", successLeaving);
+  }, [showSuccess, successLeaving]);
+
   useEffect(() => {
     if (!state.ok || !state.message) return;
+    console.log("[on-kayit-debug] başarı effect tetiklendi, mesaj gösteriliyor.");
 
     setShowSuccess(true);
     setSuccessLeaving(false);
