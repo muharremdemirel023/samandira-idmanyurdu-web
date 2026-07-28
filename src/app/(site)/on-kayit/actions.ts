@@ -34,13 +34,19 @@ function getClientIp(requestHeaders: Headers) {
   );
 }
 
-function istanbulDayBucket(date: Date) {
-  return new Intl.DateTimeFormat("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Europe/Istanbul",
-  }).format(date);
+// Rate limit / dedupe pencereleri (saniye).
+const PHONE_RATE_WINDOW_SECONDS = 600; // 10 dk
+const PHONE_RATE_MAX_ATTEMPTS = 2;
+const IP_RATE_WINDOW_SECONDS = 600; // 10 dk
+const IP_RATE_MAX_ATTEMPTS = 5;
+const DUPLICATE_WINDOW_SECONDS = 1800; // 30 dk: aynı telefon + aynı öğrenci
+
+const duplicateMessage = "Bu öğrenci için başvurunuz kısa süre önce alınmıştır.";
+const rateLimitMessage =
+  "Kısa sürede çok fazla başvuru gönderildi. Lütfen birkaç dakika sonra tekrar deneyin.";
+
+function duplicateBucket(date: Date) {
+  return Math.floor(date.getTime() / (DUPLICATE_WINDOW_SECONDS * 1000));
 }
 
 async function consumeRateLimit(keyHash: string, windowSeconds: number, maxAttempts: number) {
@@ -107,9 +113,10 @@ export async function submitPreRegistration(
     };
   }
 
-  const dayBucket = istanbulDayBucket(submittedAt);
+  // Aynı telefon + aynı öğrenci adı: 30 dk pencerede tek kayıt.
+  const studentKey = input.studentName.toLocaleLowerCase("tr-TR").trim();
   const dedupeHash = sha256(
-    `${dayBucket}|${input.phoneE164}|${input.studentName.toLocaleLowerCase("tr-TR")}|${input.birthYear}`,
+    `${duplicateBucket(submittedAt)}|${input.phoneE164}|${studentKey}`,
   );
 
   try {
@@ -122,24 +129,34 @@ export async function submitPreRegistration(
 
     if (existingError) throw existingError;
     if (existing) {
-      return {
-        ok: true,
-        message: "Bu başvuru bugün daha önce alınmış. Ekibimiz sizinle iletişime geçecektir.",
-        fieldErrors: {},
-      };
+      return { ok: false, message: duplicateMessage, fieldErrors: {} };
     }
 
-    const phoneAllowed = await consumeRateLimit(sha256(`phone:${input.phoneE164}`), 86_400, 3);
+    // Aynı veli telefonu farklı kardeşler için kullanılabilir: 10 dk'da 2 başvuru.
+    const phoneAllowed = await consumeRateLimit(
+      sha256(`phone:${input.phoneE164}`),
+      PHONE_RATE_WINDOW_SECONDS,
+      PHONE_RATE_MAX_ATTEMPTS,
+    );
+    // Aynı IP'den farklı veliler başvurabilir: 10 dk'da 5 başvuru.
     const ipAllowed = clientIp
-      ? await consumeRateLimit(sha256(`ip:${clientIp}`), 900, 8)
+      ? await consumeRateLimit(sha256(`ip:${clientIp}`), IP_RATE_WINDOW_SECONDS, IP_RATE_MAX_ATTEMPTS)
       : true;
 
     if (!phoneAllowed || !ipAllowed) {
-      return {
-        ok: false,
-        message: "Çok kısa sürede fazla başvuru gönderildi. Lütfen daha sonra tekrar deneyin.",
-        fieldErrors: {},
-      };
+      return { ok: false, message: rateLimitMessage, fieldErrors: {} };
+    }
+
+    // Kayan 30 dk pencerede aynı telefon + aynı öğrenci tekrarını yakala
+    // (bucket sınırını aşan tekrar denemeler için ek güvence).
+    const duplicateAllowed = await consumeRateLimit(
+      sha256(`dup:${input.phoneE164}|${studentKey}`),
+      DUPLICATE_WINDOW_SECONDS,
+      1,
+    );
+
+    if (!duplicateAllowed) {
+      return { ok: false, message: duplicateMessage, fieldErrors: {} };
     }
 
     const insertPayload = {
@@ -163,7 +180,7 @@ export async function submitPreRegistration(
 
     if (error) {
       if (error.code === "23505") {
-        return { ok: true, message: successMessage, fieldErrors: {} };
+        return { ok: false, message: duplicateMessage, fieldErrors: {} };
       }
       throw error;
     }

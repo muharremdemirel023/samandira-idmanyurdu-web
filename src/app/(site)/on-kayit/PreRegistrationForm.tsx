@@ -146,9 +146,9 @@ export function PreRegistrationForm() {
   useEffect(() => {
     if (!state.ok || !state.message) return;
 
-    formRef.current?.reset();
     setShowSuccess(true);
     setSuccessLeaving(false);
+    formRef.current?.reset();
 
     const fadeTimer = window.setTimeout(
       () => setSuccessLeaving(true),
