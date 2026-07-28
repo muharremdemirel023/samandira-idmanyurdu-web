@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 
 import { submitPreRegistration } from "@/app/(site)/on-kayit/actions";
 import { initialPreRegistrationFormState } from "@/app/(site)/on-kayit/form-state";
@@ -30,16 +30,141 @@ function FieldError({ id, message }: { id: string; message?: string }) {
   ) : null;
 }
 
+const SUCCESS_VISIBLE_MS = 6000;
+const SUCCESS_FADE_MS = 500;
+
+function SuccessMessage({ leaving }: { leaving: boolean }) {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className={`pre-reg-success mt-6 rounded-2xl border border-accent/25 bg-white px-5 py-7 text-center shadow-[0_18px_40px_-24px_rgba(109,31,46,0.35)] sm:px-8 ${leaving ? "pre-reg-success--leaving" : ""}`}
+    >
+      <svg
+        className="pre-reg-success__mark mx-auto"
+        width="72"
+        height="72"
+        viewBox="0 0 72 72"
+        fill="none"
+        aria-hidden
+      >
+        <circle
+          className="pre-reg-success__ring"
+          cx="36"
+          cy="36"
+          r="32"
+          stroke="var(--accent)"
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <path
+          className="pre-reg-success__check"
+          d="M23 37.5 32.5 47 50 27"
+          stroke="var(--maroon)"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <h3 className="mt-5 text-lg font-bold tracking-tight text-[var(--maroon-deep)] sm:text-xl">
+        Ön Kaydınız Başarıyla Alındı
+      </h3>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-text-primary sm:text-base sm:leading-7">
+        Başvurunuz tarafımıza ulaştı. Akademi ekibimiz, verdiğiniz iletişim bilgileri üzerinden en
+        kısa sürede sizinle iletişime geçecektir. İlginiz için teşekkür ederiz.
+      </p>
+      <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+        Samandıra İdman Yurdu S.K. Akademi
+      </p>
+
+      <style>{`
+        .pre-reg-success {
+          animation: preRegSuccessIn 0.4s ease-out both;
+        }
+        .pre-reg-success--leaving {
+          animation: preRegSuccessOut ${SUCCESS_FADE_MS}ms ease-in both;
+        }
+        .pre-reg-success__ring {
+          stroke-dasharray: 202;
+          stroke-dashoffset: 202;
+          transform-origin: 36px 36px;
+          transform: rotate(-90deg);
+          animation: preRegDraw 0.6s ease-out 0.15s forwards;
+        }
+        .pre-reg-success__check {
+          stroke-dasharray: 40;
+          stroke-dashoffset: 40;
+          animation: preRegDraw 0.35s ease-out 0.75s forwards;
+        }
+        .pre-reg-success__mark {
+          animation: preRegPulse 0.5s ease-in-out 1.15s 1;
+        }
+        @keyframes preRegSuccessIn {
+          from { opacity: 0; transform: scale(0.96); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes preRegSuccessOut {
+          from { opacity: 1; transform: scale(1); }
+          to { opacity: 0; transform: scale(0.98); }
+        }
+        @keyframes preRegDraw {
+          to { stroke-dashoffset: 0; }
+        }
+        @keyframes preRegPulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.06); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .pre-reg-success,
+          .pre-reg-success__mark {
+            animation: none;
+          }
+          .pre-reg-success--leaving {
+            animation: preRegSuccessOut ${SUCCESS_FADE_MS}ms linear both;
+          }
+          .pre-reg-success__ring,
+          .pre-reg-success__check {
+            animation: none;
+            stroke-dashoffset: 0;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export function PreRegistrationForm() {
   const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
   const [state, formAction, pending] = useActionState(
     submitPreRegistration,
     initialPreRegistrationFormState,
   );
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [successLeaving, setSuccessLeaving] = useState(false);
 
   useEffect(() => {
-    if (state.ok) router.replace("/tesekkurler");
-  }, [state.ok, router]);
+    if (!state.ok || !state.message) return;
+
+    formRef.current?.reset();
+    setShowSuccess(true);
+    setSuccessLeaving(false);
+
+    const fadeTimer = window.setTimeout(
+      () => setSuccessLeaving(true),
+      SUCCESS_VISIBLE_MS - SUCCESS_FADE_MS,
+    );
+    const hideTimer = window.setTimeout(() => {
+      setShowSuccess(false);
+      setSuccessLeaving(false);
+      router.push("/tesekkurler");
+    }, SUCCESS_VISIBLE_MS);
+
+    return () => {
+      window.clearTimeout(fadeTimer);
+      window.clearTimeout(hideTimer);
+    };
+  }, [state, router]);
 
   const guardianError = state.fieldErrors.guardianName?.[0];
   const phoneError = state.fieldErrors.phoneE164?.[0];
@@ -50,6 +175,7 @@ export function PreRegistrationForm() {
 
   return (
     <form
+      ref={formRef}
       action={formAction}
       className="club-soft-panel overflow-hidden bg-white"
       aria-busy={pending}
@@ -196,19 +322,17 @@ export function PreRegistrationForm() {
 
         {turnstileSiteKey ? (
           <div className="mt-6">
-            <TurnstileWidget siteKey={turnstileSiteKey} resetKey={state.ok ? "" : state.message} />
+            <TurnstileWidget siteKey={turnstileSiteKey} resetKey={state.message} />
           </div>
         ) : null}
 
-        {state.message ? (
+        {showSuccess ? <SuccessMessage leaving={successLeaving} /> : null}
+
+        {!state.ok && state.message ? (
           <p
-            role={state.ok ? "status" : "alert"}
-            aria-live={state.ok ? "polite" : "assertive"}
-            className={
-              state.ok
-                ? "mt-6 rounded-xl border border-accent/30 bg-accent/[0.08] px-4 py-3 text-sm font-semibold text-text-primary"
-                : "mt-6 rounded-xl border border-red-200 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-700"
-            }
+            role="alert"
+            aria-live="assertive"
+            className="mt-6 rounded-xl border border-red-200 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-700"
           >
             {state.message}
           </p>
@@ -217,7 +341,7 @@ export function PreRegistrationForm() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <button
             type="submit"
-            disabled={pending}
+            disabled={pending || showSuccess}
             className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-full bg-accent px-7 py-2.5 text-sm font-bold text-white shadow-[0_10px_24px_-14px_rgba(194,65,12,0.55)] transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 sm:flex-1"
           >
             {pending ? "Gönderiliyor..." : "Başvuruyu gönder"}
