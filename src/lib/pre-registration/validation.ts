@@ -3,6 +3,7 @@ import "server-only";
 import { z } from "zod";
 
 import {
+  PRE_REGISTRATION_EMAIL_MAX_LENGTH,
   PRE_REGISTRATION_MAX_AGE,
   PRE_REGISTRATION_MIN_AGE,
   PRE_REGISTRATION_NOTE_MAX_LENGTH,
@@ -12,9 +13,19 @@ const currentYear = new Date().getUTCFullYear();
 const minimumBirthYear = currentYear - PRE_REGISTRATION_MAX_AGE;
 const maximumBirthYear = currentYear - PRE_REGISTRATION_MIN_AGE;
 
+// Basit ve yanlis negatif uretmeyen bicim kontrolu; sunucu ve istemci ayni kurali kullanir.
+const emailPattern = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
+
 const preRegistrationSchema = z.object({
   guardianName: z.string().trim().min(2, "Veli adı en az 2 karakter olmalıdır.").max(100, "Veli adı en fazla 100 karakter olabilir."),
   phoneE164: z.string().regex(/^\+905\d{9}$/, "Geçerli bir Türkiye cep telefonu numarası girin."),
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .min(1, "E-posta adresi zorunludur.")
+    .max(PRE_REGISTRATION_EMAIL_MAX_LENGTH, `E-posta adresi en fazla ${PRE_REGISTRATION_EMAIL_MAX_LENGTH} karakter olabilir.`)
+    .regex(emailPattern, "Geçerli bir e-posta adresi girin."),
   studentName: z.string().trim().min(2, "Oyuncu adı en az 2 karakter olmalıdır.").max(100, "Oyuncu adı en fazla 100 karakter olabilir."),
   birthYear: z.string().trim().regex(/^\d{4}$/, "Doğum yılını dört haneli olarak girin.").transform(Number).refine(
     (year) => year >= minimumBirthYear && year <= maximumBirthYear,
@@ -44,6 +55,7 @@ export function validatePreRegistrationForm(formData: FormData) {
   return preRegistrationSchema.safeParse({
     guardianName: formString(formData, "guardian_name"),
     phoneE164: normalizeTurkishMobilePhone(formString(formData, "phone")),
+    email: formString(formData, "email"),
     studentName: formString(formData, "student_name"),
     birthYear: formString(formData, "birth_year"),
     note: formString(formData, "note"),

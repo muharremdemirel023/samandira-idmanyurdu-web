@@ -40,7 +40,7 @@ export async function resendPreRegistrationNotification(id: string) {
   const { supabase } = await requireAdmin();
   const { data, error } = await supabase
     .from("pre_registrations")
-    .select("guardian_name,phone_e164,student_name,birth_year,note,created_at")
+    .select("guardian_name,phone_e164,email,student_name,birth_year,note,created_at")
     .eq("id", id)
     .single();
 
@@ -49,6 +49,7 @@ export async function resendPreRegistrationNotification(id: string) {
   const result = await sendPreRegistrationNotification({
     guardianName: data.guardian_name,
     phone: data.phone_e164,
+    email: data.email ?? null,
     studentName: data.student_name,
     birthYear: String(data.birth_year),
     note: data.note ?? "",

@@ -15,6 +15,7 @@ type PreRegistration = {
   id: string;
   guardian_name: string;
   phone_e164: string;
+  email: string | null;
   student_name: string;
   birth_year: number;
   note: string | null;
@@ -61,7 +62,7 @@ export default async function AdminPreRegistrationsPage({
   const { data, count, error } = await supabase
     .from("pre_registrations")
     .select(
-      "id,guardian_name,phone_e164,student_name,birth_year,note,status,notification_status,notification_attempts,notification_last_error,notification_sent_at,consent_at,created_at",
+      "id,guardian_name,phone_e164,email,student_name,birth_year,note,status,notification_status,notification_attempts,notification_last_error,notification_sent_at,consent_at,created_at",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
@@ -106,6 +107,7 @@ export default async function AdminPreRegistrationsPage({
                   <dl className="grid gap-3 sm:grid-cols-2">
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Veli</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.guardian_name}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Telefon</dt><dd className="mt-1 text-sm font-semibold"><a className="text-white underline decoration-slate-600 underline-offset-2" href={`tel:${registration.phone_e164}`}>{registration.phone_e164}</a></dd></div>
+                    <div className="min-w-0 sm:col-span-2"><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">E-posta</dt><dd className="mt-1 min-w-0 text-sm font-semibold">{registration.email ? <a className="block max-w-full truncate break-all text-white underline decoration-slate-600 underline-offset-2" href={`mailto:${registration.email}`} title={registration.email}>{registration.email}</a> : <span className="text-slate-400">-</span>}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Oyuncu</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.student_name}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Doğum Yılı</dt><dd className="mt-1 text-sm font-semibold text-white">{registration.birth_year}</dd></div>
                     <div className="sm:col-span-2"><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Not</dt><dd className="mt-1 whitespace-pre-wrap break-words text-sm text-slate-300">{registration.note || "-"}</dd></div>

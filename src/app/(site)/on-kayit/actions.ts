@@ -8,7 +8,10 @@ import { cookies, headers } from "next/headers";
 import { after } from "next/server";
 
 import type { PreRegistrationFormState } from "@/app/(site)/on-kayit/form-state";
-import { sendPreRegistrationNotification } from "@/lib/email/pre-registration-notification";
+import {
+  sendPreRegistrationAcknowledgement,
+  sendPreRegistrationNotification,
+} from "@/lib/email/pre-registration-notification";
 import { PRE_REGISTRATION_PRIVACY_VERSION } from "@/lib/pre-registration/constants";
 import {
   readHoneypot,
@@ -78,6 +81,23 @@ async function updateNotificationResult(
     .eq("id", id);
 
   if (error) console.error("Ön kayıt bildirim durumu güncellenemedi.", error);
+}
+
+// Veliye gonderilen bilgilendirme e-postasi basvurunun basarisini etkilemez;
+// hata yalnizca sunucu loguna yazilir (e-posta adresi loglanmaz).
+async function sendGuardianAcknowledgement(id: string, email: string) {
+  try {
+    const result = await sendPreRegistrationAcknowledgement(email);
+    if (result.status === "failed") {
+      console.error("Veli bilgilendirme e-postası gönderilemedi.", {
+        id,
+        attempts: result.attempts,
+        error: result.error,
+      });
+    }
+  } catch (error) {
+    console.error("Veli bilgilendirme e-postası gönderilemedi.", { id, error });
+  }
 }
 
 export async function submitPreRegistration(
@@ -162,6 +182,7 @@ export async function submitPreRegistration(
     const insertPayload = {
       guardian_name: input.guardianName,
       phone_e164: input.phoneE164,
+      email: input.email,
       student_name: input.studentName,
       birth_year: input.birthYear,
       note: input.note || null,
@@ -188,6 +209,7 @@ export async function submitPreRegistration(
     const notificationInput = {
       guardianName: input.guardianName,
       phone: input.phoneE164,
+      email: input.email,
       studentName: input.studentName,
       birthYear: String(input.birthYear),
       note: input.note,
@@ -195,6 +217,7 @@ export async function submitPreRegistration(
     };
 
     after(() => updateNotificationResult(registration.id, notificationInput));
+    after(() => sendGuardianAcknowledgement(registration.id, input.email));
 
     const cookieStore = await cookies();
     cookieStore.set("pre_registration_conversion", randomUUID(), {

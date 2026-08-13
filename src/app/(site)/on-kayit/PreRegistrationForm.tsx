@@ -9,7 +9,10 @@ import { initialPreRegistrationFormState } from "@/app/(site)/on-kayit/form-stat
 import { TurnstileWidget } from "@/app/(site)/on-kayit/TurnstileWidget";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
-import { PRE_REGISTRATION_NOTE_MAX_LENGTH } from "@/lib/pre-registration/constants";
+import {
+  PRE_REGISTRATION_EMAIL_MAX_LENGTH,
+  PRE_REGISTRATION_NOTE_MAX_LENGTH,
+} from "@/lib/pre-registration/constants";
 
 const fieldClass =
   "w-full rounded-xl border border-border-subtle bg-white px-4 py-3 text-base text-text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent focus:ring-2 focus:ring-accent/25 sm:text-sm";
@@ -182,6 +185,7 @@ export function PreRegistrationForm() {
 
   const guardianError = state.fieldErrors.guardianName?.[0];
   const phoneError = state.fieldErrors.phoneE164?.[0];
+  const emailError = state.fieldErrors.email?.[0];
   const studentError = state.fieldErrors.studentName?.[0];
   const birthYearError = state.fieldErrors.birthYear?.[0];
   const noteError = state.fieldErrors.note?.[0];
@@ -246,6 +250,27 @@ export function PreRegistrationForm() {
                 Türkiye cep telefonu numaranızı girin.
               </span>
               <FieldError id="phone-error" message={phoneError} />
+            </label>
+
+            <label className={`${labelClass} md:col-span-2`} htmlFor="email">
+              <span>E-posta Adresi <RequiredMark /></span>
+              <input
+                id="email"
+                className={fieldClass}
+                name="email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                placeholder="ornek@email.com"
+                maxLength={PRE_REGISTRATION_EMAIL_MAX_LENGTH}
+                required
+                aria-invalid={Boolean(emailError)}
+                aria-describedby={emailError ? "email-error" : "email-hint"}
+              />
+              <span id="email-hint" className="text-xs font-normal normal-case tracking-normal">
+                Başvurunuzla ilgili bilgilendirme ve geri dönüş için kullanılacaktır.
+              </span>
+              <FieldError id="email-error" message={emailError} />
             </label>
           </div>
         </fieldset>
@@ -331,6 +356,10 @@ export function PreRegistrationForm() {
               &apos;ni okudum ve kişisel verilerimin başvurumun değerlendirilmesi amacıyla işlenmesi hakkında bilgi sahibi oldum. <RequiredMark />
             </span>
           </label>
+          <p className="mt-3 text-xs leading-5 text-text-muted">
+            E-posta adresiniz yalnızca başvurunuzla ilgili iletişim ve bilgilendirme amacıyla
+            kullanılır; üçüncü kişilerle paylaşılmaz.
+          </p>
           <FieldError id="privacy_consent-error" message={consentError} />
         </div>
 
