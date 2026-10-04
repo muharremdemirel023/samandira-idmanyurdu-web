@@ -7,26 +7,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 const STORAGE_KEY = "samandira_campaign_slidein_closed_at";
-const SUPPRESS_DAYS = 7;
-const SUPPRESS_MS = SUPPRESS_DAYS * 24 * 60 * 60 * 1000;
-const SHOW_DELAY_MS = 4000;
+const SHOW_DELAY_MS = 1000;
 const SCROLL_TRIGGER_RATIO = 0.25;
 const CAMPAIGN_HREF = "/on-kayit";
 const CAMPAIGN_IMAGE = "/images/campaigns/slide-in-kart.png";
 const CAMPAIGN_ALT =
   "Samandıra İdman Yurdu Akademi online kayıtlara özel yüzde 15 indirim kampanyası";
-
-function isSuppressed(): boolean {
-  try {
-    const closedAt = window.localStorage.getItem(STORAGE_KEY);
-    if (!closedAt) return false;
-    const closedAtMs = Number(closedAt);
-    if (Number.isNaN(closedAtMs)) return false;
-    return Date.now() - closedAtMs < SUPPRESS_MS;
-  } catch {
-    return false;
-  }
-}
 
 export function CampaignSlideIn() {
   const pathname = usePathname();
@@ -45,7 +31,6 @@ export function CampaignSlideIn() {
 
   useEffect(() => {
     if (pathname === CAMPAIGN_HREF) return;
-    if (isSuppressed()) return;
 
     const trigger = () => {
       if (triggeredRef.current) return;
@@ -93,7 +78,7 @@ export function CampaignSlideIn() {
           animate={{ opacity: 1, x: 0 }}
           exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 60 }}
           transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeOut" }}
-          className="fixed right-6 bottom-6 z-[70] hidden w-[380px] md:block"
+          className="fixed right-4 bottom-4 z-[70] w-[calc(100%-2rem)] max-w-[380px] md:right-6 md:bottom-6 md:w-[380px]"
           role="dialog"
           aria-label={CAMPAIGN_ALT}
         >
