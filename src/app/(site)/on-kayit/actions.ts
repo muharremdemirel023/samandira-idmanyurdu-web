@@ -133,8 +133,11 @@ export async function submitPreRegistration(
     };
   }
 
-  // Aynı telefon + aynı öğrenci adı: 30 dk pencerede tek kayıt.
-  const studentKey = input.studentName.toLocaleLowerCase("tr-TR").trim();
+  // Aynı telefon + aynı öğrenci(ler): 30 dk pencerede tek kayıt.
+  const studentKey =
+    input.campaignType === "friend_20"
+      ? `${input.studentName}|${input.student2Name}`.toLocaleLowerCase("tr-TR").trim()
+      : input.studentName.toLocaleLowerCase("tr-TR").trim();
   const dedupeHash = sha256(
     `${duplicateBucket(submittedAt)}|${input.phoneE164}|${studentKey}`,
   );
@@ -180,11 +183,14 @@ export async function submitPreRegistration(
     }
 
     const insertPayload = {
+      campaign_type: input.campaignType,
       guardian_name: input.guardianName,
       phone_e164: input.phoneE164,
       email: input.email,
       student_name: input.studentName,
       birth_year: input.birthYear,
+      student2_name: input.student2Name || null,
+      student2_birth_year: input.student2BirthYear,
       note: input.note || null,
       consent_at: submittedAt.toISOString(),
       privacy_version: PRE_REGISTRATION_PRIVACY_VERSION,
@@ -207,11 +213,14 @@ export async function submitPreRegistration(
     }
 
     const notificationInput = {
+      campaignType: input.campaignType,
       guardianName: input.guardianName,
       phone: input.phoneE164,
       email: input.email,
       studentName: input.studentName,
       birthYear: String(input.birthYear),
+      student2Name: input.student2Name || null,
+      student2BirthYear: input.student2BirthYear !== null ? String(input.student2BirthYear) : null,
       note: input.note,
       submittedAt,
     };

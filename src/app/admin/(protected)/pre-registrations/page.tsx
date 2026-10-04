@@ -9,15 +9,19 @@ import {
   type PreRegistrationStatus,
 } from "@/app/admin/(protected)/pre-registrations/status";
 import { requireAdmin } from "@/lib/auth/admin";
+import { preRegistrationCampaignLabels, type PreRegistrationCampaignType } from "@/lib/pre-registration/constants";
 
 type NotificationStatus = "pending" | "sent" | "failed" | "skipped";
 type PreRegistration = {
   id: string;
+  campaign_type: PreRegistrationCampaignType | null;
   guardian_name: string;
   phone_e164: string;
   email: string | null;
   student_name: string;
   birth_year: number;
+  student2_name: string | null;
+  student2_birth_year: number | null;
   note: string | null;
   status: PreRegistrationStatus;
   notification_status: NotificationStatus;
@@ -62,7 +66,7 @@ export default async function AdminPreRegistrationsPage({
   const { data, count, error } = await supabase
     .from("pre_registrations")
     .select(
-      "id,guardian_name,phone_e164,email,student_name,birth_year,note,status,notification_status,notification_attempts,notification_last_error,notification_sent_at,consent_at,created_at",
+      "id,campaign_type,guardian_name,phone_e164,email,student_name,birth_year,student2_name,student2_birth_year,note,status,notification_status,notification_attempts,notification_last_error,notification_sent_at,consent_at,created_at",
       { count: "exact" },
     )
     .order("created_at", { ascending: false })
@@ -100,16 +104,26 @@ export default async function AdminPreRegistrationsPage({
           {registrations.map((registration) => {
             const status = registration.status in preRegistrationStatusLabels ? registration.status : "new";
             const notificationStatus = registration.notification_status ?? "pending";
+            const campaignType = registration.campaign_type ?? "online_15";
+            const campaignLabel = preRegistrationCampaignLabels[campaignType] ?? campaignType;
+            const isFriendCampaign = campaignType === "friend_20";
 
             return (
               <article key={registration.id} className="rounded-2xl border border-slate-800 bg-slate-900/60 p-5">
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_18rem]">
                   <dl className="grid gap-3 sm:grid-cols-2">
+                    <div className="sm:col-span-2"><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Kampanya</dt><dd className="mt-1 inline-flex rounded-full border border-orange-500/40 bg-orange-500/10 px-3 py-1 text-sm font-semibold text-orange-300">{campaignLabel}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Veli</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.guardian_name}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Telefon</dt><dd className="mt-1 text-sm font-semibold"><a className="text-white underline decoration-slate-600 underline-offset-2" href={`tel:${registration.phone_e164}`}>{registration.phone_e164}</a></dd></div>
                     <div className="min-w-0 sm:col-span-2"><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">E-posta</dt><dd className="mt-1 min-w-0 text-sm font-semibold">{registration.email ? <a className="block max-w-full truncate break-all text-white underline decoration-slate-600 underline-offset-2" href={`mailto:${registration.email}`} title={registration.email}>{registration.email}</a> : <span className="text-slate-400">-</span>}</dd></div>
-                    <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Oyuncu</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.student_name}</dd></div>
-                    <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Doğum Yılı</dt><dd className="mt-1 text-sm font-semibold text-white">{registration.birth_year}</dd></div>
+                    <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">{isFriendCampaign ? "Öğrenci 1" : "Oyuncu"}</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.student_name}</dd></div>
+                    <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Doğum Yılı{isFriendCampaign ? " (Öğrenci 1)" : ""}</dt><dd className="mt-1 text-sm font-semibold text-white">{registration.birth_year}</dd></div>
+                    {isFriendCampaign ? (
+                      <>
+                        <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Öğrenci 2</dt><dd className="mt-1 break-words text-sm font-semibold text-white">{registration.student2_name || "-"}</dd></div>
+                        <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Doğum Yılı (Öğrenci 2)</dt><dd className="mt-1 text-sm font-semibold text-white">{registration.student2_birth_year ?? "-"}</dd></div>
+                      </>
+                    ) : null}
                     <div className="sm:col-span-2"><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Not</dt><dd className="mt-1 whitespace-pre-wrap break-words text-sm text-slate-300">{registration.note || "-"}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">Başvuru Tarihi</dt><dd className="mt-1 text-sm text-slate-300">{formatDate(registration.created_at)}</dd></div>
                     <div><dt className="text-xs font-semibold uppercase tracking-[0.18em] text-orange-400">KVKK Kaydı</dt><dd className="mt-1 text-sm text-slate-300">{formatDate(registration.consent_at)}</dd></div>

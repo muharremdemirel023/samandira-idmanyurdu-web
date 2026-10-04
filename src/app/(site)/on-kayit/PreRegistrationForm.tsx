@@ -12,6 +12,7 @@ import { siteConfig } from "@/config/site";
 import {
   PRE_REGISTRATION_EMAIL_MAX_LENGTH,
   PRE_REGISTRATION_NOTE_MAX_LENGTH,
+  type PreRegistrationCampaignType,
 } from "@/lib/pre-registration/constants";
 
 const fieldClass =
@@ -31,6 +32,57 @@ function FieldError({ id, message }: { id: string; message?: string }) {
       {message}
     </span>
   ) : null;
+}
+
+const campaignOptions: Array<{
+  type: PreRegistrationCampaignType;
+  badge: string;
+  title: string;
+  description: string;
+}> = [
+  {
+    type: "online_15",
+    badge: "%15 İndirim",
+    title: "Online Kayıt İndirimi",
+    description: "Online ön kayıt işlemini tamamlayarak %15 indirim fırsatından yararlanın.",
+  },
+  {
+    type: "friend_20",
+    badge: "%20 İndirim",
+    title: "Arkadaşını Getir Kampanyası",
+    description: "İki öğrencinin birlikte kayıt olması durumunda %20 indirim fırsatından yararlanın.",
+  },
+];
+
+function CampaignSelector({ onSelect }: { onSelect: (campaign: PreRegistrationCampaignType) => void }) {
+  return (
+    <div className="club-soft-panel overflow-hidden bg-white">
+      <div className="border-b border-border-subtle bg-surface-base px-6 py-5 sm:px-8">
+        <h2 className="type-heading-md text-text-primary">Hangi kampanyadan yararlanmak istiyorsunuz?</h2>
+        <p className="type-body mt-1">Devam etmek için aşağıdaki kampanyalardan birini seçin.</p>
+      </div>
+
+      <div className="grid gap-5 px-6 py-7 sm:px-8 sm:py-8 md:grid-cols-2">
+        {campaignOptions.map((option) => (
+          <button
+            key={option.type}
+            type="button"
+            onClick={() => onSelect(option.type)}
+            className="group flex flex-col items-start gap-3 rounded-2xl border border-border-subtle bg-surface-base p-6 text-left shadow-shell transition hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_18px_34px_-20px_rgba(194,65,12,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+          >
+            <span className="inline-flex rounded-full bg-accent px-3.5 py-1.5 text-xs font-bold text-white">
+              {option.badge}
+            </span>
+            <h3 className="type-card-title text-[var(--maroon-deep)]">{option.title}</h3>
+            <p className="type-body text-sm leading-6">{option.description}</p>
+            <span className="type-label-caps-accent mt-1 text-accent transition group-hover:underline">
+              Bu kampanyayı seç →
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 const SUCCESS_VISIBLE_MS = 6000;
@@ -145,6 +197,7 @@ export function PreRegistrationForm() {
   );
   const [showSuccess, setShowSuccess] = useState(false);
   const [successLeaving, setSuccessLeaving] = useState(false);
+  const [campaign, setCampaign] = useState<PreRegistrationCampaignType | null>(null);
 
   // GEÇİCİ TEŞHİS LOGLARI — sorun çözülünce kaldırılacak. Kişisel veri loglanmaz.
   useEffect(() => {
@@ -188,8 +241,17 @@ export function PreRegistrationForm() {
   const emailError = state.fieldErrors.email?.[0];
   const studentError = state.fieldErrors.studentName?.[0];
   const birthYearError = state.fieldErrors.birthYear?.[0];
+  const student2Error = state.fieldErrors.student2Name?.[0];
+  const student2BirthYearError = state.fieldErrors.student2BirthYear?.[0];
   const noteError = state.fieldErrors.note?.[0];
   const consentError = state.fieldErrors.consent?.[0];
+
+  if (!campaign) {
+    return <CampaignSelector onSelect={setCampaign} />;
+  }
+
+  const isFriendCampaign = campaign === "friend_20";
+  const campaignLabel = campaignOptions.find((option) => option.type === campaign)?.title ?? "";
 
   return (
     <form
@@ -198,11 +260,23 @@ export function PreRegistrationForm() {
       className="club-soft-panel overflow-hidden bg-white"
       aria-busy={pending}
     >
-      <div className="border-b border-border-subtle bg-surface-base px-6 py-5 sm:px-8">
-        <h2 className="type-heading-md text-text-primary">Ön kayıt formu</h2>
-        <p className="type-body mt-1">
-          <span className="text-red-700" aria-hidden>*</span> işaretli alanlar zorunludur.
-        </p>
+      <input type="hidden" name="campaign_type" value={campaign} />
+
+      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border-subtle bg-surface-base px-6 py-5 sm:px-8">
+        <div>
+          <p className="type-label-caps-accent text-accent">{campaignLabel}</p>
+          <h2 className="type-heading-md mt-1 text-text-primary">Ön kayıt formu</h2>
+          <p className="type-body mt-1">
+            <span className="text-red-700" aria-hidden>*</span> işaretli alanlar zorunludur.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setCampaign(null)}
+          className="type-label-caps-accent shrink-0 rounded-full border border-accent/35 px-3.5 py-2 text-accent transition hover:bg-accent/10"
+        >
+          Kampanyayı Değiştir
+        </button>
       </div>
 
       <div className="relative px-6 py-7 sm:px-8 sm:py-8">
@@ -276,7 +350,7 @@ export function PreRegistrationForm() {
         </fieldset>
 
         <fieldset className="m-0 mt-7 border-0 p-0">
-          <legend className={groupTitleClass}>Oyuncu bilgileri</legend>
+          <legend className={groupTitleClass}>{isFriendCampaign ? "Öğrenci 1 bilgileri" : "Oyuncu bilgileri"}</legend>
           <div className="mt-4 grid gap-5 md:grid-cols-2">
             <label className={labelClass} htmlFor="student_name">
               <span>Oyuncu adı <RequiredMark /></span>
@@ -319,6 +393,53 @@ export function PreRegistrationForm() {
             </label>
           </div>
         </fieldset>
+
+        {isFriendCampaign ? (
+          <fieldset className="m-0 mt-7 border-0 p-0">
+            <legend className={groupTitleClass}>Öğrenci 2 bilgileri</legend>
+            <div className="mt-4 grid gap-5 md:grid-cols-2">
+              <label className={labelClass} htmlFor="student2_name">
+                <span>Oyuncu adı <RequiredMark /></span>
+                <input
+                  id="student2_name"
+                  className={fieldClass}
+                  name="student2_name"
+                  placeholder="Ad soyad"
+                  autoComplete="off"
+                  minLength={2}
+                  maxLength={100}
+                  required
+                  aria-invalid={Boolean(student2Error)}
+                  aria-describedby={student2Error ? "student2_name-error" : undefined}
+                />
+                <FieldError id="student2_name-error" message={student2Error} />
+              </label>
+
+              <label className={labelClass} htmlFor="student2_birth_year">
+                <span>Doğum yılı <RequiredMark /></span>
+                <input
+                  id="student2_birth_year"
+                  className={fieldClass}
+                  name="student2_birth_year"
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="2015"
+                  pattern="[0-9]{4}"
+                  minLength={4}
+                  maxLength={4}
+                  required
+                  aria-invalid={Boolean(student2BirthYearError)}
+                  aria-describedby={student2BirthYearError ? "student2_birth_year-error" : "student2_birth_year-hint"}
+                />
+                <span id="student2_birth_year-hint" className="text-xs font-normal normal-case tracking-normal">
+                  Dört haneli yıl olarak yazın.
+                </span>
+                <FieldError id="student2_birth_year-error" message={student2BirthYearError} />
+              </label>
+            </div>
+          </fieldset>
+        ) : null}
 
         <label className={`${labelClass} mt-7`} htmlFor="note">
           <span>Not <span className="font-normal normal-case tracking-normal">(isteğe bağlı)</span></span>

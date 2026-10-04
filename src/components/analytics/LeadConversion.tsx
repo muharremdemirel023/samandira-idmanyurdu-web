@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import { useCookieConsent } from "@/components/cookie-consent/CookieConsentProvider";
+
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
@@ -10,7 +12,11 @@ declare global {
 }
 
 export function LeadConversion({ eventKey }: { eventKey: string }) {
+  const { consent } = useCookieConsent();
+
   useEffect(() => {
+    if (!consent || (!consent.analytics && !consent.marketing)) return;
+
     const storageKey = `lead-conversion:${eventKey}`;
 
     try {
@@ -20,9 +26,9 @@ export function LeadConversion({ eventKey }: { eventKey: string }) {
       // Depolama engelliyse dönüşüm olayı yine bir kez mevcut mount için gönderilir.
     }
 
-    window.fbq?.("track", "Lead");
-    window.gtag?.("event", "generate_lead");
-  }, [eventKey]);
+    if (consent.marketing) window.fbq?.("track", "Lead");
+    if (consent.analytics) window.gtag?.("event", "generate_lead");
+  }, [consent, eventKey]);
 
   return null;
 }

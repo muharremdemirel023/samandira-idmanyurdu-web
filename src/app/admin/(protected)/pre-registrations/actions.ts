@@ -10,6 +10,7 @@ import {
 } from "@/app/admin/(protected)/pre-registrations/status";
 import { requireAdmin } from "@/lib/auth/admin";
 import { sendPreRegistrationNotification } from "@/lib/email/pre-registration-notification";
+import type { PreRegistrationCampaignType } from "@/lib/pre-registration/constants";
 
 function assertUuid(value: string) {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value)) {
@@ -40,18 +41,23 @@ export async function resendPreRegistrationNotification(id: string) {
   const { supabase } = await requireAdmin();
   const { data, error } = await supabase
     .from("pre_registrations")
-    .select("guardian_name,phone_e164,email,student_name,birth_year,note,created_at")
+    .select(
+      "campaign_type,guardian_name,phone_e164,email,student_name,birth_year,student2_name,student2_birth_year,note,created_at",
+    )
     .eq("id", id)
     .single();
 
   if (error || !data) throw new Error("Başvuru bulunamadı.");
 
   const result = await sendPreRegistrationNotification({
+    campaignType: (data.campaign_type ?? "online_15") as PreRegistrationCampaignType,
     guardianName: data.guardian_name,
     phone: data.phone_e164,
     email: data.email ?? null,
     studentName: data.student_name,
     birthYear: String(data.birth_year),
+    student2Name: data.student2_name ?? null,
+    student2BirthYear: data.student2_birth_year !== null ? String(data.student2_birth_year) : null,
     note: data.note ?? "",
     submittedAt: new Date(data.created_at),
   });

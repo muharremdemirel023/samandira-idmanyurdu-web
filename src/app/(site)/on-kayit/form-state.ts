@@ -3,7 +3,16 @@ export type PreRegistrationFormState = {
   message: string;
   fieldErrors: Partial<
     Record<
-      "guardianName" | "phoneE164" | "email" | "studentName" | "birthYear" | "note" | "consent",
+      | "campaignType"
+      | "guardianName"
+      | "phoneE164"
+      | "email"
+      | "studentName"
+      | "birthYear"
+      | "student2Name"
+      | "student2BirthYear"
+      | "note"
+      | "consent",
       string[]
     >
   >;

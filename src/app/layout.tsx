@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AnalyticsScripts } from "@/components/analytics/AnalyticsScripts";
+import { CookieConsentProvider } from "@/components/cookie-consent/CookieConsentProvider";
 
 import { siteConfig } from "@/config/site";
 
@@ -54,8 +55,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-surface-deep font-sans text-text-primary motion-reduce:scroll-auto">
-        {children}
-        <AnalyticsScripts />
+        <CookieConsentProvider>
+          {children}
+          <AnalyticsScripts />
+        </CookieConsentProvider>
       </body>
     </html>
   );

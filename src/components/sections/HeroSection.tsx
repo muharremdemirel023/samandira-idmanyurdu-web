@@ -200,6 +200,9 @@ export function HeroSection({
                       playsInline
                       preload="metadata"
                       aria-label={hero.mediaAlt}
+                      controlsList="nodownload noremoteplayback"
+                      disablePictureInPicture
+                      onContextMenu={(event) => event.preventDefault()}
                       className="absolute inset-0 size-full object-cover object-[48%_30%]"
                     />
                   ) : hero.mediaThumbnailUrl ? (

@@ -1,11 +1,19 @@
 import "server-only";
 
+import {
+  preRegistrationCampaignLabels,
+  type PreRegistrationCampaignType,
+} from "@/lib/pre-registration/constants";
+
 export type PreRegistrationNotificationInput = {
+  campaignType: PreRegistrationCampaignType;
   guardianName: string;
   phone: string;
   email: string | null;
   studentName: string;
   birthYear: string;
+  student2Name?: string | null;
+  student2BirthYear?: string | null;
   note: string;
   submittedAt: Date;
 };
@@ -107,15 +115,38 @@ export async function sendPreRegistrationNotification(
   const submittedAt = formatSubmittedAt(input.submittedAt);
   const guardianEmail = input.email?.trim() || "Belirtilmedi";
   const safeNote = input.note.trim() || "Not eklenmedi.";
+  const campaignLabel = preRegistrationCampaignLabels[input.campaignType] ?? input.campaignType;
+  const isFriendCampaign = input.campaignType === "friend_20" && input.student2Name;
+
+  const studentLines = isFriendCampaign
+    ? [
+        `Öğrenci 1 adı: ${input.studentName}`,
+        `Öğrenci 1 doğum yılı: ${input.birthYear}`,
+        `Öğrenci 2 adı: ${input.student2Name}`,
+        `Öğrenci 2 doğum yılı: ${input.student2BirthYear ?? "-"}`,
+      ]
+    : [`Öğrenci adı: ${input.studentName}`, `Doğum yılı: ${input.birthYear}`];
+
+  const studentHtml = isFriendCampaign
+    ? `
+      <p><strong>Öğrenci 1 adı:</strong> ${escapeHtml(input.studentName)}</p>
+      <p><strong>Öğrenci 1 doğum yılı:</strong> ${escapeHtml(input.birthYear)}</p>
+      <p><strong>Öğrenci 2 adı:</strong> ${escapeHtml(input.student2Name ?? "")}</p>
+      <p><strong>Öğrenci 2 doğum yılı:</strong> ${escapeHtml(input.student2BirthYear ?? "-")}</p>
+    `
+    : `
+      <p><strong>Öğrenci adı:</strong> ${escapeHtml(input.studentName)}</p>
+      <p><strong>Doğum yılı:</strong> ${escapeHtml(input.birthYear)}</p>
+    `;
 
   const text = [
     "Yeni Akademi Ön Kayıt Başvurusu",
     "",
+    `Kampanya: ${campaignLabel}`,
     `Veli adı: ${input.guardianName}`,
     `Telefon: ${input.phone}`,
     `E-posta: ${guardianEmail}`,
-    `Öğrenci adı: ${input.studentName}`,
-    `Doğum yılı: ${input.birthYear}`,
+    ...studentLines,
     `Not: ${safeNote}`,
     `Başvuru tarihi: ${submittedAt}`,
   ].join("\n");
@@ -123,11 +154,11 @@ export async function sendPreRegistrationNotification(
   const html = `
     <div style="font-family:Arial,sans-serif;color:#08142D;line-height:1.55">
       <h1 style="font-size:22px;margin:0 0 16px">Yeni Akademi Ön Kayıt Başvurusu</h1>
+      <p><strong>Kampanya:</strong> ${escapeHtml(campaignLabel)}</p>
       <p><strong>Veli adı:</strong> ${escapeHtml(input.guardianName)}</p>
       <p><strong>Telefon:</strong> ${escapeHtml(input.phone)}</p>
       <p><strong>E-posta:</strong> ${escapeHtml(guardianEmail)}</p>
-      <p><strong>Öğrenci adı:</strong> ${escapeHtml(input.studentName)}</p>
-      <p><strong>Doğum yılı:</strong> ${escapeHtml(input.birthYear)}</p>
+      ${studentHtml}
       <p><strong>Not:</strong> ${escapeHtml(safeNote)}</p>
       <p><strong>Başvuru tarihi:</strong> ${escapeHtml(submittedAt)}</p>
     </div>

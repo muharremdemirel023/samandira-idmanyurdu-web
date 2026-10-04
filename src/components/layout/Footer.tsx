@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { CookiePreferencesLink } from "@/components/cookie-consent/CookiePreferencesLink";
 import { mainNavigation } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
 import { getCustomPageNavItems, getSiteSettings } from "@/lib/content";
@@ -178,11 +179,20 @@ export async function Footer({ className }: { className?: string }) {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/15 pt-8 text-[0.8rem] text-white/60 md:flex-row md:items-center md:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-white/15 pt-8 text-[0.8rem] text-white/60 md:flex-row md:items-center md:justify-between">
           <span>
             © {siteConfig.copyrightYear} <span className="font-medium text-white">{name}</span>
+            {" · "}Tüm hakları saklıdır.
           </span>
-          <span>Tüm hakları saklıdır.</span>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link className="text-white/75 underline-offset-2 transition-colors hover:text-white hover:underline" href="/kvkk-aydinlatma-metni">
+              KVKK Aydınlatma Metni
+            </Link>
+            <Link className="text-white/75 underline-offset-2 transition-colors hover:text-white hover:underline" href="/cerez-politikasi">
+              Çerez Politikası
+            </Link>
+            <CookiePreferencesLink className="text-white/75 underline-offset-2 transition-colors hover:text-white hover:underline" />
+          </div>
         </div>
       </div>
     </footer>

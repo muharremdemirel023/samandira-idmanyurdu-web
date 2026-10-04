@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { Container } from "@/components/ui/Container";
+import { useCookieConsent } from "@/components/cookie-consent/CookieConsentProvider";
 import { getYoutubeEmbedUrl } from "@/lib/video-embed";
 import type { VideoRow } from "@/lib/content";
 
@@ -36,13 +37,15 @@ type TrainingVideosSectionViewProps = {
 export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewProps) {
   const [activeVideo, setActiveVideo] = useState<VideoRow | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const { consent, openPreferences } = useCookieConsent();
+  const marketingAllowed = consent?.marketing === true;
 
   const closeModal = useCallback(() => setActiveVideo(null), []);
 
   useEffect(() => {
     if (!activeVideo) return;
 
-    if (activeVideo.provider === "instagram") {
+    if (activeVideo.provider === "instagram" && marketingAllowed) {
       loadInstagramEmbedScript();
       window.instgrm?.Embeds.process();
     }
@@ -59,7 +62,7 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-  }, [activeVideo, closeModal]);
+  }, [activeVideo, closeModal, marketingAllowed]);
 
   function handleCardClick(video: VideoRow) {
     if (video.provider === "youtube" || video.provider === "instagram" || video.provider === "upload") {
@@ -161,22 +164,48 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
               </button>
 
               {activeVideo.provider === "youtube" && getYoutubeEmbedUrl(activeVideo.video_url) ? (
-                <iframe
-                  src={getYoutubeEmbedUrl(activeVideo.video_url) ?? undefined}
-                  title={activeVideo.title || "Antrenman videosu"}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="h-full w-full"
-                />
+                marketingAllowed ? (
+                  <iframe
+                    src={getYoutubeEmbedUrl(activeVideo.video_url) ?? undefined}
+                    title={activeVideo.title || "Antrenman videosu"}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                  />
+                ) : (
+                  <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-8 text-center">
+                    <p className="text-sm leading-6 text-white/80">
+                      Bu içeriği görüntülemek için pazarlama çerezlerini kabul edin.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={openPreferences}
+                      className="rounded-full border border-white/35 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/10"
+                    >
+                      Çerez Tercihleri
+                    </button>
+                    <a
+                      href={activeVideo.video_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-semibold text-white underline underline-offset-2"
+                    >
+                      YouTube&apos;da izle
+                    </a>
+                  </div>
+                )
               ) : activeVideo.provider === "upload" ? (
                 <video
                   src={activeVideo.video_url}
                   controls
                   autoPlay
                   playsInline
+                  controlsList="nodownload noremoteplayback"
+                  disablePictureInPicture
+                  onContextMenu={(event) => event.preventDefault()}
                   className="h-full w-full object-contain"
                 />
-              ) : (
+              ) : marketingAllowed ? (
                 <div className="flex h-full w-full items-center justify-center overflow-y-auto">
                   <blockquote
                     className="instagram-media !m-0 !min-w-0 !max-w-full !border-0"
@@ -188,6 +217,27 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
                       Videoyu görüntüle
                     </a>
                   </blockquote>
+                </div>
+              ) : (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-3 p-8 text-center">
+                  <p className="text-sm leading-6 text-white/80">
+                    Bu içeriği görüntülemek için pazarlama çerezlerini kabul edin.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={openPreferences}
+                    className="rounded-full border border-white/35 px-4 py-2 text-sm font-bold text-white transition hover:bg-white/10"
+                  >
+                    Çerez Tercihleri
+                  </button>
+                  <a
+                    href={activeVideo.video_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold text-white underline underline-offset-2"
+                  >
+                    Instagram&apos;da izle
+                  </a>
                 </div>
               )}
             </motion.div>

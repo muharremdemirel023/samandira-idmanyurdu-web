@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { Container } from "@/components/ui/Container";
+import { useCookieConsent } from "@/components/cookie-consent/CookieConsentProvider";
 
 export type InstagramFeedItem = {
   url: string;
@@ -49,6 +50,8 @@ export function InstagramFeedSectionView({
   const [visible, setVisible] = useState(false);
   const [activePost, setActivePost] = useState<InstagramFeedItem | null>(null);
   const prefersReducedMotion = useReducedMotion();
+  const { consent, openPreferences } = useCookieConsent();
+  const marketingAllowed = consent?.marketing === true;
 
   const closeModal = useCallback(() => setActivePost(null), []);
 
@@ -70,14 +73,16 @@ export function InstagramFeedSectionView({
   }, []);
 
   useEffect(() => {
-    if (visible) loadInstagramEmbedScript();
-  }, [visible]);
+    if (visible && marketingAllowed) loadInstagramEmbedScript();
+  }, [visible, marketingAllowed]);
 
   useEffect(() => {
     if (!activePost) return;
 
-    loadInstagramEmbedScript();
-    window.instgrm?.Embeds.process();
+    if (marketingAllowed) {
+      loadInstagramEmbedScript();
+      window.instgrm?.Embeds.process();
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") closeModal();
@@ -91,7 +96,7 @@ export function InstagramFeedSectionView({
       window.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-  }, [activePost, closeModal]);
+  }, [activePost, closeModal, marketingAllowed]);
 
   return (
     <section
@@ -112,7 +117,7 @@ export function InstagramFeedSectionView({
               key={post.url}
               className="relative flex min-h-[24rem] justify-center overflow-hidden rounded-2xl border border-maroon/12 bg-surface-card p-2 shadow-[0_2px_10px_-6px_rgba(74,18,32,0.18)]"
             >
-              {visible ? (
+              {visible && marketingAllowed ? (
                 <>
                   <blockquote
                     className="instagram-media !m-0 !min-w-0 !max-w-full !border-0"
@@ -131,6 +136,27 @@ export function InstagramFeedSectionView({
                     className="absolute inset-0 z-10 cursor-pointer bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent/70"
                   />
                 </>
+              ) : visible ? (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-3 rounded-xl bg-surface-muted p-4 text-center">
+                  <p className="text-xs leading-5 text-text-muted">
+                    Bu içeriği görüntülemek için pazarlama çerezlerini kabul edin.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={openPreferences}
+                    className="rounded-full border border-accent/35 px-4 py-1.5 text-xs font-bold text-accent transition hover:bg-accent/10"
+                  >
+                    Çerez Tercihleri
+                  </button>
+                  <a
+                    href={post.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-accent underline underline-offset-2"
+                  >
+                    Instagram&apos;da görüntüle
+                  </a>
+                </div>
               ) : (
                 <div
                   aria-hidden
@@ -210,16 +236,39 @@ export function InstagramFeedSectionView({
                     : "flex max-h-[90svh] w-full items-center justify-center overflow-y-auto"
                 }
               >
-                <blockquote
-                  className="instagram-media !m-0 !min-w-0 !max-w-full !border-0"
-                  data-instgrm-permalink={activePost.url}
-                  data-instgrm-version="14"
-                  style={{ width: "100%" }}
-                >
-                  <a href={activePost.url} target="_blank" rel="noopener noreferrer">
-                    Instagram paylaşımını görüntüle
-                  </a>
-                </blockquote>
+                {marketingAllowed ? (
+                  <blockquote
+                    className="instagram-media !m-0 !min-w-0 !max-w-full !border-0"
+                    data-instgrm-permalink={activePost.url}
+                    data-instgrm-version="14"
+                    style={{ width: "100%" }}
+                  >
+                    <a href={activePost.url} target="_blank" rel="noopener noreferrer">
+                      Instagram paylaşımını görüntüle
+                    </a>
+                  </blockquote>
+                ) : (
+                  <div className="flex flex-col items-center gap-3 p-8 text-center">
+                    <p className="text-sm leading-6 text-text-muted">
+                      Bu içeriği görüntülemek için pazarlama çerezlerini kabul edin.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={openPreferences}
+                      className="rounded-full border border-accent/35 px-4 py-2 text-sm font-bold text-accent transition hover:bg-accent/10"
+                    >
+                      Çerez Tercihleri
+                    </button>
+                    <a
+                      href={activePost.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-semibold text-accent underline underline-offset-2"
+                    >
+                      Instagram&apos;da görüntüle
+                    </a>
+                  </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
