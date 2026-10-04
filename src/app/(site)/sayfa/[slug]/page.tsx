@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/ui/Container";
+import { SITE_URL } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 
 type CustomPageProps = {
@@ -40,9 +41,23 @@ export async function generateMetadata({ params }: CustomPageProps): Promise<Met
   const { slug } = await params;
   const page = await getCustomPage(slug);
 
+  const title = page?.title || "Sayfa";
+  const description = page?.summary || "Samandıra İdman Yurdu";
+  const canonical = `${SITE_URL}/sayfa/${encodeURIComponent(slug)}`;
+
   return {
-    title: page?.title || "Sayfa",
-    description: page?.summary || "Samandıra İdman Yurdu",
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "article",
+      url: canonical,
+      siteName: "Samandıra İdman Yurdu S.K. Akademi",
+      title,
+      description,
+      locale: "tr_TR",
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { Container } from "@/components/ui/Container";
+import { SITE_URL } from "@/lib/seo";
 import { createClient } from "@/lib/supabase/server";
 
 type NewsDetailPageProps = {
@@ -54,9 +55,23 @@ export async function generateMetadata({ params }: NewsDetailPageProps): Promise
   const { slug } = await params;
   const news = await getNews(slug);
 
+  const title = news?.title || "Duyuru";
+  const description = news?.summary || "Samandıra İdman Yurdu duyurusu.";
+  const canonical = `${SITE_URL}/duyurular/${encodeURIComponent(slug)}`;
+
   return {
-    title: news?.title || "Duyuru",
-    description: news?.summary || "Samandıra İdman Yurdu duyurusu.",
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: "article",
+      url: canonical,
+      siteName: "Samandıra İdman Yurdu S.K. Akademi",
+      title,
+      description,
+      locale: "tr_TR",
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
