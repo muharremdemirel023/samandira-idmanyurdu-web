@@ -15,6 +15,7 @@ export { LatestNewsSection } from "@/components/sections/LatestNewsSection";
 export { MediaPlaceholderSection } from "@/components/sections/MediaPlaceholderSection";
 export { RegistrationCTABand } from "@/components/sections/RegistrationCTABand";
 export { SponsorsSection } from "@/components/sections/SponsorsSection";
+export { StatsSection } from "@/components/sections/StatsSection";
 export { TechnicalStaffSection } from "@/components/sections/TechnicalStaffSection";
 export { TrainingVideosSection } from "@/components/sections/TrainingVideosSection";
 export { TrustMetricsSection } from "@/components/sections/TrustMetricsSection";

@@ -11,6 +11,7 @@ import {
   LatestNewsSection,
   ProgramSection,
   RegistrationCTABand,
+  StatsSection,
   TechnicalStaffSection,
   TrainingModelSection,
   TrainingVideosSection,
@@ -37,6 +38,7 @@ export default async function Home() {
           lead: homeContent?.hero_lead,
         }}
       />
+      <StatsSection />
       <AgeGroupsPreviewSection />
       <AboutAcademySection />
       <VisionMissionSection />
