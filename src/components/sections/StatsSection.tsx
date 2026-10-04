@@ -129,14 +129,10 @@ export function StatsSection() {
     <section
       ref={sectionRef}
       aria-label="Kulüp istatistikleri"
-      className="relative overflow-hidden bg-[#06172d] py-7 sm:py-9"
+      className="club-section section-edge-top bg-surface-base py-7 sm:py-9"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_-80%,rgba(49,130,206,0.35),transparent_60%)]"
-      />
-      <Container variant="hero" className="relative">
-        <ul className="grid list-none grid-cols-2 overflow-hidden rounded-2xl border border-white/10 bg-[#0a2340]/75 shadow-[0_20px_55px_-32px_rgba(15,111,197,0.8)] backdrop-blur-sm lg:grid-cols-4">
+      <Container variant="hero">
+        <ul className="grid list-none grid-cols-2 overflow-hidden rounded-2xl border border-border-subtle bg-surface-card shadow-shell lg:grid-cols-4">
           {stats.map((stat, index) => (
             <motion.li
               key={stat.label}
@@ -148,12 +144,17 @@ export function StatsSection() {
                 ease: [0.16, 1, 0.3, 1],
               }}
               className={cn(
-                "relative flex min-h-40 flex-col items-center justify-center px-3 py-6 text-center sm:min-h-44 sm:px-6 sm:py-8",
-                index < 2 && "border-b border-white/10 lg:border-b-0",
-                index % 2 === 0 && "border-r border-white/10",
-                index < 3 ? "lg:border-r lg:border-white/10" : "lg:border-r-0",
+                "group relative flex min-h-40 flex-col items-center justify-center px-3 py-6 text-center transition-colors duration-200 hover:bg-surface-muted/60 motion-reduce:transition-none sm:min-h-44 sm:px-6 sm:py-8",
+                index < 2 && "border-b border-border-subtle lg:border-b-0",
+                index % 2 === 0 && "border-r border-border-subtle",
+                index < 3 ? "lg:border-r lg:border-border-subtle" : "lg:border-r-0",
               )}
             >
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100 motion-reduce:transition-none"
+              />
+
               <motion.span
                 initial={{ opacity: reduceMotion ? 1 : 0, scale: reduceMotion ? 1 : 0.88 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : undefined}
@@ -161,12 +162,12 @@ export function StatsSection() {
                   duration: reduceMotion ? 0 : 0.35,
                   delay: reduceMotion ? 0 : 0.12 + index * 0.09,
                 }}
-                className="mb-3 inline-flex size-9 items-center justify-center rounded-xl border border-sky-300/20 bg-sky-300/10 text-sky-300 shadow-[0_0_20px_rgba(56,189,248,0.08)] sm:size-10"
+                className="mb-3 inline-flex size-9 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent transition-colors duration-200 group-hover:border-accent/45 group-hover:bg-accent group-hover:text-white motion-reduce:transition-none sm:size-10"
               >
                 <StatIcon icon={stat.icon} />
               </motion.span>
 
-              <strong className="font-mono text-3xl font-bold leading-none tracking-[-0.05em] text-white sm:text-4xl xl:text-[2.75rem]">
+              <strong className="font-mono text-3xl font-bold leading-none tracking-[-0.05em] text-maroon-deep sm:text-4xl xl:text-[2.75rem]">
                 <CountUp
                   value={stat.value}
                   suffix={stat.suffix}
@@ -175,7 +176,7 @@ export function StatsSection() {
                   reduceMotion={reduceMotion}
                 />
               </strong>
-              <span className="mt-2.5 text-[0.68rem] font-semibold uppercase leading-snug tracking-[0.13em] text-slate-300 sm:text-xs">
+              <span className="mt-2.5 text-[0.68rem] font-semibold uppercase leading-snug tracking-[0.13em] text-text-muted sm:text-xs">
                 {stat.label}
               </span>
             </motion.li>
