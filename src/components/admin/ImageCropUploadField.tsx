@@ -169,7 +169,6 @@ export function ImageCropUploadField({
 
   function clearCurrentImage() {
     setCurrentUrl("");
-    onUploaded?.("");
     setPreviewFailed(false);
     onUploaded?.("");
   }

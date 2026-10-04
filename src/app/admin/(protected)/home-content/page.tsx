@@ -1,8 +1,9 @@
 import { saveHomeContent } from "@/app/admin/(protected)/home-content/actions";
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
+import { HeroManagementForm } from "@/components/admin/HeroManagementForm";
+import type { HomeContent } from "@/lib/content";
+import { resolveHeroContent } from "@/lib/hero-content";
 import { createClient } from "@/lib/supabase/server";
-
-type HomeContentRow = Record<string, string | null>;
 
 const inputClass =
   "w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-base text-white outline-none transition placeholder:text-slate-500 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/30 sm:text-sm";
@@ -13,18 +14,6 @@ const groups: Array<{
   title: string;
   fields: Array<{ name: string; label: string; textarea?: boolean }>;
 }> = [
-  {
-    title: "Hero Bölümü",
-    fields: [
-      { name: "hero_overline", label: "Üst Etiket" },
-      { name: "hero_headline", label: "Başlık (satırlar için Enter kullanın)", textarea: true },
-      { name: "hero_lead", label: "Açıklama", textarea: true },
-      { name: "cta_primary_label", label: "1. Buton Metni" },
-      { name: "cta_primary_href", label: "1. Buton Bağlantısı" },
-      { name: "cta_secondary_label", label: "2. Buton Metni" },
-      { name: "cta_secondary_href", label: "2. Buton Bağlantısı" },
-    ],
-  },
   {
     title: "Ücretler Bölümü",
     fields: [
@@ -58,12 +47,13 @@ const groups: Array<{
 export default async function AdminHomeContentPage({
   searchParams,
 }: {
-  searchParams: Promise<{ saved?: string }>;
+  searchParams: Promise<{ saved?: string; heroSaved?: string; heroError?: string }>;
 }) {
-  const { saved } = await searchParams;
+  const { saved, heroSaved, heroError } = await searchParams;
   const supabase = await createClient();
   const { data } = await supabase.from("home_content").select("*").eq("id", 1).maybeSingle();
-  const content = (data ?? {}) as HomeContentRow;
+  const content = (data ?? {}) as Partial<HomeContent>;
+  const hero = resolveHeroContent(content);
 
   return (
     <div className="space-y-6">
@@ -71,12 +61,25 @@ export default async function AdminHomeContentPage({
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-orange-400">
           Site Yönetimi
         </p>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Ana Sayfa İçerikleri</h1>
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-white">Hero Bölümü Yönetimi</h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-          Ana sayfadaki temel metinler. Boş bırakılan alanlarda mevcut varsayılan metinler
-          kullanılır.
+          Ana sayfa Hero alanını canlı önizleyin; görselleri, metinleri, aksiyonları ve medya öğelerini tek yerden yönetin.
         </p>
       </header>
+
+      {heroSaved ? (
+        <p className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300">
+          Hero ayarları kaydedildi.
+        </p>
+      ) : null}
+
+      {heroError ? (
+        <p className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm font-semibold text-red-300">
+          Hero ayarları kaydedilemedi. Lütfen tekrar deneyin.
+        </p>
+      ) : null}
+
+      <HeroManagementForm initialHero={hero} />
 
       {saved ? (
         <p className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300">
@@ -85,6 +88,10 @@ export default async function AdminHomeContentPage({
       ) : null}
 
       <form action={saveHomeContent} className="space-y-6">
+        <header className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 sm:p-6">
+          <h2 className="text-lg font-bold text-white">Diğer Ana Sayfa İçerikleri</h2>
+          <p className="mt-2 text-sm text-slate-400">Ücretler, teknik kadro, Instagram ve duyuru başlıkları.</p>
+        </header>
         {groups.map((group) => (
           <section
             key={group.title}
@@ -105,14 +112,14 @@ export default async function AdminHomeContentPage({
                       id={`home-${field.name}`}
                       name={field.name}
                       rows={3}
-                      defaultValue={content[field.name] || ""}
+                      defaultValue={String(content[field.name as keyof HomeContent] || "")}
                       className={inputClass}
                     />
                   ) : (
                     <input
                       id={`home-${field.name}`}
                       name={field.name}
-                      defaultValue={content[field.name] || ""}
+                      defaultValue={String(content[field.name as keyof HomeContent] || "")}
                       className={inputClass}
                     />
                   )}

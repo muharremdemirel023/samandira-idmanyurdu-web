@@ -31,13 +31,7 @@ export default async function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(sportsActivityLocationJsonLd).replace(/</g, "\\u003c") }} />
       <div className="flex flex-1 flex-col">
-      <HeroSection
-        content={{
-          overline: homeContent?.hero_overline,
-          headline: homeContent?.hero_headline,
-          lead: homeContent?.hero_lead,
-        }}
-      />
+      <HeroSection content={homeContent} />
       <StatsSection />
       <AgeGroupsPreviewSection />
       <AboutAcademySection />

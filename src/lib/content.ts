@@ -1,5 +1,6 @@
 import { cache } from "react";
 
+import type { HeroContentRecord } from "@/lib/hero-content";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -36,14 +37,7 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings | null> => {
   }
 });
 
-export type HomeContent = {
-  hero_overline: string | null;
-  hero_headline: string | null;
-  hero_lead: string | null;
-  cta_primary_label: string | null;
-  cta_primary_href: string | null;
-  cta_secondary_label: string | null;
-  cta_secondary_href: string | null;
+export type HomeContent = HeroContentRecord & {
   fees_title: string | null;
   fees_subtitle: string | null;
   staff_title: string | null;
