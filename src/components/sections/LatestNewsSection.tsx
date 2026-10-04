@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { SectionReveal } from "@/components/motion/SectionReveal";
 import { NewsCard, type PublicNewsItem } from "@/components/news/NewsCard";
+import { Carousel } from "@/components/ui/Carousel";
 import { Container } from "@/components/ui/Container";
 import { getHomeContent } from "@/lib/content";
 import { createClient } from "@/lib/supabase/server";
@@ -22,37 +23,45 @@ export async function LatestNewsSection() {
   const [news, homeContent] = await Promise.all([getLatestNews(), getHomeContent()]);
 
   return (
-    <section className="club-section py-[var(--space-section-y-mobile)] md:py-[var(--space-section-y-desktop)]">
+    <section className="club-section bg-surface-base py-[var(--space-section-y-mobile)] md:py-[var(--space-section-y-desktop)]">
       <Container>
-        <SectionReveal staggerIndex={0} className="stack-section-intro max-w-prose-section">
-          <p className="type-overline club-kicker-line text-accent">Kulüpten haberler</p>
-          <h2 className="type-heading-lg text-text-primary">
-            {homeContent?.news_title || "Son Duyurular"}
-          </h2>
-          <p className="type-body-lg max-w-prose-body">
-            {homeContent?.news_subtitle ||
-              "Akademi programları, etkinlikler ve kulüp bilgilendirmeleri."}
-          </p>
+        <SectionReveal
+          staggerIndex={0}
+          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div className="stack-section-intro max-w-prose-section">
+            <p className="type-overline club-kicker-line text-accent">Kulüpten haberler</p>
+            <h2 className="type-heading-lg text-text-primary">
+              {homeContent?.news_title || "Son Duyurular"}
+            </h2>
+            <p className="type-body-lg max-w-prose-body">
+              {homeContent?.news_subtitle ||
+                "Akademi programları, etkinlikler ve kulüp bilgilendirmeleri."}
+            </p>
+          </div>
+
+          <Link
+            href="/duyurular"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-border-subtle px-6 py-3 text-sm font-bold text-text-primary transition hover:border-accent hover:text-accent"
+          >
+            Tüm Duyurular
+          </Link>
         </SectionReveal>
 
         {news.length > 0 ? (
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {news.map((item) => (
+          <Carousel
+            className="mt-10"
+            ariaLabel="Son duyurular"
+            items={news.map((item) => (
               <NewsCard key={item.id} news={item} />
             ))}
-          </div>
+            itemClassName="w-[82%] sm:w-[60%] md:w-[calc((100%-2*1.25rem)/3)]"
+          />
         ) : (
           <p className="type-body-lg mt-10 max-w-prose-body text-text-muted">
             Henüz duyuru eklenmedi.
           </p>
         )}
-
-        <Link
-          href="/duyurular"
-          className="mt-8 inline-flex min-h-11 items-center justify-center rounded-full border border-border-subtle px-6 py-3 text-sm font-bold text-text-primary transition hover:border-accent hover:text-accent"
-        >
-          Tüm Duyurular
-        </Link>
       </Container>
     </section>
   );

@@ -39,10 +39,11 @@
    * Editorial tipografi — Real Madrid / Bayern tarzı: güçlü ama kontrollü üst ölçek.
    * Tek kaynak: bileşenlerde ad-hoc clamp kullanmayın; @layer utilities sınıflarına bağlanın.
    */
+  --font-hero-display: clamp(1.9rem, 1.3rem + 2.6vw, 3.75rem);
   --font-display: clamp(1.38rem, 1.08rem + 1.05vw, 2.02rem);
   --font-section: clamp(1.2rem, 1.02rem + 0.72vw, 1.58rem);
   --font-subsection: clamp(1.06rem, 0.95rem + 0.42vw, 1.26rem);
-  --font-card-title: clamp(1.04rem, 0.96rem + 0.32vw, 1.18rem);
+  --font-card-title: clamp(0.94rem, 0.86rem + 0.28vw, 1.1rem);
   --font-lead: clamp(0.875rem, 0.83rem + 0.16vw, 0.96875rem);
   --font-body: clamp(0.875rem, 0.81rem + 0.18vw, 0.9375rem);
   --font-body-relaxed: clamp(0.9rem, 0.84rem + 0.18vw, 1rem);
@@ -131,6 +132,16 @@
 
 @layer utilities {
   /* --- Hiyerarşi --- */
+
+  /** Hero görseli üzerindeki ana başlık — site genelindeki en büyük ölçek, beyaz */
+  .type-hero-display {
+    font-size: var(--font-hero-display);
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: pretty;
+    color: #ffffff;
+  }
 
   /** Ana sayfa / akademi hero başlığı — bordo, büyük ama kontrollü */
   .type-display {
@@ -306,6 +317,13 @@
     border-radius: clamp(1.25rem, 3vw, 2.25rem);
     background: var(--surface-base);
     border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-shell);
+  }
+
+  /** Koyu bordo vurgu bandı — sayfa ritminde "nefes noktası" olarak kullanılır */
+  .club-panel-accent-dark {
+    border-radius: clamp(1.25rem, 3vw, 2.25rem);
+    background: linear-gradient(150deg, var(--maroon) 0%, var(--maroon-deep) 100%);
     box-shadow: var(--shadow-shell);
   }
 

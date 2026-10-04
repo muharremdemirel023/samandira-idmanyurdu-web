@@ -4,7 +4,7 @@ import { Container } from "@/components/ui/Container";
 
 export function DigitalPartnerSection() {
   return (
-    <section className="bg-surface-base pb-14 pt-4 md:pb-20 md:pt-6" aria-label="Dijital çözüm ortağımız">
+    <section className="pb-14 pt-4 md:pb-20 md:pt-6" aria-label="Dijital çözüm ortağımız">
       <Container>
         <div className="flex flex-col items-center gap-8 rounded-2xl border border-maroon/12 bg-surface-card px-6 py-8 shadow-[0_2px_10px_-6px_rgba(74,18,32,0.18)] md:flex-row md:gap-12 md:px-10 md:py-10">
           <div className="flex w-full max-w-[16rem] shrink-0 items-center justify-center md:max-w-[18rem]">

@@ -42,12 +42,14 @@ function heroButtonClass(style: HeroButtonStyle) {
 }
 
 function campaignBadgeClass(style: HeroCampaignBadgeStyle) {
-  const base = "inline-flex w-fit rounded-full px-4 py-2 text-xs font-bold transition-colors";
-  if (style === "accent") return cn(base, "bg-accent text-white hover:bg-accent-strong");
-  if (style === "outline") {
-    return cn(base, "border border-white/35 bg-white/10 text-white backdrop-blur-[8px] hover:bg-white/20");
+  const base = "inline-flex w-fit rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold transition-colors";
+  if (style === "accent") {
+    return cn(base, "border border-accent/60 bg-accent/15 text-white backdrop-blur-[8px] hover:bg-accent/25");
   }
-  return cn(base, "bg-yellow-300 text-maroon-deep hover:bg-yellow-200");
+  if (style === "outline") {
+    return cn(base, "border border-white/30 bg-white/10 text-white backdrop-blur-[8px] hover:bg-white/20");
+  }
+  return cn(base, "border border-white/30 bg-white/15 text-white backdrop-blur-[8px] hover:bg-white/25");
 }
 
 export function HeroSection({
@@ -249,7 +251,7 @@ export function HeroSection({
                       {hero.primaryBadge.visible && hero.primaryBadge.text ? (
                         <OptionalLink
                           href={hero.primaryBadge.href}
-                          className="inline-flex min-h-[2.5rem] items-center rounded-full bg-white px-4 text-xs font-bold text-maroon-deep transition-colors duration-200 hover:bg-white/90"
+                          className="inline-flex min-h-[2.125rem] items-center rounded-full border border-white/30 bg-white/10 px-3.5 text-[0.7rem] font-semibold text-white/90 backdrop-blur-[6px] transition-colors duration-200 hover:bg-white/20"
                         >
                           {hero.primaryBadge.text}
                         </OptionalLink>
@@ -257,7 +259,7 @@ export function HeroSection({
                       {hero.secondaryBadge.visible && hero.secondaryBadge.text ? (
                         <OptionalLink
                           href={hero.secondaryBadge.href}
-                          className="inline-flex min-h-[2.5rem] items-center rounded-full border border-white/25 bg-white/10 px-3.5 text-xs font-semibold text-white/90 backdrop-blur-[6px] hover:bg-white/20"
+                          className="inline-flex min-h-[2.125rem] items-center rounded-full border border-white/20 bg-white/5 px-3.5 text-[0.7rem] font-semibold text-white/80 backdrop-blur-[6px] hover:bg-white/15"
                         >
                           {hero.secondaryBadge.text}
                         </OptionalLink>
@@ -274,12 +276,8 @@ export function HeroSection({
               <motion.h1
                 id="hero-heading"
                 className={cn(
-                  "max-w-3xl font-bold leading-[1.08] tracking-[-0.02em] text-white",
-                  isPreview
-                    ? previewDesktop
-                      ? "text-[2.35rem]"
-                      : "text-[1.85rem]"
-                    : "text-[2rem] sm:text-[2.75rem] md:text-[3.4rem] lg:text-[3.75rem]",
+                  "type-hero-display max-w-3xl",
+                  isPreview && (previewDesktop ? "text-[2.35rem]" : "text-[1.85rem]"),
                   headlineAlignment,
                 )}
                 initial={{ opacity: reduceMotion ? 1 : 0, y: reduceMotion ? 0 : 20 }}

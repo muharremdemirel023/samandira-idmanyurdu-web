@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
+import { Carousel } from "@/components/ui/Carousel";
 import { Container } from "@/components/ui/Container";
 import { useCookieConsent } from "@/components/cookie-consent/CookieConsentProvider";
 import { getYoutubeEmbedUrl } from "@/lib/video-embed";
@@ -75,13 +76,15 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
 
   return (
     <>
-      <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:mt-10 lg:grid-cols-4">
-        {videos.map((video) => (
+      <Carousel
+        className="mt-8 md:mt-10"
+        ariaLabel="Antrenman videoları"
+        items={videos.map((video) => (
           <button
             key={video.id}
             type="button"
             onClick={() => handleCardClick(video)}
-            className="group relative aspect-[9/16] overflow-hidden rounded-2xl border border-maroon/12 bg-surface-deep shadow-[0_2px_10px_-6px_rgba(74,18,32,0.18)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+            className="group relative aspect-[9/16] w-full overflow-hidden rounded-2xl border border-border-subtle bg-surface-deep shadow-shell transition-colors duration-200 hover:border-accent/40 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
           >
             {video.thumbnail_url ? (
               <img
@@ -119,7 +122,8 @@ export function TrainingVideosSectionView({ videos }: TrainingVideosSectionViewP
             ) : null}
           </button>
         ))}
-      </div>
+        itemClassName="w-[46%] sm:w-[31%] md:w-[23%]"
+      />
 
       <AnimatePresence>
         {activeVideo && (
@@ -260,7 +264,7 @@ export function TrainingVideosSectionWrapper({
   if (videos.length === 0) return null;
 
   return (
-    <section className="bg-surface-base py-14 md:py-20" aria-label={title}>
+    <section className="py-14 md:py-20" aria-label={title}>
       <Container>
         <div className="text-center">
           <p className="type-overline text-accent">Antrenman Görüntüleri</p>

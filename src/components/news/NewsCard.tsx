@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Card } from "@/components/ui/Card";
 import { createSlug } from "@/lib/slug";
 
 export type PublicNewsItem = {
@@ -26,7 +27,7 @@ export function getNewsHref(news: PublicNewsItem) {
 
 export function NewsCard({ news }: { news: PublicNewsItem }) {
   return (
-    <article className="group overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-shell">
+    <Card>
       <Link href={getNewsHref(news)} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent">
         <div className="aspect-video overflow-hidden bg-surface-muted">
           {news.cover_image_url ? (
@@ -55,6 +56,6 @@ export function NewsCard({ news }: { news: PublicNewsItem }) {
           <p className="mt-5 text-sm font-bold text-accent">Duyuruyu Oku</p>
         </div>
       </Link>
-    </article>
+    </Card>
   );
 }

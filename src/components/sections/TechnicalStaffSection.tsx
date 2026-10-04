@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SectionReveal } from "@/components/motion/SectionReveal";
+import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
@@ -27,18 +28,30 @@ export async function TechnicalStaffSection({ className }: { className?: string 
       )}
     >
       <Container>
-        <SectionReveal staggerIndex={0} className="stack-section-intro max-w-prose-section">
-          <p className="type-overline club-kicker-line text-accent">{technicalStaff.overline}</p>
-          <h2 id="technical-staff-heading" className="type-heading-lg text-text-primary">
-            {title}
-          </h2>
-          <p className="type-body-lg max-w-prose-body">{subtitle}</p>
+        <SectionReveal
+          staggerIndex={0}
+          className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between"
+        >
+          <div className="stack-section-intro max-w-prose-section">
+            <p className="type-overline club-kicker-line text-accent">{technicalStaff.overline}</p>
+            <h2 id="technical-staff-heading" className="type-heading-lg text-text-primary">
+              {title}
+            </h2>
+            <p className="type-body-lg max-w-prose-body">{subtitle}</p>
+          </div>
+
+          <Link
+            href="/akademi/teknik-kadro"
+            className="inline-flex min-h-[2.75rem] shrink-0 items-center justify-center rounded-full bg-accent px-7 text-sm font-bold text-white transition hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base"
+          >
+            Tüm Teknik Kadroyu Gör
+          </Link>
         </SectionReveal>
 
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 md:mt-12">
           {featuredCoaches.map((coach, index) => (
             <SectionReveal key={coach.name} staggerIndex={index + 1}>
-              <article className="club-soft-panel flex h-full flex-col overflow-hidden p-5 sm:p-6">
+              <Card className="flex h-full flex-col p-5 sm:p-6">
                 <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-maroon-deep">
                   {coach.photo && (
                     <Image
@@ -54,18 +67,9 @@ export async function TechnicalStaffSection({ className }: { className?: string 
                 <h3 className="type-card-title mt-5 text-text-primary">{coach.name}</h3>
                 <p className="type-body mt-1 font-semibold text-accent">{coach.title}</p>
                 <p className="type-body mt-3 text-text-muted">{coach.summary}</p>
-              </article>
+              </Card>
             </SectionReveal>
           ))}
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <Link
-            href="/akademi/teknik-kadro"
-            className="inline-flex min-h-[2.75rem] items-center justify-center rounded-full bg-accent px-7 text-sm font-bold text-white transition hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-base"
-          >
-            Tüm Teknik Kadroyu Gör
-          </Link>
         </div>
       </Container>
     </section>

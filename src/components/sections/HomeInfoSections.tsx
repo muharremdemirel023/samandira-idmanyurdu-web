@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { onboardingHref } from "@/components/navigation/nav-config";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/cn";
@@ -20,6 +21,7 @@ function SectionShell({
   title,
   subtitle,
   tinted = false,
+  cta,
   children,
 }: {
   id: string;
@@ -27,6 +29,7 @@ function SectionShell({
   title: string;
   subtitle?: string;
   tinted?: boolean;
+  cta?: { label: string; href: string };
   children: React.ReactNode;
 }) {
   return (
@@ -39,12 +42,23 @@ function SectionShell({
       )}
     >
       <Container>
-        <div className="stack-section-intro mb-8 md:mb-10">
-          <p className="type-overline">{overline}</p>
-          <h2 id={`${id}-heading`} className="type-heading-lg max-w-prose-section">
-            {title}
-          </h2>
-          {subtitle ? <p className="type-body-lg max-w-prose-body">{subtitle}</p> : null}
+        <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between md:mb-10">
+          <div className="stack-section-intro max-w-prose-section">
+            <p className="type-overline">{overline}</p>
+            <h2 id={`${id}-heading`} className="type-heading-lg">
+              {title}
+            </h2>
+            {subtitle ? <p className="type-body-lg max-w-prose-body">{subtitle}</p> : null}
+          </div>
+
+          {cta ? (
+            <Link
+              href={cta.href}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-border-subtle px-6 py-3 text-sm font-bold text-text-primary transition hover:border-accent hover:text-accent"
+            >
+              {cta.label}
+            </Link>
+          ) : null}
         </div>
         {children}
       </Container>
@@ -52,12 +66,13 @@ function SectionShell({
   );
 }
 
-function InfoCard({ title, body }: { title: string; body: string }) {
+function InfoCard({ title, body, index }: { title: string; body: string; index: number }) {
   return (
-    <div className="rounded-2xl border border-border-subtle bg-white p-5 shadow-shell sm:p-6">
-      <h3 className="type-card-title text-maroon-deep">{title}</h3>
+    <Card className="p-5 sm:p-6">
+      <span className="type-label-caps-accent text-accent">{String(index).padStart(2, "0")}</span>
+      <h3 className="type-card-title mt-3 text-maroon-deep">{title}</h3>
       <p className="type-body mt-2">{body}</p>
-    </div>
+    </Card>
   );
 }
 
@@ -70,16 +85,12 @@ export function AboutAcademySection() {
       title={akademiPage.philosophy.title}
       subtitle={akademiPage.philosophy.intro}
       tinted
+      cta={{ label: "Akademiyi Yakından Tanıyın", href: "/akademi" }}
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {akademiPage.philosophy.pillars.map((p) => (
-          <InfoCard key={p.key} title={p.title} body={p.body} />
+        {akademiPage.philosophy.pillars.map((p, index) => (
+          <InfoCard key={p.key} title={p.title} body={p.body} index={index + 1} />
         ))}
-      </div>
-      <div className="mt-8">
-        <Button href="/akademi" variant="outline" className="min-h-[2.75rem]">
-          Akademiyi Yakından Tanıyın
-        </Button>
       </div>
     </SectionShell>
   );
@@ -124,16 +135,12 @@ export function TrainingModelSection() {
       title={akademiPage.training.title}
       subtitle={akademiPage.training.subtitle}
       tinted
+      cta={{ label: "Antrenman Modelinin Detayı", href: "/akademi/antrenman-modeli" }}
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {akademiPage.training.pillars.map((p) => (
-          <InfoCard key={p.key} title={p.title} body={p.body} />
+        {akademiPage.training.pillars.map((p, index) => (
+          <InfoCard key={p.key} title={p.title} body={p.body} index={index + 1} />
         ))}
-      </div>
-      <div className="mt-8">
-        <Button href="/akademi/antrenman-modeli" variant="outline" className="min-h-[2.75rem]">
-          Antrenman Modelinin Detayı
-        </Button>
       </div>
     </SectionShell>
   );
@@ -163,6 +170,7 @@ export async function ProgramSection() {
       overline="Haftalık ritim"
       title="Antrenman Programı"
       subtitle="Antrenmanlarımız Cumartesi ve Pazar günleri yaş gruplarına göre planlanmaktadır."
+      tinted
     >
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-shell">
         <ul className="divide-y divide-border-subtle">
@@ -207,11 +215,10 @@ export async function FeesSection() {
         homeContent?.fees_subtitle ||
         "Ücretler yaş grubuna ve döneme göre belirlenir. Güncel ücret bilgisi ve ödeme seçenekleri için bizimle iletişime geçmeniz yeterli — ekibimiz aynı gün dönüş yapar."
       }
-      tinted
     >
       <div className="grid gap-4 md:grid-cols-3">
-        {steps.map((s) => (
-          <InfoCard key={s.title} title={s.title} body={s.body} />
+        {steps.map((s, index) => (
+          <InfoCard key={s.title} title={s.title} body={s.body} index={index + 1} />
         ))}
       </div>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -245,6 +252,7 @@ export async function HomeFaqSection() {
       id="sss"
       overline={akademiPage.faq.overline}
       title="Sık Sorulan Sorular"
+      cta={{ label: "Tüm Soruları Görüntüle", href: "/akademi/sik-sorulan-sorular" }}
     >
       <div className="overflow-hidden rounded-2xl border border-border-subtle bg-white shadow-shell">
         {items.map((item) => (
@@ -259,14 +267,6 @@ export async function HomeFaqSection() {
           </details>
         ))}
       </div>
-      <div className="mt-6">
-        <Link
-          href="/akademi/sik-sorulan-sorular"
-          className="text-sm font-semibold text-accent underline-offset-2 hover:underline"
-        >
-          Tüm soruları görüntüle →
-        </Link>
-      </div>
     </SectionShell>
   );
 }
@@ -280,6 +280,7 @@ export function HomeContactSection() {
       title="İletişim"
       subtitle="Sorularınız için telefon, WhatsApp veya e-posta ile ulaşabilirsiniz."
       tinted
+      cta={{ label: "İletişim Sayfasına Git", href: "/iletisim" }}
     >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="rounded-2xl border border-border-subtle bg-white p-5 shadow-shell">
@@ -307,11 +308,6 @@ export function HomeContactSection() {
             ))}
           </p>
         </div>
-      </div>
-      <div className="mt-6">
-        <Link href="/iletisim" className="text-sm font-semibold text-accent underline-offset-2 hover:underline">
-          İletişim sayfasına git →
-        </Link>
       </div>
     </SectionShell>
   );
