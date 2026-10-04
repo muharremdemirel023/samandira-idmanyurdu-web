@@ -99,7 +99,7 @@ export const heroFallbacks: ResolvedHeroContent = {
   isVisible: true,
   desktopImageUrl: "/images/hero/academy-training.JPG",
   mobileImageUrl: "/images/hero/academy-training.JPG",
-  overlayOpacity: 88,
+  overlayOpacity: 62,
   minHeight: 820,
   alignment: "center",
   overlineVisible: true,
@@ -121,7 +121,9 @@ export const heroFallbacks: ResolvedHeroContent = {
     style: "outline",
   },
   primaryBadge: {
-    visible: true,
+    // Varsayılan metin primaryCta ile aynı olduğu için tekrarı önlemek adına kapalı başlar;
+    // admin farklı bir metinle görünür yapabilir.
+    visible: false,
     text: "Ücretsiz Deneme Antrenmanı",
     href: "/on-kayit",
   },

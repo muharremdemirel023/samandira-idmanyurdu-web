@@ -30,7 +30,7 @@ function OptionalLink({ href, className, children }: { href: string; className: 
 
 function heroButtonClass(style: HeroButtonStyle) {
   const base =
-    "inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-full border px-7 py-2.5 text-sm font-bold transition-[background-color,border-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 sm:w-auto";
+    "inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-full border px-7 py-2.5 text-sm font-bold transition-[background-color,border-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
 
   if (style === "secondary") {
     return cn(base, "border-white bg-white text-maroon-deep hover:bg-white/90");
@@ -42,14 +42,15 @@ function heroButtonClass(style: HeroButtonStyle) {
 }
 
 function campaignBadgeClass(style: HeroCampaignBadgeStyle) {
-  const base = "inline-flex w-fit rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold transition-colors";
+  const base =
+    "inline-flex min-h-[2.75rem] w-full items-center justify-center rounded-full border px-7 py-2.5 text-sm font-bold transition-[background-color,border-color,transform] duration-200 motion-safe:hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70";
   if (style === "accent") {
-    return cn(base, "border border-accent/60 bg-accent/15 text-white backdrop-blur-[8px] hover:bg-accent/25");
+    return cn(base, "border-accent/60 bg-accent/15 text-white backdrop-blur-[8px] hover:bg-accent/25");
   }
   if (style === "outline") {
-    return cn(base, "border border-white/30 bg-white/10 text-white backdrop-blur-[8px] hover:bg-white/20");
+    return cn(base, "border-white/30 bg-white/10 text-white backdrop-blur-[8px] hover:bg-white/20");
   }
-  return cn(base, "border border-white/30 bg-white/15 text-white backdrop-blur-[8px] hover:bg-white/25");
+  return cn(base, "border-white/30 bg-white/15 text-white backdrop-blur-[8px] hover:bg-white/25");
 }
 
 export function HeroSection({
@@ -130,7 +131,7 @@ export function HeroSection({
             aria-hidden="true"
             className="absolute inset-0"
             style={{
-              background: `linear-gradient(to bottom, rgba(74,18,32,${overlay}), rgba(74,18,32,${overlay * 0.45}), rgba(0,0,0,${overlay * 0.625}))`,
+              background: `linear-gradient(to bottom, rgba(74,18,32,${overlay * 0.55}) 0%, rgba(74,18,32,${overlay * 0.4}) 38%, rgba(32,9,15,${overlay * 0.78}) 72%, rgba(20,6,10,${overlay * 0.95}) 100%)`,
             }}
           />
           <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-accent/14 via-transparent to-transparent" />
@@ -227,7 +228,7 @@ export function HeroSection({
                 </motion.div>
               ) : null}
 
-              {hero.introVisible || hero.primaryBadge.visible || hero.secondaryBadge.visible ? (
+              {hero.introVisible || hero.primaryBadge.visible ? (
                 <motion.div
                   className={cn(
                     "max-w-sm",
@@ -246,24 +247,14 @@ export function HeroSection({
                       {hero.introText}
                     </p>
                   ) : null}
-                  {hero.primaryBadge.visible || hero.secondaryBadge.visible ? (
+                  {hero.primaryBadge.visible && hero.primaryBadge.text ? (
                     <div className={cn("mt-3 flex flex-wrap items-center gap-2.5", !previewMobile && "sm:justify-end")}>
-                      {hero.primaryBadge.visible && hero.primaryBadge.text ? (
-                        <OptionalLink
-                          href={hero.primaryBadge.href}
-                          className="inline-flex min-h-[2.125rem] items-center rounded-full border border-white/30 bg-white/10 px-3.5 text-[0.7rem] font-semibold text-white/90 backdrop-blur-[6px] transition-colors duration-200 hover:bg-white/20"
-                        >
-                          {hero.primaryBadge.text}
-                        </OptionalLink>
-                      ) : null}
-                      {hero.secondaryBadge.visible && hero.secondaryBadge.text ? (
-                        <OptionalLink
-                          href={hero.secondaryBadge.href}
-                          className="inline-flex min-h-[2.125rem] items-center rounded-full border border-white/20 bg-white/5 px-3.5 text-[0.7rem] font-semibold text-white/80 backdrop-blur-[6px] hover:bg-white/15"
-                        >
-                          {hero.secondaryBadge.text}
-                        </OptionalLink>
-                      ) : null}
+                      <OptionalLink
+                        href={hero.primaryBadge.href}
+                        className="inline-flex min-h-[2.125rem] items-center rounded-full border border-white/30 bg-white/10 px-3.5 text-[0.7rem] font-semibold text-white/90 backdrop-blur-[6px] transition-colors duration-200 hover:bg-white/20"
+                      >
+                        {hero.primaryBadge.text}
+                      </OptionalLink>
                     </div>
                   ) : null}
                 </motion.div>
@@ -349,33 +340,25 @@ export function HeroSection({
                 <span />
               )}
 
-              {hero.campaignBadge.visible && hero.campaignBadge.text ? (
-                <OptionalLink
-                  href={hero.campaignBadge.href}
-                  className={campaignBadgeClass(hero.campaignBadge.style)}
-                >
-                  {hero.campaignBadge.text}
-                </OptionalLink>
-              ) : null}
-
-              {hero.primaryCta.visible || hero.secondaryCta.visible ? (
+              {(hero.campaignBadge.visible && hero.campaignBadge.text) ||
+              (hero.primaryCta.visible && hero.primaryCta.label) ? (
                 <motion.div
-                  className={cn(
-                    "flex flex-col gap-3",
-                    !previewMobile && "sm:flex-row sm:items-center",
-                  )}
+                  className="flex w-full flex-col gap-3 sm:w-[19rem]"
                   initial={{ opacity: reduceMotion ? 1 : 0, y: reduceMotion ? 0 : 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ ...t, delay: step * 5 }}
                 >
+                  {hero.campaignBadge.visible && hero.campaignBadge.text ? (
+                    <OptionalLink
+                      href={hero.campaignBadge.href}
+                      className={campaignBadgeClass(hero.campaignBadge.style)}
+                    >
+                      {hero.campaignBadge.text}
+                    </OptionalLink>
+                  ) : null}
                   {hero.primaryCta.visible && hero.primaryCta.label ? (
                     <OptionalLink href={hero.primaryCta.href} className={heroButtonClass(hero.primaryCta.style)}>
                       {hero.primaryCta.label}
-                    </OptionalLink>
-                  ) : null}
-                  {hero.secondaryCta.visible && hero.secondaryCta.label ? (
-                    <OptionalLink href={hero.secondaryCta.href} className={heroButtonClass(hero.secondaryCta.style)}>
-                      {hero.secondaryCta.label}
                     </OptionalLink>
                   ) : null}
                 </motion.div>
