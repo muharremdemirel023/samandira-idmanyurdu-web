@@ -170,6 +170,9 @@ export type Campaign = {
   button_href: string | null;
   starts_at: string | null;
   ends_at: string | null;
+  animation_type: "none" | "fade" | "slide-up" | "zoom" | "scale-fade";
+  animation_duration_ms: number;
+  animation_delay_ms: number;
   open_delay_ms: number;
   auto_close_seconds: number;
   show_every_reload: boolean;

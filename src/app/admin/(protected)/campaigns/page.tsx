@@ -3,8 +3,8 @@ import {
   deleteCampaign,
   updateCampaign,
 } from "@/app/admin/(protected)/campaigns/actions";
+import { CampaignAnimationEditor } from "@/components/admin/CampaignAnimationEditor";
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
-import { ImageCropUploadField } from "@/components/admin/ImageCropUploadField";
 import { createClient } from "@/lib/supabase/server";
 
 type CampaignRow = {
@@ -19,6 +19,9 @@ type CampaignRow = {
   is_active: boolean | null;
   starts_at: string | null;
   ends_at: string | null;
+  animation_type: string | null;
+  animation_duration_ms: number | null;
+  animation_delay_ms: number | null;
   open_delay_ms: number | null;
   auto_close_seconds: number | null;
   show_every_reload: boolean | null;
@@ -63,27 +66,14 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
         <input name="name" required defaultValue={row?.name || ""} className={inputClass} />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <ImageCropUploadField
-          bucket="site-images"
-          folder="campaigns/desktop"
-          inputName="desktop_image_url"
-          label="Masaüstü Görseli"
-          value={row?.desktop_image_url ?? ""}
-          preset="campaign-poster"
-          mode="contain"
-        />
-        <ImageCropUploadField
-          bucket="site-images"
-          folder="campaigns/mobile"
-          inputName="mobile_image_url"
-          label="Mobil Görseli"
-          value={row?.mobile_image_url ?? ""}
-          preset="campaign-poster"
-          mode="contain"
-          description="Boşsa masaüstü görseli kullanılır. Görsel seçip kırparak yükleyin."
-        />
-      </div>
+      <CampaignAnimationEditor
+        desktopImageUrl={row?.desktop_image_url}
+        mobileImageUrl={row?.mobile_image_url}
+        animationType={row?.animation_type}
+        animationDurationMs={row?.animation_duration_ms}
+        animationDelayMs={row?.animation_delay_ms}
+        popupDelayMs={row?.open_delay_ms}
+      />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-2">
@@ -112,7 +102,7 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <div className="space-y-2">
           <label className={labelClass}>Başlangıç Tarihi</label>
           <input
@@ -128,15 +118,6 @@ function CampaignFields({ row }: { row?: CampaignRow }) {
             name="ends_at"
             type="datetime-local"
             defaultValue={toLocalInputValue(row?.ends_at ?? null)}
-            className={inputClass}
-          />
-        </div>
-        <div className="space-y-2">
-          <label className={labelClass}>Açılış Gecikmesi (ms)</label>
-          <input
-            name="open_delay_ms"
-            type="number"
-            defaultValue={row?.open_delay_ms ?? 500}
             className={inputClass}
           />
         </div>

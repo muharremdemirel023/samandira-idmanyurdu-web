@@ -169,6 +169,7 @@ export function ImageCropUploadField({
 
   function clearCurrentImage() {
     setCurrentUrl("");
+    onUploaded?.("");
     setPreviewFailed(false);
     onUploaded?.("");
   }
@@ -194,6 +195,8 @@ export function ImageCropUploadField({
           className="overflow-hidden rounded-xl border border-white/10 bg-slate-950/40"
           style={{ aspectRatio: ratio }}
         >
+          {/* Yönetici tarafından yüklenen Supabase public URL'si form içinde önizlenir. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={currentUrl}
             alt=""

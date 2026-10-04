@@ -1,115 +1,202 @@
 "use client";
 
-import Image from "next/image";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const STORAGE_KEY = "samandira_campaign_slidein_closed_at";
-const SHOW_DELAY_MS = 1000;
-const SCROLL_TRIGGER_RATIO = 0.25;
-const CAMPAIGN_HREF = "/on-kayit";
-const CAMPAIGN_IMAGE = "/images/campaigns/slide-in-kart.png";
-const CAMPAIGN_ALT =
-  "Samandıra İdman Yurdu Akademi online kayıtlara özel yüzde 15 indirim kampanyası";
+import {
+  campaignAnimationDefaults,
+  clampCampaignAnimationDelay,
+  clampCampaignAnimationDuration,
+  clampCampaignPopupDelay,
+  getCampaignMotionConfig,
+  isCampaignAnimationType,
+} from "@/lib/campaign-animation";
+import type { Campaign } from "@/lib/content";
 
-export function CampaignSlideIn() {
+function storageKey(campaignId: string, scope: "once" | "session") {
+  return `samandira_campaign_${campaignId}_${scope}`;
+}
+
+export function CampaignSlideIn({ campaign }: { campaign: Campaign | null }) {
   const pathname = usePathname();
+  const reduceMotion = Boolean(useReducedMotion());
   const [open, setOpen] = useState(false);
-  const triggeredRef = useRef(false);
-  const prefersReducedMotion = useReducedMotion();
+  const href = campaign?.button_href || "/on-kayit";
+
+  const animationType =
+    campaign?.animation_type && isCampaignAnimationType(campaign.animation_type)
+      ? campaign.animation_type
+      : campaignAnimationDefaults.type;
+  const animationDurationMs =
+    campaign?.animation_duration_ms ?? campaignAnimationDefaults.durationMs;
+  const animationDelayMs = campaign?.animation_delay_ms ?? campaignAnimationDefaults.delayMs;
+  const popupDelayMs = clampCampaignPopupDelay(
+    campaign?.open_delay_ms ?? campaignAnimationDefaults.popupDelayMs,
+  );
+  const motionConfig = useMemo(
+    () =>
+      getCampaignMotionConfig({
+        type: animationType,
+        durationMs: animationDurationMs,
+        delayMs: animationDelayMs,
+        reduceMotion,
+      }),
+    [animationDelayMs, animationDurationMs, animationType, reduceMotion],
+  );
+
+  const rememberDismissal = useCallback(() => {
+    if (!campaign) return;
+    try {
+      if (campaign.show_once_per_user) {
+        window.localStorage.setItem(storageKey(campaign.id, "once"), "1");
+      }
+      if (!campaign.show_every_reload) {
+        window.sessionStorage.setItem(storageKey(campaign.id, "session"), "1");
+      }
+    } catch {
+      // Depolama kullanılamıyorsa popup davranışı çalışmaya devam eder.
+    }
+  }, [campaign]);
 
   const close = useCallback(() => {
     setOpen(false);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, String(Date.now()));
-    } catch {
-      // localStorage erişilemiyorsa yoksay
-    }
-  }, []);
+    rememberDismissal();
+  }, [rememberDismissal]);
 
   useEffect(() => {
-    if (pathname === CAMPAIGN_HREF) return;
+    if (!campaign || pathname === href) return;
 
-    const trigger = () => {
-      if (triggeredRef.current) return;
-      triggeredRef.current = true;
-      setOpen(true);
-    };
-
-    const timer = window.setTimeout(trigger, SHOW_DELAY_MS);
-
-    const onScroll = () => {
-      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollable <= 0) return;
-      if (window.scrollY / scrollable >= SCROLL_TRIGGER_RATIO) {
-        trigger();
+    try {
+      if (
+        campaign.show_once_per_user &&
+        window.localStorage.getItem(storageKey(campaign.id, "once"))
+      ) {
+        return;
       }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
+      if (
+        !campaign.show_every_reload &&
+        window.sessionStorage.getItem(storageKey(campaign.id, "session"))
+      ) {
+        return;
+      }
+    } catch {
+      // Depolama kullanılamıyorsa zamanlayıcı normal şekilde devam eder.
+    }
 
-    return () => {
-      window.clearTimeout(timer);
-      window.removeEventListener("scroll", onScroll);
-    };
-  }, [pathname]);
+    const timer = window.setTimeout(() => {
+      setOpen(true);
+      if (campaign.show_once_per_user) {
+        try {
+          window.localStorage.setItem(storageKey(campaign.id, "once"), "1");
+        } catch {
+          // Depolama kullanılamıyorsa yoksay.
+        }
+      }
+    }, popupDelayMs);
+
+    return () => window.clearTimeout(timer);
+  }, [campaign, href, pathname, popupDelayMs]);
+
+  useEffect(() => {
+    if (!open || !campaign?.auto_close_seconds || campaign.auto_close_seconds <= 0) return;
+
+    const entryTimeMs =
+      reduceMotion || animationType === "none"
+        ? 0
+        : clampCampaignAnimationDelay(animationDelayMs) +
+          clampCampaignAnimationDuration(animationDurationMs);
+    const timer = window.setTimeout(
+      close,
+      entryTimeMs + campaign.auto_close_seconds * 1000,
+    );
+    return () => window.clearTimeout(timer);
+  }, [animationDelayMs, animationDurationMs, animationType, campaign, close, open, reduceMotion]);
 
   useEffect(() => {
     if (!open) return;
-
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") close();
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open, close]);
+  }, [close, open]);
 
-  if (pathname === CAMPAIGN_HREF) {
-    return null;
-  }
+  if (!campaign || pathname === href) return null;
+
+  const desktopImage = campaign.desktop_image_url || campaign.mobile_image_url;
+  const mobileImage = campaign.mobile_image_url || desktopImage;
+  const title = campaign.title || (!desktopImage ? campaign.name : null);
+  const hasMessage = Boolean(title || campaign.description || campaign.button_label);
+  const image = desktopImage ? (
+    <picture>
+      {mobileImage ? <source media="(max-width: 639px)" srcSet={mobileImage} /> : null}
+      {/* Kampanya görselleri Supabase public URL veya yerel asset olabilir. */}
+      <img
+        src={desktopImage}
+        alt={campaign.name}
+        className="h-auto max-h-[min(62vh,34rem)] w-full object-contain"
+      />
+    </picture>
+  ) : null;
 
   return (
     <AnimatePresence>
-      {open && (
-        <motion.div
-          key="campaign-slide-in"
-          initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 60 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 60 }}
-          transition={{ duration: prefersReducedMotion ? 0 : 0.35, ease: "easeOut" }}
-          className="fixed right-4 bottom-4 z-[70] w-[calc(100%-2rem)] max-w-[380px] md:right-6 md:bottom-6 md:w-[380px]"
+      {open ? (
+        <motion.aside
+          key={campaign.id}
+          initial={motionConfig.initial}
+          animate={motionConfig.animate}
+          exit={{
+            opacity: 0,
+            y: reduceMotion ? 0 : 12,
+            scale: reduceMotion ? 1 : 0.98,
+            transition: { duration: reduceMotion ? 0 : 0.2, delay: 0 },
+          }}
+          transition={motionConfig.transition}
+          className="fixed right-4 bottom-4 z-[70] w-[calc(100%-2rem)] max-w-[380px] origin-bottom-right md:right-6 md:bottom-6 md:w-[380px]"
           role="dialog"
-          aria-label={CAMPAIGN_ALT}
+          aria-label={campaign.name}
         >
-          <div className="group relative">
-            <Link
-              href={CAMPAIGN_HREF}
-              onClick={close}
-              className="block overflow-hidden rounded-2xl shadow-[0_16px_40px_-12px_rgba(74,18,32,0.45)] transition-transform duration-200 ease-out group-hover:-translate-y-1"
-            >
-              <Image
-                src={CAMPAIGN_IMAGE}
-                alt={CAMPAIGN_ALT}
-                width={380}
-                height={480}
-                className="h-auto w-full rounded-2xl object-contain"
-                priority
-              />
-            </Link>
+          <div className="relative overflow-hidden rounded-2xl border border-maroon/15 bg-surface-card shadow-[0_18px_44px_-22px_rgba(74,18,32,0.48)]">
+            {image && href && !hasMessage ? (
+              <Link href={href} onClick={close} className="block">
+                {image}
+              </Link>
+            ) : (
+              image
+            )}
+
+            {hasMessage ? (
+              <div
+                className="border-t border-border-subtle bg-surface-card px-5 py-4"
+                style={{ marginTop: campaign.content_gap_px ?? 0 }}
+              >
+                {title ? <h2 className="text-lg font-bold text-maroon-deep">{title}</h2> : null}
+                {campaign.description ? (
+                  <p className="mt-1.5 text-sm leading-6 text-text-muted">{campaign.description}</p>
+                ) : null}
+                {campaign.button_label && href ? (
+                  <Link
+                    href={href}
+                    onClick={close}
+                    className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full bg-accent px-5 py-2 text-sm font-bold text-white transition hover:bg-accent-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+                  >
+                    {campaign.button_label}
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
 
             <button
               type="button"
-              onClick={(event) => {
-                event.stopPropagation();
-                event.preventDefault();
-                close();
-              }}
+              onClick={close}
               aria-label="Kampanya kartını kapat"
-              className="absolute top-2 right-2 flex size-9 min-h-9 min-w-9 items-center justify-center rounded-full bg-surface-card text-maroon-deep shadow-[0_2px_10px_-4px_rgba(74,18,32,0.4)] transition hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
+              className="absolute top-2 right-2 flex size-9 items-center justify-center rounded-full border border-border-subtle bg-surface-card/95 text-maroon-deep shadow-shell transition hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70"
             >
               <svg
-                aria-hidden
+                aria-hidden="true"
                 viewBox="0 0 24 24"
                 className="size-4"
                 fill="none"
@@ -117,12 +204,12 @@ export function CampaignSlideIn() {
                 strokeWidth="2.5"
                 strokeLinecap="round"
               >
-                <path d="M6 6l12 12M18 6L6 18" />
+                <path d="M6 6l12 12M18 6 6 18" />
               </svg>
             </button>
           </div>
-        </motion.div>
-      )}
+        </motion.aside>
+      ) : null}
     </AnimatePresence>
   );
 }

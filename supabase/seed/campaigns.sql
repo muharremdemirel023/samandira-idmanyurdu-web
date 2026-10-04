@@ -15,7 +15,7 @@ select
   '/images/campaigns/yaz-kayit-baslik.png',
   '/images/campaigns/yaz-kayit-baslik.png',
   true,
-  500,
+  1000,
   6,
   true,
   false

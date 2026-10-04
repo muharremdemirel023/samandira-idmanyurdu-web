@@ -3,6 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+import {
+  campaignAnimationDefaults,
+  clampCampaignAnimationDelay,
+  clampCampaignAnimationDuration,
+  clampCampaignPopupDelay,
+  isCampaignAnimationType,
+} from "@/lib/campaign-animation";
 import { createClient } from "@/lib/supabase/server";
 
 function revalidateCampaigns() {
@@ -30,6 +37,11 @@ function readNumber(formData: FormData, name: string, fallback: number) {
   return Number.isNaN(value) ? fallback : value;
 }
 
+function readAnimationType(formData: FormData) {
+  const value = String(formData.get("animation_type") || "");
+  return isCampaignAnimationType(value) ? value : campaignAnimationDefaults.type;
+}
+
 function readPayload(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
 
@@ -48,7 +60,16 @@ function readPayload(formData: FormData) {
     is_active: formData.get("is_active") === "on",
     starts_at: readOptionalTimestamp(formData, "starts_at"),
     ends_at: readOptionalTimestamp(formData, "ends_at"),
-    open_delay_ms: readNumber(formData, "open_delay_ms", 500),
+    animation_type: readAnimationType(formData),
+    animation_duration_ms: clampCampaignAnimationDuration(
+      readNumber(formData, "animation_duration_ms", campaignAnimationDefaults.durationMs),
+    ),
+    animation_delay_ms: clampCampaignAnimationDelay(
+      readNumber(formData, "animation_delay_ms", campaignAnimationDefaults.delayMs),
+    ),
+    open_delay_ms: clampCampaignPopupDelay(
+      readNumber(formData, "open_delay_ms", campaignAnimationDefaults.popupDelayMs),
+    ),
     auto_close_seconds: readNumber(formData, "auto_close_seconds", 6),
     // -160..80 px: negatif değer mesaj kartını görselin üzerine doğru çeker
     content_gap_px: Math.max(-160, Math.min(80, readNumber(formData, "content_gap_px", 12))),

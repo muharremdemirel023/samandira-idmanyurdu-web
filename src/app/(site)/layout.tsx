@@ -6,14 +6,17 @@ import { Header } from "@/components/layout/Header";
 import { IntroSplash } from "@/components/layout/IntroSplash";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { CampaignSlideIn } from "@/components/sections/CampaignSlideIn";
-import { getCustomPageNavItems } from "@/lib/content";
+import { getActiveCampaign, getCustomPageNavItems } from "@/lib/content";
 
 export default async function SiteLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
-  const customPages = await getCustomPageNavItems();
+  const [customPages, activeCampaign] = await Promise.all([
+    getCustomPageNavItems(),
+    getActiveCampaign(),
+  ]);
 
   return (
     <>
@@ -24,7 +27,7 @@ export default async function SiteLayout({
       </main>
       <Footer />
       <AcademyAssistant />
-      <CampaignSlideIn />
+      <CampaignSlideIn key={activeCampaign?.id ?? "no-campaign"} campaign={activeCampaign} />
     </>
   );
 }
