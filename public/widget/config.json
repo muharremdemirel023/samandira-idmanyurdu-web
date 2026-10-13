@@ -1,0 +1,1084 @@
+{
+  "academy": {
+    "name": "Samandıra İdman Yurdu S.K. Akademi",
+    "address": "Eyüp Sultan, Hacı Salih Cd. No:21, 34887 Sancaktepe/İstanbul",
+    "lat": 40.9790285,
+    "lon": 29.2290503,
+    "phoneDisplay": "+90 532 677 46 61",
+    "phoneTel": "+905326774661",
+    "hours": [
+      {
+        "label": "Hafta içi",
+        "value": "09:00 – 17:00"
+      },
+      {
+        "label": "Hafta sonu",
+        "value": "09:00 – 15:00"
+      }
+    ]
+  },
+  "behavior": {
+    "openDelayMs": 2500,
+    "storageKey": "nasilGelinir.v1",
+    "hideOnPaths": [
+      "/admin"
+    ]
+  },
+  "routing": {
+    "carPreview": {
+      "enabled": true,
+      "endpoint": "https://router.project-osrm.org/route/v1/driving"
+    }
+  },
+  "transit": {
+    "stops": [
+      {
+        "code": "289661",
+        "name": "KALENDER SOKAK",
+        "direction": "KARTAL",
+        "lat": 40.976795,
+        "lon": 29.229944,
+        "walkMeters": 466,
+        "walkMinutes": 6,
+        "walkPath": [
+          [
+            40.97671,
+            29.22991
+          ],
+          [
+            40.97663,
+            29.23035
+          ],
+          [
+            40.97704,
+            29.23058
+          ],
+          [
+            40.9785,
+            29.23133
+          ],
+          [
+            40.97862,
+            29.23045
+          ],
+          [
+            40.97864,
+            29.23036
+          ],
+          [
+            40.97865,
+            29.23032
+          ],
+          [
+            40.9788,
+            29.2296
+          ],
+          [
+            40.97896,
+            29.22907
+          ],
+          [
+            40.97903,
+            29.22908
+          ]
+        ],
+        "lines": [
+          {
+            "code": "KM70",
+            "name": "SULTANBEYLİ/PETROL YOLU CADDESI - KARTAL METRO / CEVİZLİ"
+          }
+        ]
+      },
+      {
+        "code": "289681",
+        "name": "SEKMEN CADDESİ",
+        "direction": "KARTAL",
+        "lat": 40.978079,
+        "lon": 29.225015,
+        "walkMeters": 467,
+        "walkMinutes": 6,
+        "walkPath": [
+          [
+            40.97802,
+            29.22499
+          ],
+          [
+            40.97777,
+            29.2258
+          ],
+          [
+            40.97786,
+            29.22588
+          ],
+          [
+            40.97787,
+            29.22589
+          ],
+          [
+            40.97786,
+            29.22594
+          ],
+          [
+            40.97738,
+            29.22755
+          ],
+          [
+            40.97736,
+            29.2276
+          ],
+          [
+            40.97811,
+            29.22841
+          ],
+          [
+            40.97896,
+            29.22907
+          ],
+          [
+            40.97903,
+            29.22908
+          ]
+        ],
+        "lines": [
+          {
+            "code": "KM70",
+            "name": "SULTANBEYLİ/PETROL YOLU CADDESI - KARTAL METRO / CEVİZLİ"
+          }
+        ]
+      },
+      {
+        "code": "218791",
+        "name": "SARDUNYA EVLERİ",
+        "direction": "SULTANBEYLİ",
+        "lat": 40.980841,
+        "lon": 29.233172,
+        "walkMeters": 572,
+        "walkMinutes": 8,
+        "walkPath": [
+          [
+            40.98091,
+            29.23317
+          ],
+          [
+            40.98094,
+            29.23319
+          ],
+          [
+            40.98097,
+            29.23313
+          ],
+          [
+            40.98108,
+            29.23287
+          ],
+          [
+            40.98114,
+            29.23271
+          ],
+          [
+            40.98077,
+            29.23249
+          ],
+          [
+            40.98018,
+            29.23216
+          ],
+          [
+            40.97937,
+            29.23172
+          ],
+          [
+            40.97929,
+            29.23167
+          ],
+          [
+            40.9785,
+            29.23133
+          ],
+          [
+            40.97862,
+            29.23045
+          ],
+          [
+            40.97864,
+            29.23036
+          ],
+          [
+            40.97865,
+            29.23032
+          ],
+          [
+            40.9788,
+            29.2296
+          ],
+          [
+            40.97896,
+            29.22907
+          ],
+          [
+            40.97903,
+            29.22908
+          ]
+        ],
+        "lines": [
+          {
+            "code": "11SA",
+            "name": "UĞUR MUMCU / SAMANDIRA - YENİDOĞAN PERONLAR"
+          },
+          {
+            "code": "11ÜS",
+            "name": "SULTANBEYLİ - ÜSKÜDAR "
+          },
+          {
+            "code": "14KS",
+            "name": "SULTANBEYLİ GÖLET - KOZYATAĞI METRO"
+          },
+          {
+            "code": "14S",
+            "name": "SULTANBEYLİ - KOZYATAĞI METRO"
+          },
+          {
+            "code": "18F",
+            "name": "RECEP TAYYİP ERDOĞAN CADDESİ - KADIKÖY"
+          },
+          {
+            "code": "18UK",
+            "name": "UZUNDERE-KOZYATAĞI"
+          },
+          {
+            "code": "18Ü",
+            "name": "HAREM PERONLAR - SULTANBEYLİ PERONLAR"
+          },
+          {
+            "code": "18V",
+            "name": "KADIKÖY - RECEP TAYYİP ERDOĞAN CADDESİ"
+          },
+          {
+            "code": "19SB",
+            "name": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR"
+          },
+          {
+            "code": "122H",
+            "name": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO"
+          },
+          {
+            "code": "131",
+            "name": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR"
+          },
+          {
+            "code": "131C",
+            "name": "NECİP FAZIL METRO - SABİHA GÖKÇEN HAVALİMANI"
+          },
+          {
+            "code": "131H",
+            "name": "TEPEÜSTÜ - HİLAL KONUTLARI"
+          },
+          {
+            "code": "131Ü",
+            "name": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR"
+          },
+          {
+            "code": "132M",
+            "name": "SULTANBEYLİ MİMARSİNAN - KARTAL METRO / CEVİZLİ"
+          },
+          {
+            "code": "522ST",
+            "name": "SULTANBEYLİ - MECİDİYEKÖY"
+          },
+          {
+            "code": "M5",
+            "name": "SAMANDIRA METRO - ÜSKÜDAR"
+          },
+          {
+            "code": "SM1",
+            "name": "SULTANBEYLI - SAMANDIRA MERKEZ METRO"
+          },
+          {
+            "code": "SM4",
+            "name": "KURTKÖY METRO / HILAL KONUTLARI - SAMANDIRA MERKEZ METRO"
+          },
+          {
+            "code": "SM5",
+            "name": "SULTANBEYLI ORMAN CADDESI - SAMANDIRA MERKEZ METRO"
+          },
+          {
+            "code": "SM6",
+            "name": "SULTANBEYLİ DEVLET HASTANESİ - SAMANDIRA MERKEZ METRO"
+          },
+          {
+            "code": "SM9",
+            "name": "KARTAL METRO - SAMANDIRA MERKEZ METRO"
+          },
+          {
+            "code": "SM10",
+            "name": "SULTANBEYLİ PERONLAR - SANCAKTEPE BELEDİYESİ"
+          },
+          {
+            "code": "SM11",
+            "name": "SULTANBEYLİ PERONLAR - SANCAKTEPE BELEDİYESİ"
+          },
+          {
+            "code": "SM12",
+            "name": "MALTEPE MYO - SAMANDIRA METRO / YENİDOĞAN"
+          },
+          {
+            "code": "SM15",
+            "name": "VEYSEL KARANİ MAH. -KARTAL METRO"
+          },
+          {
+            "code": "UM73",
+            "name": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO"
+          }
+        ]
+      }
+    ]
+  },
+  "metro": {
+    "label": "Metro M5",
+    "station": {
+      "name": "Samandıra Merkez",
+      "lat": 40.9836831,
+      "lon": 29.2314094,
+      "source": "OpenStreetMap node 6932303066"
+    },
+    "walkMeters": 613,
+    "walkMinutes": 8,
+    "walkPath": [
+      [
+        40.98369,
+        29.23141
+      ],
+      [
+        40.9837,
+        29.2314
+      ],
+      [
+        40.98369,
+        29.23135
+      ],
+      [
+        40.98367,
+        29.23129
+      ],
+      [
+        40.98363,
+        29.23123
+      ],
+      [
+        40.98361,
+        29.23121
+      ],
+      [
+        40.98355,
+        29.23119
+      ],
+      [
+        40.98351,
+        29.2312
+      ],
+      [
+        40.98338,
+        29.23112
+      ],
+      [
+        40.98333,
+        29.23108
+      ],
+      [
+        40.98336,
+        29.23102
+      ],
+      [
+        40.98328,
+        29.23089
+      ],
+      [
+        40.9832,
+        29.23043
+      ],
+      [
+        40.98312,
+        29.23049
+      ],
+      [
+        40.98306,
+        29.23059
+      ],
+      [
+        40.98264,
+        29.2303
+      ],
+      [
+        40.9822,
+        29.22996
+      ],
+      [
+        40.98163,
+        29.22952
+      ],
+      [
+        40.9813,
+        29.22925
+      ],
+      [
+        40.98121,
+        29.22922
+      ],
+      [
+        40.9807,
+        29.22925
+      ],
+      [
+        40.98043,
+        29.22924
+      ],
+      [
+        40.97977,
+        29.22918
+      ],
+      [
+        40.97903,
+        29.22908
+      ]
+    ]
+  },
+  "walking": {
+    "origin": null
+  },
+  "_build": {
+    "generatedAt": "2026-10-10T20:40:53.808Z",
+    "searchRadiusMeters": 1000,
+    "linesScanned": 1103,
+    "linesInGetHatJson": 783,
+    "linesFailed": 0,
+    "sources": [
+      "İBB Açık Veri — İETT Hat-Durak-Güzergâh ve ibb.asmx web servisleri (data.ibb.gov.tr)",
+      "İBB Açık Veri — İETT GTFS stops.csv (yön bilgisi)",
+      "OSRM foot profili — routing.openstreetmap.de (OpenStreetMap verisi)"
+    ],
+    "verification": {
+      "expected": [
+        "11ÜS",
+        "14S",
+        "18Ü",
+        "18V",
+        "19V",
+        "131C",
+        "132M",
+        "132S",
+        "522ST",
+        "UM73"
+      ],
+      "foundInTop3Stops": [
+        "11ÜS",
+        "14S",
+        "18Ü",
+        "18V",
+        "131C",
+        "132M",
+        "522ST",
+        "UM73"
+      ],
+      "foundWithin1km": [
+        "19V",
+        "132S"
+      ],
+      "notFoundWithin1km": [],
+      "notInExpectedButFoundOnTop3": [
+        "11SA",
+        "122H",
+        "131",
+        "131H",
+        "131Ü",
+        "14KS",
+        "18F",
+        "18UK",
+        "19SB",
+        "KM70",
+        "M5",
+        "SM1",
+        "SM10",
+        "SM11",
+        "SM12",
+        "SM15",
+        "SM4",
+        "SM5",
+        "SM6",
+        "SM9"
+      ]
+    }
+  },
+  "toplutasima": {
+    "varis": {
+      "ad": "Samandıra Merkez Metro",
+      "metro": "M5 Samandıra Merkez",
+      "otobusDuragi": "Samandıra Merkez Metro",
+      "dogrulandi": false,
+      "yanDurak": "Samandıra Metro",
+      "yanDurakKod": "291721"
+    },
+    "baslangiclar": [
+      {
+        "id": "sultanbeyli",
+        "ad": "Sultanbeyli Merkez",
+        "koordinat": [
+          40.966086,
+          29.27079
+        ],
+        "koordinatKaynak": "İETT durak 222572 (SULTANBEYLİ MERKEZ - SULTANÇEŞME)",
+        "otobus": [
+          {
+            "hat": "11ÜS",
+            "ad": "SULTANBEYLİ - ÜSKÜDAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "14S",
+            "ad": "SULTANBEYLİ - KOZYATAĞI METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "14KS",
+            "ad": "SULTANBEYLİ GÖLET - KOZYATAĞI METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "18Ü",
+            "ad": "HAREM PERONLAR - SULTANBEYLİ PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "18UK",
+            "ad": "UZUNDERE-KOZYATAĞI",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "122H",
+            "ad": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "522ST",
+            "ad": "SULTANBEYLİ - MECİDİYEKÖY",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "131",
+            "ad": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "131C",
+            "ad": "NECİP FAZIL METRO - SABİHA GÖKÇEN HAVALİMANI",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "131H",
+            "ad": "TEPEÜSTÜ - HİLAL KONUTLARI",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "19SB",
+            "ad": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "SM10",
+            "ad": "SULTANBEYLİ PERONLAR - SANCAKTEPE BELEDİYESİ",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO"
+            }
+          },
+          {
+            "hat": "UM73",
+            "ad": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+            "grup": "yan",
+            "not": "Metro girişine kısa yürüyüş",
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO"
+            }
+          },
+          {
+            "hat": "SM1",
+            "ad": "SULTANBEYLI - SAMANDIRA MERKEZ METRO",
+            "grup": "besleme",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO"
+            }
+          },
+          {
+            "hat": "SM4",
+            "ad": "KURTKÖY METRO / HILAL KONUTLARI - SAMANDIRA MERKEZ METRO",
+            "grup": "besleme",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO"
+            }
+          }
+        ],
+        "otobusDiger": [],
+        "metro": {
+          "hat": "M5",
+          "dogrulandi": false,
+          "kalkisIstasyonu": "Sultanbeyli",
+          "varisIstasyonu": "Samandıra Merkez",
+          "yon": "Üsküdar yönü",
+          "araIstasyonlar": [
+            "Hasanpaşa",
+            "Veysel Karani"
+          ],
+          "kaynak": "Metro İstanbul API (api.ibb.gov.tr/MetroIstanbul), 2026-10-11"
+        },
+        "dogrulandi": false
+      },
+      {
+        "id": "sarigazi",
+        "ad": "Sarıgazi Merkez",
+        "koordinat": [
+          41.009124,
+          29.213202
+        ],
+        "koordinatKaynak": "İETT durak 222432 (SARIGAZİ MERKEZ - METRO)",
+        "otobus": [
+          {
+            "hat": "11SA",
+            "ad": "UĞUR MUMCU / SAMANDIRA - YENİDOĞAN PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "11ÜS",
+            "ad": "SULTANBEYLİ - ÜSKÜDAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "122H",
+            "ad": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "522ST",
+            "ad": "SULTANBEYLİ - MECİDİYEKÖY",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "UM60",
+            "ad": "SANCAKTEPE - NECİP FAZIL METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            },
+            "inisDurakDiger": [
+              {
+                "kod": "230551",
+                "ad": "SAMANDIRA MERKEZ METRO"
+              }
+            ]
+          },
+          {
+            "hat": "122V",
+            "ad": "VEYSEL KARANİ - 4.LEVENT METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            },
+            "inisDurakDiger": [
+              {
+                "kod": "230551",
+                "ad": "SAMANDIRA MERKEZ METRO"
+              }
+            ]
+          },
+          {
+            "hat": "14S",
+            "ad": "SULTANBEYLİ - KOZYATAĞI METRO",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "131B",
+            "ad": "ESTERGON CADDESİ - BATTALGAZİ MAHALLESİ",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "131H",
+            "ad": "TEPEÜSTÜ - HİLAL KONUTLARI",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "131Ü",
+            "ad": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": true,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "131Y",
+            "ad": "ÇEKMEKÖY/SAMANDIRA-KARTAL",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "UM73",
+            "ad": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+            "grup": "yan",
+            "not": "Metro girişine kısa yürüyüş",
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "131",
+            "ad": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+            "grup": "yan",
+            "not": "Metro girişine kısa yürüyüş",
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            }
+          },
+          {
+            "hat": "131A",
+            "ad": "ESTERGON CADDESİ - ATATÜRK ORTAOKULU",
+            "grup": "yan",
+            "not": "Metro girişine kısa yürüyüş",
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            },
+            "inisDurakDiger": [
+              {
+                "kod": "230551",
+                "ad": "SAMANDIRA MERKEZ METRO"
+              }
+            ]
+          },
+          {
+            "hat": "19SB",
+            "ad": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+            "grup": "yan",
+            "not": "Metro girişine kısa yürüyüş",
+            "dogrulandi": false,
+            "gizle": true
+          }
+        ],
+        "otobusDiger": [
+          {
+            "hat": "19V",
+            "ad": "VEYSEL KARANİ / SAMANDIRA - KOZYATAĞI METRO",
+            "grup": "ikincil",
+            "not": "Samandıra'da başka bir durakta görünüyor",
+            "dogrulandi": false,
+            "inisDurak": {
+              "kod": "204132",
+              "ad": "SAMANDIRA"
+            },
+            "inisDurakDiger": [
+              {
+                "kod": "230551",
+                "ad": "SAMANDIRA MERKEZ METRO"
+              }
+            ]
+          }
+        ],
+        "metro": {
+          "hat": "M5",
+          "dogrulandi": false,
+          "kalkisIstasyonu": "Sarıgazi",
+          "varisIstasyonu": "Samandıra Merkez",
+          "yon": "Sultanbeyli yönü",
+          "araIstasyonlar": [
+            "Sancaktepe Şehir Hastanesi",
+            "Sancaktepe"
+          ],
+          "kaynak": "Metro İstanbul API (api.ibb.gov.tr/MetroIstanbul), 2026-10-11"
+        },
+        "dogrulandi": false
+      },
+      {
+        "id": "yenidogan",
+        "ad": "Yenidoğan Merkez",
+        "durakAdi": "Yenidoğan Merkez Camii",
+        "koordinat": [
+          41.013659,
+          29.245457
+        ],
+        "koordinatKaynak": "İETT durak 216171 (YENİDOĞAN MERKEZ CAMİİ)",
+        "otobus": [
+          {
+            "hat": "132S",
+            "ad": "YENİDOĞAN - KARTAL",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "18E",
+            "ad": "KADIKÖY - YENİDOĞAN PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "18Y",
+            "ad": "HAREM PERONLAR - YENİDOĞAN PERONLAR",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          },
+          {
+            "hat": "132YB",
+            "ad": "YENİDOĞAN - MARMARA ÜNİVERSİTESİ BAŞIBÜYÜK KAMPÜSÜ",
+            "grup": "ana",
+            "not": null,
+            "dogrulandi": false,
+            "gizle": true
+          }
+        ],
+        "otobusDiger": [],
+        "metro": null,
+        "dogrulandi": false,
+        "dogrudanHat": false,
+        "aktarmaNotu": "Yenidoğan'dan doğrudan hat bulunmuyor, aktarmalı rota için Google Haritalar'da açın"
+      }
+    ],
+    "yurume": {
+      "baslangic": "Samandıra Metro (İETT), Değirmen Sk. No:4",
+      "baslangicKoordinat": [
+        40.9840123,
+        29.2317291
+      ],
+      "hedefKoordinat": [
+        40.9790285,
+        29.2290503
+      ],
+      "mesafeMetre": 750,
+      "sureDakika": 11,
+      "kaynak": "Google Haritalar, yürüyerek (kullanıcı doğruladı)",
+      "dogrulandi": true,
+      "yol": [
+        [
+          40.98403,
+          29.23168
+        ],
+        [
+          40.98398,
+          29.23164
+        ],
+        [
+          40.98391,
+          29.23159
+        ],
+        [
+          40.98389,
+          29.23154
+        ],
+        [
+          40.98378,
+          29.23119
+        ],
+        [
+          40.98373,
+          29.23105
+        ],
+        [
+          40.98369,
+          29.23106
+        ],
+        [
+          40.98353,
+          29.23109
+        ],
+        [
+          40.98336,
+          29.23102
+        ],
+        [
+          40.98328,
+          29.23089
+        ],
+        [
+          40.9832,
+          29.23043
+        ],
+        [
+          40.98312,
+          29.23049
+        ],
+        [
+          40.98306,
+          29.23059
+        ],
+        [
+          40.98264,
+          29.2303
+        ],
+        [
+          40.9822,
+          29.22996
+        ],
+        [
+          40.98163,
+          29.22952
+        ],
+        [
+          40.9813,
+          29.22925
+        ],
+        [
+          40.98121,
+          29.22922
+        ],
+        [
+          40.9807,
+          29.22925
+        ],
+        [
+          40.98043,
+          29.22924
+        ],
+        [
+          40.97977,
+          29.22918
+        ],
+        [
+          40.97903,
+          29.22908
+        ]
+      ],
+      "yolOsrmMetre": 661,
+      "yolOsrmDakika": 9,
+      "yolKaynak": "OSRM foot profili (routing.openstreetmap.de, OpenStreetMap verisi), 2026-10-10 — yalnızca çizgi için"
+    }
+  }
+}

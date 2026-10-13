@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Üçüncü taraf, küçültülmüş kütüphane (Leaflet)
+    "public/widget/vendor/**",
   ]),
 ]);
 

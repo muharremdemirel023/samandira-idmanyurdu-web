@@ -1,0 +1,1281 @@
+{
+  "olusturma": "2026-10-10T21:38:05.273Z",
+  "tamTarama": true,
+  "hatSayisi": 1103,
+  "arisKumesi": [
+    {
+      "kod": "204132",
+      "ad": "SAMANDIRA",
+      "metroKoordinatinaMetre": 122
+    },
+    {
+      "kod": "230551",
+      "ad": "SAMANDIRA MERKEZ METRO",
+      "metroKoordinatinaMetre": 75
+    },
+    {
+      "kod": "291721",
+      "ad": "SAMANDIRA METRO",
+      "metroKoordinatinaMetre": 104
+    }
+  ],
+  "baslangiclar": {
+    "sultanbeyli": {
+      "ad": "Sultanbeyli Merkez",
+      "baslangicDurakKumesi": [
+        "222571 SULTANBEYLİ MERKEZ - SULTANÇEŞME (40.965826, 29.271026)",
+        "222572 SULTANBEYLİ MERKEZ - SULTANÇEŞME (40.966086, 29.27079)"
+      ],
+      "seedDuraklar": [
+        "222571",
+        "222572"
+      ],
+      "hatlar": [
+        {
+          "hat": "11ÜS",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - ÜSKÜDAR",
+          "iettAdi": "SULTANBEYLİ - ÜSKÜDAR ",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "14S",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - KOZYATAĞI METRO",
+          "iettAdi": "SULTANBEYLİ - KOZYATAĞI METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "14KS",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ GÖLET - KOZYATAĞI METRO",
+          "iettAdi": "SULTANBEYLİ GÖLET - KOZYATAĞI METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "18Ü",
+          "grup": "ana",
+          "kullaniciAdi": "HAREM PERONLAR - SULTANBEYLİ PERONLAR",
+          "iettAdi": "HAREM PERONLAR - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "18UK",
+          "grup": "ana",
+          "kullaniciAdi": "UZUNDERE-KOZYATAĞI",
+          "iettAdi": "UZUNDERE-KOZYATAĞI",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "122H",
+          "grup": "ana",
+          "kullaniciAdi": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+          "iettAdi": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "522ST",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - MECİDİYEKÖY",
+          "iettAdi": "SULTANBEYLİ - MECİDİYEKÖY",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131",
+          "grup": "ana",
+          "kullaniciAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "iettAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131C",
+          "grup": "ana",
+          "kullaniciAdi": "NECİP FAZIL METRO - SABİHA GÖKÇEN HAVALİMANI",
+          "iettAdi": "NECİP FAZIL METRO - SABİHA GÖKÇEN HAVALİMANI",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131H",
+          "grup": "ana",
+          "kullaniciAdi": "TEPEÜSTÜ - HİLAL KONUTLARI",
+          "iettAdi": "TEPEÜSTÜ - HİLAL KONUTLARI",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "19SB",
+          "grup": "ana",
+          "kullaniciAdi": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+          "iettAdi": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "SM10",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ PERONLAR - SANCAKTEPE BELEDİYESİ",
+          "iettAdi": "SULTANBEYLİ PERONLAR - SANCAKTEPE BELEDİYESİ",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "230551",
+            "ad": "SAMANDIRA MERKEZ METRO",
+            "metroKoordinatinaMetre": 75
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "UM73",
+          "grup": "yan",
+          "kullaniciAdi": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+          "iettAdi": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 7,
+              "metroKoordinatinaMetre": 104
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "291721",
+            "ad": "SAMANDIRA METRO",
+            "metroKoordinatinaMetre": 104
+          },
+          "durakSayisi": 7
+        },
+        {
+          "hat": "SM1",
+          "grup": "besleme",
+          "kullaniciAdi": "SULTANBEYLI - SAMANDIRA MERKEZ METRO",
+          "iettAdi": "SULTANBEYLI - SAMANDIRA MERKEZ METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 7,
+              "metroKoordinatinaMetre": 104
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "291721",
+            "ad": "SAMANDIRA METRO",
+            "metroKoordinatinaMetre": 104
+          },
+          "durakSayisi": 7
+        },
+        {
+          "hat": "SM4",
+          "grup": "besleme",
+          "kullaniciAdi": "KURTKÖY METRO / HILAL KONUTLARI - SAMANDIRA MERKEZ METRO",
+          "iettAdi": "KURTKÖY METRO / HILAL KONUTLARI - SAMANDIRA MERKEZ METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "291721",
+              "ad": "SAMANDIRA METRO",
+              "yon": "G",
+              "binisKod": "222572",
+              "durakSayisi": 7,
+              "metroKoordinatinaMetre": 104
+            }
+          ],
+          "yon": "Gidiş",
+          "binis": {
+            "kod": "222572",
+            "ad": "SULTANBEYLİ MERKEZ - SULTANÇEŞME"
+          },
+          "inis": {
+            "kod": "291721",
+            "ad": "SAMANDIRA METRO",
+            "metroKoordinatinaMetre": 104
+          },
+          "durakSayisi": 7
+        }
+      ],
+      "listedeOlmayanAmaDogrulananHatlar": []
+    },
+    "sarigazi": {
+      "ad": "Sarıgazi Merkez",
+      "baslangicDurakKumesi": [
+        "222432 SARIGAZİ MERKEZ - METRO (41.009124, 29.213202)",
+        "218842 SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ (41.008363, 29.213309)"
+      ],
+      "seedDuraklar": [
+        "222432"
+      ],
+      "hatlar": [
+        {
+          "hat": "11SA",
+          "grup": "ana",
+          "kullaniciAdi": "UĞUR MUMCU / SAMANDIRA - YENİDOĞAN PERONLAR",
+          "iettAdi": "UĞUR MUMCU / SAMANDIRA - YENİDOĞAN PERONLAR",
+          "adUyumu": true,
+          "durum": "baslangic-duragi-yok",
+          "aciklama": "Samandıra Metro çevresine uğruyor, başlangıç durağı hattın güzergâhında yok",
+          "metroDuraklari": [
+            "D#19 204132 SAMANDIRA",
+            "G#28 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "11ÜS",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - ÜSKÜDAR",
+          "iettAdi": "SULTANBEYLİ - ÜSKÜDAR ",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "122H",
+          "grup": "ana",
+          "kullaniciAdi": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+          "iettAdi": "S.GÖKÇEN HAVALİMANI / YENİŞEHİR - 4.LEVENT METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "522ST",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - MECİDİYEKÖY",
+          "iettAdi": "SULTANBEYLİ - MECİDİYEKÖY",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "UM60",
+          "grup": "ana",
+          "kullaniciAdi": "SANCAKTEPE - NECİP FAZIL METRO",
+          "iettAdi": "SANCAKTEPE - NECİP FAZIL METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 9,
+              "metroKoordinatinaMetre": 122
+            },
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 10,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 9
+        },
+        {
+          "hat": "122V",
+          "grup": "ana",
+          "kullaniciAdi": "VEYSEL KARANİ - 4.LEVENT METRO",
+          "iettAdi": "VEYSEL KARANİ - 4.LEVENT METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            },
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 9,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "14S",
+          "grup": "ana",
+          "kullaniciAdi": "SULTANBEYLİ - KOZYATAĞI METRO",
+          "iettAdi": "SULTANBEYLİ - KOZYATAĞI METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131B",
+          "grup": "ana",
+          "kullaniciAdi": "ESTERGON CADDESİ - BATTALGAZİ MAHALLESİ",
+          "iettAdi": "ESTERGON CADDESİ - BATTALGAZİ MAHALLESİ",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 9,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 9
+        },
+        {
+          "hat": "131H",
+          "grup": "ana",
+          "kullaniciAdi": "TEPEÜSTÜ - HİLAL KONUTLARI",
+          "iettAdi": "TEPEÜSTÜ - HİLAL KONUTLARI",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131Ü",
+          "grup": "ana",
+          "kullaniciAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "iettAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131Y",
+          "grup": "ana",
+          "kullaniciAdi": "ÇEKMEKÖY/SAMANDIRA-KARTAL",
+          "iettAdi": "ÇEKMEKÖY/SAMANDIRA-KARTAL  ",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#37 222432 SARIGAZİ MERKEZ - METRO",
+            "G#26 218842 SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          ],
+          "metroDuraklari": [
+            "D#24 204132 SAMANDIRA",
+            "D#25 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "UM73",
+          "grup": "yan",
+          "kullaniciAdi": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+          "iettAdi": "SABİHA GÖKÇEN H.L./ SULTANBEYLİ - SAMANDIRA MERKEZ METRO",
+          "adUyumu": true,
+          "durum": "baslangic-duragi-yok",
+          "aciklama": "Samandıra Metro çevresine uğruyor, başlangıç durağı hattın güzergâhında yok",
+          "metroDuraklari": [
+            "D#1 291721 SAMANDIRA METRO",
+            "G#38 291721 SAMANDIRA METRO"
+          ]
+        },
+        {
+          "hat": "131",
+          "grup": "yan",
+          "kullaniciAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "iettAdi": "ESTERGON CADDESİ - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "131A",
+          "grup": "yan",
+          "kullaniciAdi": "ESTERGON CADDESİ - ATATÜRK ORTAOKULU",
+          "iettAdi": "ESTERGON CADDESİ - ATATÜRK ORTAOKULU",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            },
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 9,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        },
+        {
+          "hat": "19SB",
+          "grup": "yan",
+          "kullaniciAdi": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+          "iettAdi": "ALİ NİHAT TARLAN CADDESİ - SULTANBEYLİ PERONLAR",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#37 218842 SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ",
+            "G#34 222432 SARIGAZİ MERKEZ - METRO"
+          ],
+          "metroDuraklari": [
+            "G#24 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "19V",
+          "grup": "ikincil",
+          "kullaniciAdi": "VEYSEL KARANİ / SAMANDIRA - KOZYATAĞI METRO",
+          "iettAdi": "VEYSEL KARANİ / SAMANDIRA - KOZYATAĞI METRO",
+          "adUyumu": true,
+          "durum": "dogrulandi",
+          "inisDuraklari": [
+            {
+              "kod": "204132",
+              "ad": "SAMANDIRA",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 8,
+              "metroKoordinatinaMetre": 122
+            },
+            {
+              "kod": "230551",
+              "ad": "SAMANDIRA MERKEZ METRO",
+              "yon": "D",
+              "binisKod": "218842",
+              "durakSayisi": 9,
+              "metroKoordinatinaMetre": 75
+            }
+          ],
+          "yon": "Dönüş",
+          "binis": {
+            "kod": "218842",
+            "ad": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ"
+          },
+          "inis": {
+            "kod": "204132",
+            "ad": "SAMANDIRA",
+            "metroKoordinatinaMetre": 122
+          },
+          "durakSayisi": 8
+        }
+      ],
+      "listedeOlmayanAmaDogrulananHatlar": [
+        {
+          "hat": "M5",
+          "iettAdi": "SAMANDIRA METRO - ÜSKÜDAR",
+          "binis": "SANCAKTEPE KAYMAKAMLIĞI - SARIGAZİ KÖYİÇİ",
+          "inis": "SAMANDIRA",
+          "durakSayisi": 8
+        }
+      ]
+    },
+    "yenidogan": {
+      "ad": "Yenidoğan Merkez",
+      "baslangicDurakKumesi": [
+        "216172 YENİDOĞAN MERKEZ CAMİİ (41.012989, 29.246003)",
+        "216171 YENİDOĞAN MERKEZ CAMİİ (41.013659, 29.245457)",
+        "204461 BARBAROS CADDESİ (41.01431, 29.245129)"
+      ],
+      "seedDuraklar": [
+        "216172",
+        "216171"
+      ],
+      "hatlar": [
+        {
+          "hat": "132S",
+          "grup": "ana",
+          "kullaniciAdi": "YENİDOĞAN - KARTAL",
+          "iettAdi": "YENİDOĞAN - KARTAL ",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#51 216172 YENİDOĞAN MERKEZ CAMİİ",
+            "G#12 216171 YENİDOĞAN MERKEZ CAMİİ"
+          ],
+          "metroDuraklari": [
+            "D#32 204132 SAMANDIRA",
+            "D#33 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "18E",
+          "grup": "ana",
+          "kullaniciAdi": "KADIKÖY - YENİDOĞAN PERONLAR",
+          "iettAdi": "KADIKÖY - YENİDOĞAN PERONLAR",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#34 216172 YENİDOĞAN MERKEZ CAMİİ",
+            "G#12 216171 YENİDOĞAN MERKEZ CAMİİ"
+          ],
+          "metroDuraklari": [
+            "D#18 204132 SAMANDIRA",
+            "D#19 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "18Y",
+          "grup": "ana",
+          "kullaniciAdi": "HAREM PERONLAR - YENİDOĞAN PERONLAR",
+          "iettAdi": "HAREM PERONLAR - YENİDOĞAN PERONLAR",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#42 216172 YENİDOĞAN MERKEZ CAMİİ",
+            "G#12 216171 YENİDOĞAN MERKEZ CAMİİ"
+          ],
+          "metroDuraklari": [
+            "D#25 204132 SAMANDIRA",
+            "D#26 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        },
+        {
+          "hat": "132YB",
+          "grup": "ana",
+          "kullaniciAdi": "YENİDOĞAN - MARMARA ÜNİVERSİTESİ BAŞIBÜYÜK KAMPÜSÜ",
+          "iettAdi": "YENİDOĞAN - MARMARA ÜNİVERSİTESİ BAŞIBÜYÜK KAMPÜSÜ",
+          "adUyumu": true,
+          "durum": "yon-celiskisi",
+          "aciklama": "Hat hem başlangıç hem metro durağına uğruyor ama hiçbir yönde başlangıçtan SONRA metro durağı gelmiyor (ters yön).",
+          "baslangicDuraklari": [
+            "D#50 216172 YENİDOĞAN MERKEZ CAMİİ",
+            "G#12 216171 YENİDOĞAN MERKEZ CAMİİ"
+          ],
+          "metroDuraklari": [
+            "D#31 204132 SAMANDIRA",
+            "D#32 230551 SAMANDIRA MERKEZ METRO"
+          ]
+        }
+      ],
+      "listedeOlmayanAmaDogrulananHatlar": []
+    }
+  },
+  "metro": {
+    "m5Istasyonlar": [
+      {
+        "sira": 1,
+        "ad": "Üsküdar",
+        "lat": "41.025618259645256",
+        "lon": "29.015061927581854",
+        "aktif": true
+      },
+      {
+        "sira": 2,
+        "ad": "Fıstıkağacı",
+        "lat": "41.028174185609586",
+        "lon": "29.028549998040898",
+        "aktif": true
+      },
+      {
+        "sira": 3,
+        "ad": "Bağlarbaşı",
+        "lat": "41.02148576285262",
+        "lon": "29.035391369205474",
+        "aktif": true
+      },
+      {
+        "sira": 4,
+        "ad": "Altunizade",
+        "lat": "41.02256927368503",
+        "lon": "29.045163182699945",
+        "aktif": true
+      },
+      {
+        "sira": 5,
+        "ad": "Kısıklı",
+        "lat": "41.02223769603908",
+        "lon": "29.062589925029574",
+        "aktif": true
+      },
+      {
+        "sira": 6,
+        "ad": "Bulgurlu",
+        "lat": "41.016382220485276",
+        "lon": "29.07613191178137",
+        "aktif": true
+      },
+      {
+        "sira": 7,
+        "ad": "Ümraniye",
+        "lat": "41.02475044117759",
+        "lon": "29.084914619850238",
+        "aktif": true
+      },
+      {
+        "sira": 8,
+        "ad": "Çarşı",
+        "lat": "41.025898812622515",
+        "lon": "29.097186268407956",
+        "aktif": true
+      },
+      {
+        "sira": 9,
+        "ad": "Yamanevler",
+        "lat": "41.02436045931574",
+        "lon": "29.10893285940382",
+        "aktif": true
+      },
+      {
+        "sira": 10,
+        "ad": "Çakmak",
+        "lat": "41.021651794492854",
+        "lon": "29.11831687527492",
+        "aktif": true
+      },
+      {
+        "sira": 11,
+        "ad": "Ihlamurkuyu",
+        "lat": "41.0193938740756",
+        "lon": "29.13128274037028",
+        "aktif": true
+      },
+      {
+        "sira": 12,
+        "ad": "Altınşehir",
+        "lat": "41.01682949821649",
+        "lon": "29.138624552588546",
+        "aktif": true
+      },
+      {
+        "sira": 13,
+        "ad": "İmam Hatip Lisesi",
+        "lat": "41.016188074469916",
+        "lon": "29.15243635386462",
+        "aktif": true
+      },
+      {
+        "sira": 14,
+        "ad": "Dudullu",
+        "lat": "41.01544045560607",
+        "lon": "29.16244635386456",
+        "aktif": true
+      },
+      {
+        "sira": 15,
+        "ad": "Necip Fazıl",
+        "lat": "41.01620878613601",
+        "lon": "29.17929437105173",
+        "aktif": true
+      },
+      {
+        "sira": 16,
+        "ad": "Çekmeköy",
+        "lat": "41.01456617003643",
+        "lon": "29.189447811535",
+        "aktif": true
+      },
+      {
+        "sira": 17,
+        "ad": "Meclis",
+        "lat": "41.0097339184714",
+        "lon": "29.198827223504292",
+        "aktif": true
+      },
+      {
+        "sira": 18,
+        "ad": "Sarıgazi",
+        "lat": "41.01031088932276",
+        "lon": "29.212121182720836",
+        "aktif": true
+      },
+      {
+        "sira": 19,
+        "ad": "Sancaktepe Şehir Hastanesi",
+        "lat": "41.00227180504451",
+        "lon": "29.216814933507717",
+        "aktif": true
+      },
+      {
+        "sira": 20,
+        "ad": "Sancaktepe",
+        "lat": "40.99133734652666",
+        "lon": "29.22925491155591",
+        "aktif": true
+      },
+      {
+        "sira": 21,
+        "ad": "Samandıra Merkez",
+        "lat": "40.983897557616025",
+        "lon": "29.231410725047297",
+        "aktif": true
+      },
+      {
+        "sira": 22,
+        "ad": "Veysel Karani",
+        "lat": null,
+        "lon": null,
+        "aktif": true
+      },
+      {
+        "sira": 23,
+        "ad": "Hasanpaşa",
+        "lat": null,
+        "lon": null,
+        "aktif": true
+      },
+      {
+        "sira": 24,
+        "ad": "Sultanbeyli",
+        "lat": null,
+        "lon": null,
+        "aktif": true
+      }
+    ],
+    "hedefIstasyon": {
+      "sira": 21,
+      "ad": "Samandıra Merkez",
+      "lat": 40.983897557616025,
+      "lon": 29.231410725047297
+    },
+    "kullaniciKoordinatiIleFarkMetre": 30,
+    "kullaniciKoordinatiIleAkademiKusUcusuMetre": 598,
+    "hatAdi": "Üsküdar-Sultanbeyli Metro Hattı",
+    "baslangiclar": {
+      "sultanbeyli": {
+        "kalkis": "Sultanbeyli",
+        "varis": "Samandıra Merkez",
+        "yon": "Üsküdar yönü",
+        "istasyonAraligi": 3,
+        "araIstasyonlar": [
+          "Hasanpaşa",
+          "Veysel Karani"
+        ],
+        "kullaniciNotu": null
+      },
+      "sarigazi": {
+        "kalkis": "Sarıgazi",
+        "varis": "Samandıra Merkez",
+        "yon": "Sultanbeyli yönü",
+        "istasyonAraligi": 3,
+        "araIstasyonlar": [
+          "Sancaktepe Şehir Hastanesi",
+          "Sancaktepe"
+        ],
+        "kullaniciNotu": null
+      }
+    },
+    "enYakinIstasyonlar": {
+      "yenidogan": [
+        {
+          "hat": "M5",
+          "ad": "Sancaktepe Şehir Hastanesi",
+          "kusUcusuMetre": 2724
+        },
+        {
+          "hat": "M5",
+          "ad": "Sancaktepe",
+          "kusUcusuMetre": 2788
+        },
+        {
+          "hat": "M5",
+          "ad": "Sarıgazi",
+          "kusUcusuMetre": 2858
+        }
+      ]
+    }
+  },
+  "inisDuraklariYurume": {
+    "not": "OSRM foot; yalnızca karşılaştırma. config'teki gösterilen yürüme değerleri DEĞİŞTİRİLMEDİ.",
+    "hedef": [
+      40.9790285,
+      29.2290503
+    ],
+    "duraklar": [
+      {
+        "kod": null,
+        "ad": "yurume.baslangic (config)",
+        "osrm": {
+          "metre": 661,
+          "dakika": 8.8
+        }
+      },
+      {
+        "kod": "204132",
+        "ad": "SAMANDIRA",
+        "osrm": {
+          "metre": 707,
+          "dakika": 9.5
+        }
+      },
+      {
+        "kod": "230551",
+        "ad": "SAMANDIRA MERKEZ METRO",
+        "osrm": {
+          "metre": 752,
+          "dakika": 10
+        }
+      },
+      {
+        "kod": "291721",
+        "ad": "SAMANDIRA METRO",
+        "osrm": {
+          "metre": 693,
+          "dakika": 9.2
+        }
+      }
+    ]
+  }
+}
