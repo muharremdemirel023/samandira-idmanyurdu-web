@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { createPageMetadata, sportsActivityLocationJsonLd } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
+import { NasilGelinirInline } from "@/components/sections/NasilGelinirInline.client";
 import { getSiteSettings } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 
@@ -132,6 +133,16 @@ export default async function IletisimPage() {
                   ))}
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-12 md:mt-16">
+            <div className="mb-4 flex flex-col gap-1">
+              <p className="type-overline club-kicker-line text-accent">Ulaşım</p>
+              <h2 className="type-heading-md text-text-primary">Nasıl gelebilirsiniz?</h2>
+            </div>
+            <div className="max-w-3xl">
+              <NasilGelinirInline />
             </div>
           </div>
 

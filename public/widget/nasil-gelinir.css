@@ -1422,3 +1422,43 @@
     border-color: CanvasText;
   }
 }
+
+/* ---------- sayfaya gömülü (sabit) kopya — ör. İletişim sayfası ---------- */
+.ng.ng-inline {
+  --ng-w: 100%;
+  position: relative;
+  z-index: auto;
+  top: auto;
+  right: auto;
+  width: 100%;
+  align-items: stretch;
+  pointer-events: auto;
+}
+
+.ng-inline .ng-stack {
+  align-items: stretch;
+}
+
+.ng-inline .ng-panel {
+  max-height: none;
+  overflow: visible;
+}
+
+.ng-inline .ng-map {
+  height: 15rem;
+}
+
+@media (min-width: 40rem) {
+  .ng.ng-inline {
+    right: auto;
+  }
+
+  .ng-inline .ng-mode {
+    min-height: 4.8rem;
+    font-size: 0.82rem;
+  }
+
+  .ng-inline .ng-map {
+    height: 19rem;
+  }
+}

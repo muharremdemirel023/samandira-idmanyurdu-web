@@ -6,7 +6,16 @@ Betikler: `scripts/nasil-gelinir/` (`fetch-transit.mjs`, `verify-toplutasima.mjs
 ## Ekleme / kaldırma
 `src/app/(site)/layout.tsx` içinde tek satır:
 `<Script src="/widget/nasil-gelinir.js" strategy="lazyOnload" />` (+ `import Script from "next/script"`).
-Kaldırmak için o satırı silin; başka hiçbir dosya widget'a bağlı değildir.
+Kaldırmak için o satırı silin. İletişim sayfasındaki sabit kopya da ayrıca kaldırılmalıdır (aşağıya bakın).
+
+## Davranış
+- Yüzen widget her sayfa açılışında `behavior.openDelayMs` sonra kendiliğinden açılır. Kapatılsa bile bu hatırlanmaz;
+  site yeniden açıldığında (sayfa yenilendiğinde) tekrar açılır. Aynı açılış içinde sayfalar arası geçişte kapalı kalır.
+
+## Sayfaya gömülü (sabit) kopya
+`src/components/sections/NasilGelinirInline.client.tsx` → `<NasilGelinirInline />` (şu an `src/app/(site)/iletisim/page.tsx`).
+Kapatma düğmesi yoktur, otomobil paneli açık başlar. Bu kopya ekrandayken sağ üstteki yüzen widget gizlenir.
+Altta `window.NasilGelinir.mount(el)` çağrılır; dönen fonksiyon kopyayı kaldırır.
 
 ## İçerik
 Adres, telefon, saatler, koordinat: `config.json` → `academy`.

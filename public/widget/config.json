@@ -19,7 +19,6 @@
   },
   "behavior": {
     "openDelayMs": 2500,
-    "storageKey": "nasilGelinir.v1",
     "hideOnPaths": [
       "/admin"
     ]
