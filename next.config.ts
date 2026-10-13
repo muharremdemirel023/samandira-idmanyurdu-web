@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         destination: `${CANONICAL_ORIGIN}/:path*`,
         permanent: true,
       },
+      // Admin panelinde yanlış girilen eski ön kayıt adresi
+      {
+        source: "/onkayit",
+        destination: "/on-kayit",
+        permanent: true,
+      },
     ];
   },
 };
