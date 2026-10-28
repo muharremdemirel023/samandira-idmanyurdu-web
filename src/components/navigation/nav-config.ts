@@ -31,8 +31,11 @@ export const mainNavigation: NavItem[] = [
     ],
   },
   { label: "SSS", href: "/akademi/sik-sorulan-sorular" },
+  { label: "Veli Girişi", href: "/veli/login" },
   { label: "İletişim", href: "/iletisim" },
   { label: "Ön Kayıt", href: "/on-kayit", cta: true },
 ];
 
 export const onboardingHref = "/on-kayit" as const;
+
+export const parentLoginHref = "/veli/login" as const;
