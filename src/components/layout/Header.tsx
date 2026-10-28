@@ -6,7 +6,13 @@ import { useEffect, useState } from "react";
 
 import { ClubLogo } from "@/components/navigation/ClubLogo";
 import { DesktopNav } from "@/components/navigation/DesktopNav";
-import { headerBrand, mainNavigation, onboardingHref, type NavItem } from "@/components/navigation/nav-config";
+import {
+  headerBrand,
+  mainNavigation,
+  onboardingHref,
+  parentLoginHref,
+  type NavItem,
+} from "@/components/navigation/nav-config";
 import { MobileMenu } from "@/components/navigation/MobileMenu";
 import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
@@ -33,6 +39,8 @@ export function Header({ customPages = [] }: HeaderProps) {
     .filter((page) => page.show_in_menu)
     .map((page) => ({ label: page.title, href: `/sayfa/${page.slug}` as const }));
   const navItems: NavItem[] = [...staticItems, ...dynamicMenuItems, ...(ctaItem ? [ctaItem] : [])];
+  /** Masaüstünde ayrı buton olarak gösterildiği için orta menüde tekrarlanmaz. */
+  const desktopNavItems = navItems.filter((item) => item.href !== parentLoginHref);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > scrollThresholdPx);
@@ -106,11 +114,23 @@ export function Header({ customPages = [] }: HeaderProps) {
             </span>
           </Link>
 
-          <div className="hidden shrink-0 items-center gap-4 md:flex lg:gap-6">
-            <DesktopNav items={navItems} variant={floating ? "floating" : "solid"} />
-            <Button href={onboardingHref} variant="primary" className="header-cta-breathe shrink-0 px-5 py-2.5 text-sm font-bold lg:px-6">
-              Ön Kayıt
-            </Button>
+          <div className="hidden shrink-0 items-center gap-3 md:flex lg:gap-5">
+            <DesktopNav items={desktopNavItems} variant={floating ? "floating" : "solid"} />
+            <div className="flex shrink-0 items-center gap-2">
+              <Button
+                href={parentLoginHref}
+                variant={floating ? "ghost" : "outline"}
+                className={cn(
+                  "shrink-0 px-4 py-2.5 text-sm font-bold lg:px-5",
+                  floating && "border border-white/35 text-white hover:border-white/55 hover:bg-white/10",
+                )}
+              >
+                Veli Girişi
+              </Button>
+              <Button href={onboardingHref} variant="primary" className="header-cta-breathe shrink-0 px-5 py-2.5 text-sm font-bold lg:px-6">
+                Ön Kayıt
+              </Button>
+            </div>
           </div>
 
           <button

@@ -51,7 +51,7 @@ export function LoginForm() {
           required
           autoComplete="current-password"
           className={fieldClass}
-          placeholder="Akademi Pro şifreniz"
+          placeholder="Şifreniz"
         />
       </div>
 
