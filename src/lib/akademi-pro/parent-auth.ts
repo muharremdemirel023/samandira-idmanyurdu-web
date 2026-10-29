@@ -4,6 +4,8 @@ import { getAkademiProConfig } from "@/lib/akademi-pro/config";
 
 export type ParentAuthSuccess = {
   accessToken: string;
+  /** Token'ın bitiş anı (Unix saniye); yanıtta yoksa null. */
+  expiresAt: number | null;
   parentName: string | null;
   phone: string | null;
 };
@@ -70,29 +72,44 @@ function pickAccessToken(payload: UnknownRecord): string | null {
   return null;
 }
 
+// Akademi Pro parent-auth yanıtı adı { parent: { first_name, last_name } }
+// olarak döner; tek alanlı ad biçimleri de desteklenir.
+function nameFromRecord(record: UnknownRecord): string | null {
+  const fullName =
+    asString(record.full_name) ??
+    asString(record.fullName) ??
+    asString(record.name) ??
+    asString(record.display_name) ??
+    asString(record.displayName);
+  if (fullName) return fullName;
+
+  const parts = [
+    asString(record.first_name) ?? asString(record.firstName),
+    asString(record.last_name) ?? asString(record.lastName),
+  ].filter(Boolean);
+  return parts.length > 0 ? parts.join(" ") : null;
+}
+
 function pickParentName(payload: UnknownRecord): string | null {
   const candidates = [payload.parent, payload.user, payload.data, payload];
   for (const candidate of candidates) {
     const record = asRecord(candidate);
     if (!record) continue;
-    const name =
-      asString(record.full_name) ??
-      asString(record.fullName) ??
-      asString(record.name) ??
-      asString(record.display_name) ??
-      asString(record.displayName);
+    const name = nameFromRecord(record);
     if (name) return name;
 
     const nestedParent = asRecord(record.parent);
     if (nestedParent) {
-      const nestedName =
-        asString(nestedParent.full_name) ??
-        asString(nestedParent.fullName) ??
-        asString(nestedParent.name);
+      const nestedName = nameFromRecord(nestedParent);
       if (nestedName) return nestedName;
     }
   }
   return null;
+}
+
+function pickExpiresAt(payload: UnknownRecord): number | null {
+  const value = payload.expires_at ?? asRecord(payload.session)?.expires_at;
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
 }
 
 function pickPhone(payload: UnknownRecord, fallback: string): string | null {
@@ -198,6 +215,7 @@ export async function loginParentWithAkademiPro(
     return {
       ok: true,
       accessToken,
+      expiresAt: pickExpiresAt(payload),
       parentName: pickParentName(payload),
       phone: pickPhone(payload, normalizedPhone),
     };

@@ -22,10 +22,14 @@ export async function parentLogin(formData: FormData) {
     redirect(`/veli/login?error=${result.reason}`);
   }
 
-  await setParentSession(result.accessToken, {
-    parentName: result.parentName,
-    phone: result.phone,
-  });
+  await setParentSession(
+    result.accessToken,
+    {
+      parentName: result.parentName,
+      phone: result.phone,
+    },
+    result.expiresAt,
+  );
 
   redirect("/veli/dashboard");
 }

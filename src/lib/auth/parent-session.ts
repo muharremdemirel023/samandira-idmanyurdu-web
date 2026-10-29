@@ -10,7 +10,16 @@ import {
 
 export { PARENT_SESSION_COOKIE, PARENT_SESSION_META_COOKIE };
 
-const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7 gün
+// Akademi Pro parent-auth token'ı 12 saat geçerlidir; cookie daha uzun
+// yaşarsa veli süresi dolmuş bir token ile "giriş yapmış" görünür.
+const SESSION_MAX_AGE_SECONDS = 60 * 60 * 12; // 12 saat
+
+/** Cookie ömrü: token'ın kalan süresi, en fazla 12 saat. */
+function sessionMaxAge(expiresAt: number | null | undefined): number {
+  if (typeof expiresAt !== "number") return SESSION_MAX_AGE_SECONDS;
+  const remaining = Math.floor(expiresAt - Date.now() / 1000);
+  return Math.max(0, Math.min(remaining, SESSION_MAX_AGE_SECONDS));
+}
 
 export type ParentSessionMeta = {
   parentName: string | null;
@@ -60,16 +69,18 @@ export async function hasParentSession(): Promise<boolean> {
 export async function setParentSession(
   accessToken: string,
   meta: ParentSessionMeta,
+  expiresAt?: number | null,
 ): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(PARENT_SESSION_COOKIE, accessToken, sessionCookieOptions());
+  const maxAge = sessionMaxAge(expiresAt);
+  cookieStore.set(PARENT_SESSION_COOKIE, accessToken, sessionCookieOptions(maxAge));
   cookieStore.set(
     PARENT_SESSION_META_COOKIE,
     JSON.stringify({
       parentName: meta.parentName,
       phone: meta.phone,
     }),
-    sessionCookieOptions(),
+    sessionCookieOptions(maxAge),
   );
 }
 
