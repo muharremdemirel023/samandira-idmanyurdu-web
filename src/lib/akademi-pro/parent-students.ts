@@ -182,6 +182,187 @@ async function explainEmptyStudents(accessToken: string): Promise<ParentStudents
   return unavailable();
 }
 
+// --- Öğrenci kayıtları (devam, gelişim, ödemeler) ----------------------------
+// Akademi Pro'nun veli view'ları security_invoker ile çalışır; altındaki RLS
+// yalnızca parent_student_links'te karşılığı olan satırları geçirir. student_id
+// filtre olarak gönderilir ama yetkiyi belirleyen o değildir. Çağıran, id'yi
+// yalnızca fetchParentStudents'ın döndürdüğü (organizasyon filtreli) listeden
+// seçer.
+
+export type ParentAttendanceRow = {
+  id: string;
+  attendanceDate: string | null;
+  status: string | null;
+  note: string | null;
+};
+
+export type ParentPerformanceRow = {
+  id: string;
+  evaluationDate: string | null;
+  evaluationPeriod: string | null;
+  evaluationNote: string | null;
+  averageScore: number | null;
+  ballControl: number | null;
+  dribbling: number | null;
+  passing: number | null;
+  shooting: number | null;
+  physical: number | null;
+  discipline: number | null;
+};
+
+export type ParentPaymentRow = {
+  id: string;
+  feeMonth: string | null;
+  amount: number | null;
+  expectedAmount: number | null;
+  dueDate: string | null;
+  paymentDate: string | null;
+  status: string | null;
+  receiptNo: string | null;
+};
+
+export type ParentStudentRecords = {
+  attendance: ParentAttendanceRow[];
+  performance: ParentPerformanceRow[];
+  payments: ParentPaymentRow[];
+};
+
+export type ParentStudentRecordsResult =
+  | ({ ok: true } & ParentStudentRecords)
+  | ParentStudentsFailure;
+
+function asNumber(value: unknown): number | null {
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+  if (typeof value === "string" && value.trim()) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
+}
+
+class RecordsRequestError extends Error {
+  constructor(readonly status: number) {
+    super(`Akademi Pro kayıt sorgusu başarısız (${status}).`);
+  }
+}
+
+async function fetchViewRows<T>(
+  accessToken: string,
+  view: string,
+  studentId: string,
+  columns: string,
+  orderColumn: string,
+  map: (row: UnknownRecord) => T | null,
+): Promise<T[]> {
+  const { status, body } = await restRequest(
+    `${view}?select=${columns}` +
+      `&student_id=eq.${encodeURIComponent(studentId)}` +
+      `&order=${orderColumn}.desc.nullslast&limit=100`,
+    accessToken,
+  );
+
+  if (status < 200 || status >= 300 || !Array.isArray(body)) {
+    console.error(`Akademi Pro ${view} sorgusu başarısız.`, status, asString(asRecord(body)?.message));
+    throw new RecordsRequestError(status);
+  }
+
+  return body
+    .map((row) => asRecord(row))
+    .filter((row): row is UnknownRecord => row !== null)
+    .map(map)
+    .filter((row): row is T => row !== null);
+}
+
+export async function fetchStudentRecords(
+  accessToken: string,
+  studentId: string,
+): Promise<ParentStudentRecordsResult> {
+  try {
+    const [attendance, performance, payments] = await Promise.all([
+      fetchViewRows(
+        accessToken,
+        "parent_attendance_view",
+        studentId,
+        "id,attendance_date,status,note",
+        "attendance_date",
+        (row): ParentAttendanceRow | null => {
+          const id = asString(row.id);
+          return id
+            ? {
+                id,
+                attendanceDate: asString(row.attendance_date),
+                status: asString(row.status),
+                note: asString(row.note),
+              }
+            : null;
+        },
+      ),
+      fetchViewRows(
+        accessToken,
+        "parent_performance_view",
+        studentId,
+        "id,evaluation_date,evaluation_period,evaluation_note,average_score," +
+          "ball_control,dribbling,passing,shooting,physical,discipline",
+        "evaluation_date",
+        (row): ParentPerformanceRow | null => {
+          const id = asString(row.id);
+          return id
+            ? {
+                id,
+                evaluationDate: asString(row.evaluation_date),
+                evaluationPeriod: asString(row.evaluation_period),
+                evaluationNote: asString(row.evaluation_note),
+                averageScore: asNumber(row.average_score),
+                ballControl: asNumber(row.ball_control),
+                dribbling: asNumber(row.dribbling),
+                passing: asNumber(row.passing),
+                shooting: asNumber(row.shooting),
+                physical: asNumber(row.physical),
+                discipline: asNumber(row.discipline),
+              }
+            : null;
+        },
+      ),
+      fetchViewRows(
+        accessToken,
+        "parent_payments_view",
+        studentId,
+        "id,fee_month,amount,expected_amount,due_date,payment_date,status,receipt_no",
+        "fee_month",
+        (row): ParentPaymentRow | null => {
+          const id = asString(row.id);
+          return id
+            ? {
+                id,
+                feeMonth: asString(row.fee_month),
+                amount: asNumber(row.amount),
+                expectedAmount: asNumber(row.expected_amount),
+                dueDate: asString(row.due_date),
+                paymentDate: asString(row.payment_date),
+                status: asString(row.status),
+                receiptNo: asString(row.receipt_no),
+              }
+            : null;
+        },
+      ),
+    ]);
+
+    return { ok: true, attendance, performance, payments };
+  } catch (error) {
+    if (error instanceof RecordsRequestError && error.status === 401) {
+      return sessionFailure("expired");
+    }
+    if (!(error instanceof RecordsRequestError)) {
+      console.error("Akademi Pro kayıt isteği hatası.", error);
+    }
+    return {
+      ok: false,
+      reason: "unavailable",
+      message: "Devam, gelişim ve ödeme kayıtları şu anda alınamıyor. Lütfen tekrar deneyin.",
+    };
+  }
+}
+
 export async function fetchParentStudents(accessToken: string): Promise<ParentStudentsResult> {
   const misconfigured: ParentStudentsFailure = {
     ok: false,
