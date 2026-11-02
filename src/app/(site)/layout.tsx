@@ -1,4 +1,3 @@
-import Script from "next/script";
 import type { ReactNode } from "react";
 
 import { AcademyAssistant } from "@/components/chatbot/AcademyAssistant";
@@ -28,8 +27,6 @@ export default async function SiteLayout({
       </main>
       <Footer />
       <AcademyAssistant />
-      {/* "Biz neredeyiz?" widget'ı — kaldırmak için bu satırı silin (bkz. public/widget/README.md) */}
-      <Script src="/widget/nasil-gelinir.js" strategy="lazyOnload" />
       <CampaignSlideIn key={activeCampaign?.id ?? "no-campaign"} campaign={activeCampaign} />
     </>
   );
