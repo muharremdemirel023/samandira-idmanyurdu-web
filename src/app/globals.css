@@ -86,6 +86,11 @@
   }
 }
 
+@theme {
+  /* Masaüstü menü (tüm bağlantılar + iki buton) bu genişlikten itibaren sığar; altında hamburger menü kullanılır. */
+  --breakpoint-nav: 85rem;
+}
+
 @theme inline {
   --color-surface-deep: var(--surface-deep);
   --color-surface-base: var(--surface-base);

@@ -22,7 +22,7 @@ export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
       {open ? (
         <motion.div
           key="mobile-sheet"
-          className="fixed inset-0 z-40 xl:hidden"
+          className="fixed inset-0 z-40 nav:hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

@@ -61,7 +61,7 @@ export function DesktopNav({
   const navItems = items ?? mainNavigation;
 
   return (
-    <nav aria-label="Birincil" className={cn("hidden xl:flex xl:items-center xl:gap-1", className)}>
+    <nav aria-label="Birincil" className={cn("hidden nav:flex nav:items-center nav:gap-1", className)}>
       {navItems
         .filter((item) => !item.cta)
         .map((item) => {

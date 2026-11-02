@@ -21,14 +21,8 @@ export const mainNavigation: NavItem[] = [
   { label: "Akademi", href: "/akademi" },
   { label: "Yaş Grupları", href: "/akademi/yas-gruplari" },
   { label: "Antrenörler", href: "/akademi/teknik-kadro" },
-  {
-    label: "Program",
-    href: "/akademi/antrenman-modeli",
-    children: [
-      { label: "Antrenman Modeli", href: "/akademi/antrenman-modeli" },
-      { label: "Lig Merkezi", href: "/lig-merkezi" },
-    ],
-  },
+  { label: "Program", href: "/akademi/antrenman-modeli" },
+  { label: "TFF Fikstürü", href: "/lig-merkezi" },
   {
     label: "Galeri",
     href: "/galeri/fotograflar",

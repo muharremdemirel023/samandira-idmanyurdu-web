@@ -19,7 +19,7 @@ export default function LigMerkeziError({
   return (
     <div className="flex flex-1 flex-col bg-surface-base">
       <Container className="pb-16 pt-[calc(var(--header-height)+1.5rem)]">
-        <p className="type-overline text-accent">Lig Merkezi</p>
+        <p className="type-overline text-accent">TFF Fikstürü</p>
         <h1 className="type-display mt-2">Sayfa yüklenemedi.</h1>
         <p className="type-lead mt-4 max-w-prose-lead">
           Lig bilgileri görüntülenirken beklenmeyen bir sorun oluştu. Lütfen tekrar deneyin.

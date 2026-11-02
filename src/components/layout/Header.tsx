@@ -91,7 +91,7 @@ export function Header({ customPages = [] }: HeaderProps) {
         >
           <Link
             href="/"
-            className="flex min-w-0 flex-1 items-center gap-2.5 pr-1 sm:gap-3 xl:min-w-0 xl:flex-initial xl:pr-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            className="flex min-w-0 flex-1 items-center gap-2.5 pr-1 sm:gap-3 nav:min-w-0 nav:flex-initial nav:pr-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
             <ClubLogo alt={`${siteConfig.name} amblemi`} />
             <span className="flex min-w-0 flex-col justify-center">
@@ -114,8 +114,8 @@ export function Header({ customPages = [] }: HeaderProps) {
             </span>
           </Link>
 
-          {/* Tam menü ve iki buton ~1250px ister; daha dar ekranlarda hamburger menü kullanılır. */}
-          <div className="hidden shrink-0 items-center gap-5 xl:flex">
+          {/* Tam menü ve iki buton ~1340px ister (globals.css → --breakpoint-nav); daha dar ekranlarda hamburger menü. */}
+          <div className="hidden shrink-0 items-center gap-5 nav:flex">
             <DesktopNav items={desktopNavItems} variant={floating ? "floating" : "solid"} />
             <div className="flex shrink-0 items-center gap-2">
               <Button
@@ -137,7 +137,7 @@ export function Header({ customPages = [] }: HeaderProps) {
           <button
             type="button"
             className={cn(
-              "flex size-10 shrink-0 items-center justify-center rounded-full border motion-safe:transition motion-safe:duration-200 xl:hidden",
+              "flex size-10 shrink-0 items-center justify-center rounded-full border motion-safe:transition motion-safe:duration-200 nav:hidden",
               floating
                 ? cn("border-white/30 text-white", menuOpen && "bg-white/15")
                 : cn(

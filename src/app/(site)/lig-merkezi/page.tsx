@@ -6,7 +6,7 @@ import { getServerNow } from "@/lib/server-time";
 import { getLeagueCenterData, istanbulToday } from "@/lib/tff/league-center";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Lig Merkezi | Samandıra İdman Yurdu Akademi",
+  title: "TFF Fikstürü | Samandıra İdman Yurdu Akademi",
   description:
     "Samandıra İdman Yurdu akademi takımlarının TFF İstanbul İl Temsilciliği tarafından yayımlanan resmî fikstür, sonuç ve puan durumu bilgileri.",
   path: "/lig-merkezi",

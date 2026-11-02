@@ -25,7 +25,7 @@ function PageIntro({ category }: { category?: string }) {
   return (
     <div className="max-w-prose-section">
       <p className="type-overline club-kicker-line text-accent">Resmî fikstür</p>
-      <h1 className="type-display text-text-primary">Lig Merkezi</h1>
+      <h1 className="type-display text-text-primary">TFF Fikstürü</h1>
       <p className="type-lead mt-5 max-w-prose-lead">
         {category ? `${category} takımımızın` : "Takımlarımızın"} {tffSourceConfig.sourceLabel} tarafından
         yayımlanan maç programı, sonuçları ve grup bilgileri.
