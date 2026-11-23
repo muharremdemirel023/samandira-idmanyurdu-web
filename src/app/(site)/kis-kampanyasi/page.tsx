@@ -113,11 +113,11 @@ const structuredData = {
 
 export default async function KisKampanyasiPage() {
   const activeCampaign = await getActiveCampaign();
-  // Kampanya aktif/pasif kontrolü: Veritabanında kış kampanyası açıkça pasif yapılmışsa veya bitmişse false döner
+  // Kampanya aktif/pasif kontrolü: Veritabanında kış kampanyası açıkça pasif yapılmışsa veya başka bir dönem kampanyası aktifse false döner
   const isCampaignActive = Boolean(
     !activeCampaign ||
-    activeCampaign.name.trim().toLocaleLowerCase("tr-TR").includes("kış") ||
-    activeCampaign.is_active
+      (activeCampaign.name.trim().toLocaleLowerCase("tr-TR").includes("kış") &&
+        activeCampaign.is_active !== false)
   );
 
   const biannualPkg = WINTER_PACKAGES.winter_biannual;
