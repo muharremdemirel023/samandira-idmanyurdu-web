@@ -9,9 +9,9 @@ import { WINTER_PACKAGES, type WinterPackageId } from "@/lib/pre-registration/co
 import { createPageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Sancaktepe Futbol Okulu Kış Kampanyası | Samandıra İdman Yurdu",
+  title: "Kış Kampanyası | Samandıra İdman Yurdu S.K. Akademi",
   description:
-    "Kış kampanyasında 5 aylık aidatla 6 ay futbol eğitimi! Kıyafet dahil avantajlı paketimizi inceleyin, hemen ön kayıt oluşturun.",
+    "Kış kampanyasında 5 aylık aidatla 6 ay futbol eğitimi! Samandıra İdman Yurdu S.K. Akademi avantajlı paketini inceleyin, Sancaktepe'de hemen ön kayıt oluşturun.",
   path: "/kis-kampanyasi",
 });
 
@@ -65,7 +65,7 @@ const structuredData = {
     },
     {
       "@type": "SportsActivityLocation",
-      "name": "Samandıra İdman Yurdu S.K. Akademi - Sancaktepe Futbol Okulu Kış Kampanyası",
+      "name": "Samandıra İdman Yurdu S.K. Akademi Kış Kampanyası",
       "url": `${SITE_URL}/kis-kampanyasi`,
       "telephone": siteConfig.phoneTel,
       "address": {
@@ -77,7 +77,7 @@ const structuredData = {
         "addressCountry": "TR",
       },
       "description":
-        "Kış kampanyasında 5 aylık aidatla 6 ay futbol eğitimi! Kıyafet dahil avantajlı paketimizi inceleyin, hemen ön kayıt oluşturun.",
+        "Kış kampanyasında 5 aylık aidatla 6 ay futbol eğitimi! Samandıra İdman Yurdu S.K. Akademi avantajlı paketini inceleyin, Sancaktepe'de hemen ön kayıt oluşturun.",
       "offers": [
         {
           "@type": "Offer",
@@ -156,14 +156,14 @@ export default async function KisKampanyasiPage() {
             <div className="mx-auto max-w-4xl text-center">
               {/* Overline & Badge */}
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-orange-50 px-4 py-1.5 text-xs font-bold text-accent shadow-sm">
-                <span>❄️ Sancaktepe Futbol Okulu</span>
+                <span>❄️ Samandıra İdman Yurdu S.K. Akademi</span>
                 <span>•</span>
                 <span>2026 Kış Dönemi Fırsatı</span>
               </div>
 
               {/* H1 */}
               <h1 className="type-display text-text-primary">
-                Sancaktepe Futbol Okulu Kış Kampanyası
+                Samandıra İdman Yurdu S.K. Akademi Kış Kampanyası
               </h1>
 
               {/* Lead Paragraph */}
@@ -482,7 +482,7 @@ export default async function KisKampanyasiPage() {
             <div className="mx-auto max-w-2xl text-center">
               <p className="type-label-caps-accent text-accent">Akademi Standartları</p>
               <h2 className="type-heading-lg mt-1 text-text-primary">
-                Samandıra İdman Yurdu Akademi Kış Dönemi Avantajları
+                Samandıra İdman Yurdu S.K. Akademi Kış Dönemi Avantajları
               </h2>
               <p className="type-lead mt-3">
                 Çocuğunuz sadece futbol öğrenmez; disiplin, saygı, takım ruhu ve özgüven kazanır.
