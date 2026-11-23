@@ -276,23 +276,16 @@ export default async function KisKampanyasiPage() {
                 </div>
 
                 {/* CTA */}
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="mt-7">
                   <Button
                     href={
                       isCampaignActive
                         ? "/on-kayit?paket=winter_biannual#on-kayit-formu"
                         : "/on-kayit"
                     }
-                    className="min-h-12 flex-1 text-base font-bold shadow-md"
+                    className="min-h-12 w-full text-base font-bold shadow-md"
                   >
                     6 Aylık Paketi Seç ve Kaydol →
-                  </Button>
-                  <Button
-                    href={`tel:${siteConfig.phoneTel}`}
-                    variant="outline"
-                    className="min-h-12 px-6 text-sm font-semibold"
-                  >
-                    Hemen Ara: {siteConfig.phoneDisplay}
                   </Button>
                 </div>
               </div>
