@@ -11,8 +11,12 @@ import type { PreRegistrationFormState } from "@/app/(site)/on-kayit/form-state"
 import {
   sendPreRegistrationAcknowledgement,
   sendPreRegistrationNotification,
+  type PreRegistrationNotificationInput,
 } from "@/lib/email/pre-registration-notification";
-import { PRE_REGISTRATION_PRIVACY_VERSION } from "@/lib/pre-registration/constants";
+import {
+  PRE_REGISTRATION_PRIVACY_VERSION,
+  type PreRegistrationCampaignType,
+} from "@/lib/pre-registration/constants";
 import {
   readHoneypot,
   readTurnstileToken,
@@ -66,7 +70,7 @@ async function consumeRateLimit(keyHash: string, windowSeconds: number, maxAttem
 
 async function updateNotificationResult(
   id: string,
-  input: Parameters<typeof sendPreRegistrationNotification>[0],
+  input: PreRegistrationNotificationInput,
 ) {
   const result = await sendPreRegistrationNotification(input);
   const supabase = createServiceRoleClient();
@@ -212,8 +216,8 @@ export async function submitPreRegistration(
       throw error;
     }
 
-    const notificationInput = {
-      campaignType: input.campaignType,
+    const notificationInput: PreRegistrationNotificationInput = {
+      campaignType: input.campaignType as PreRegistrationCampaignType,
       guardianName: input.guardianName,
       phone: input.phoneE164,
       email: input.email,

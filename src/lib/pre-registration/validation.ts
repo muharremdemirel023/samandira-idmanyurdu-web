@@ -26,8 +26,7 @@ const birthYearField = (label: string) =>
 const preRegistrationSchema = z
   .object({
     campaignType: z.enum(
-      // online_15 bu listede yer almaz - yeni basururularda kabul edilmez.
-      ACCEPTED_NEW_CAMPAIGN_TYPES as unknown as [string, ...string[]],
+      ACCEPTED_NEW_CAMPAIGN_TYPES,
       { message: "Lütfen bir kampanya seçin." },
     ),
     guardianName: z.string().trim().min(2, "Veli adı en az 2 karakter olmalıdır.").max(100, "Veli adı en fazla 100 karakter olabilir."),
