@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -15,12 +16,36 @@ import {
 } from "@/lib/campaign-animation";
 import type { Campaign } from "@/lib/content";
 
+const WinterCampaignTag = dynamic(() => import("./WinterCampaignTag").then((module) => module.WinterCampaignTag));
+
 function storageKey(campaignId: string, scope: "once" | "session") {
   return `samandira_campaign_${campaignId}_${scope}`;
 }
 
 export function CampaignSlideIn({ campaign }: { campaign: Campaign | null }) {
   const pathname = usePathname();
+
+  // Veritabanında bir kampanya tanımlıysa türüne göre göster
+  if (campaign) {
+    const name = campaign.name.trim().toLocaleLowerCase("tr-TR");
+    if (name.includes("kış")) {
+      return pathname === "/" ? (
+        <WinterCampaignTag dismissalKey={storageKey(campaign.id, "session")} />
+      ) : null;
+    }
+
+    return <StandardCampaignSlideIn campaign={campaign} pathname={pathname} />;
+  }
+
+  // Veritabanında henüz özel bir kampanya oluşturulmamışsa ana sayfada varsayılan kış kampanyası etiketini göster
+  if (pathname === "/") {
+    return <WinterCampaignTag dismissalKey="samandira_campaign_winter_tag_default_session" />;
+  }
+
+  return null;
+}
+
+function StandardCampaignSlideIn({ campaign, pathname }: { campaign: Campaign; pathname: string }) {
   const reduceMotion = Boolean(useReducedMotion());
   const [open, setOpen] = useState(false);
   const href = campaign?.button_href || "/on-kayit";

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { siteConfig } from "@/config/site";
 import { PreRegistrationForm } from "@/app/(site)/on-kayit/PreRegistrationForm";
 
-export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Ön Kayıt — %15 Online İndirim | Samandıra İY Akademi", description: "Samandıra İdman Yurdu Akademi ön kayıt formu. Online kayıtlara özel %15 indirim. 1 iş günü içinde dönüş, ücretsiz deneme antrenmanı imkânı.", path: "/on-kayit" });
+export const metadata: Metadata = createPageMetadata({ title: "Futbol Akademisi Ön Kayıt — Kış Kampanyası | Samandıra İY Akademi", description: "Samandıra İdman Yurdu Akademi ön kayıt formu. Kış kampanyası paketleriyle aylık, 6 aylık veya 12 aylık peşin seçenekler. 1 iş günü içinde dönüş, ücretsiz deneme antrenmanı imkânı.", path: "/on-kayit" });
 
 const applicationSteps = [
   {
@@ -23,7 +23,16 @@ const applicationSteps = [
   },
 ];
 
-export default function OnKayitPage() {
+export default async function OnKayitPage({ searchParams }: {
+  searchParams: Promise<{ paket?: string | string[]; kampanya?: string | string[] }>;
+}) {
+  const { paket, kampanya } = await searchParams;
+  const initialPackage =
+    paket === "winter_monthly" || paket === "winter_biannual" || paket === "winter_annual"
+      ? (paket as "winter_monthly" | "winter_biannual" | "winter_annual")
+      : null;
+  const showPackages = kampanya === "kis";
+
   return (
     <div className="flex flex-1 flex-col">
       <section className="relative isolate overflow-hidden pb-12 pt-[calc(var(--header-height)+2rem)] md:pb-16 md:pt-[calc(var(--header-height)+3.5rem)]">
@@ -34,7 +43,7 @@ export default function OnKayitPage() {
         />
 
         <Container>
-          <div className="mb-8 rounded-2xl bg-yellow-300 px-5 py-4 text-center font-bold text-maroon-deep shadow-shell">🎉 Online Kayıtlara Özel %15 İndirim — Bu form üzerinden yapılan kayıtlarda geçerlidir.</div>
+          <div className="mb-8 rounded-2xl bg-accent px-5 py-4 text-center font-bold text-white shadow-shell">❄️ Kış Kampanyası Başladı — Aylık, 6 aylık ve 12 aylık peşin paket seçenekleriyle şimdi ön kayıt yapın.</div>
           <div className="stack-section-intro mx-auto max-w-prose-display text-center">
             <p className="type-overline club-kicker-line justify-center text-accent">
               Akademi başvuru
@@ -111,7 +120,13 @@ export default function OnKayitPage() {
               </div>
             </div>
 
-            <PreRegistrationForm />
+            <div id="on-kayit-formu" className="min-w-0 scroll-mt-[calc(var(--header-height)+1.5rem)]">
+              <PreRegistrationForm
+                key={initialPackage ?? (showPackages ? "packages" : "campaigns")}
+                initialPackage={initialPackage}
+                showPackages={showPackages}
+              />
+            </div>
           </div>
         </Container>
       </section>

@@ -37,6 +37,7 @@ export function IntroSplash() {
       {show ? (
         <motion.div
           key="intro-splash"
+          data-intro-splash=""
           aria-hidden
           className="fixed inset-0 z-[90] flex items-center justify-center bg-maroon-deep"
           initial={{ opacity: 1 }}

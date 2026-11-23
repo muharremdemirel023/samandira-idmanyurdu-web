@@ -31,7 +31,7 @@ alter table home_content
   add column if not exists hero_media_show_play_button boolean not null default true,
   add column if not exists hero_features jsonb not null default '[{"id":"age-groups","text":"Yaş Gruplarına Uygun Eğitim","visible":true,"sortOrder":0},{"id":"expert-team","text":"Deneyimli Antrenör Kadrosu","visible":true,"sortOrder":1},{"id":"weekend-program","text":"Düzenli Hafta Sonu Programı","visible":true,"sortOrder":2}]'::jsonb,
   add column if not exists hero_campaign_badge_visible boolean not null default true,
-  add column if not exists hero_campaign_badge_text text not null default '🎉 Online Kayıtlara Özel %15 İndirim',
+  add column if not exists hero_campaign_badge_text text not null default 'Yeni Kayıtlara Özel Kış Kampanyası',
   add column if not exists hero_campaign_badge_href text not null default '/on-kayit',
   add column if not exists hero_campaign_badge_style text not null default 'highlight';
 

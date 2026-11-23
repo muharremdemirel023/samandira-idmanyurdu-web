@@ -14,6 +14,7 @@ import {
   type HeroContentRecord,
   type ResolvedHeroContent,
 } from "@/lib/hero-content";
+import styles from "./HeroSection.module.css";
 
 export type HeroContent = Partial<HeroContentRecord>;
 export type HeroPreviewMode = "desktop" | "mobile";
@@ -65,6 +66,9 @@ export function HeroSection({
   previewMode?: HeroPreviewMode;
 }) {
   const hero = resolvedContent ?? resolveHeroContent(content);
+  const badgeLabel = hero.campaignBadge.text.trim().toLocaleLowerCase("tr-TR");
+  const isWinterBadge =
+    badgeLabel === "kış paketlerini incele" || badgeLabel === "yeni kayıtlara özel kış kampanyası";
   const reduceMotion = useReducedMotion();
   const t = reduceMotion ? { duration: 0, ease: "linear" as const } : transitions.section;
   const step = reduceMotion ? 0 : 0.09;
@@ -351,9 +355,24 @@ export function HeroSection({
                   {hero.campaignBadge.visible && hero.campaignBadge.text ? (
                     <OptionalLink
                       href={hero.campaignBadge.href}
-                      className={campaignBadgeClass(hero.campaignBadge.style)}
+                      className={isWinterBadge ? styles.winterBadge : campaignBadgeClass(hero.campaignBadge.style)}
                     >
+                      {isWinterBadge && (
+                        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24"
+                          fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"
+                          strokeLinejoin="round" className="shrink-0">
+                          {[0, 60, 120].map((angle) => (
+                            <path key={angle} transform={`rotate(${angle} 12 12)`}
+                              d="M12 2v20 M9 5l3 3 3-3 M9 19l3-3 3 3" />
+                          ))}
+                        </svg>
+                      )}
                       {hero.campaignBadge.text}
+                      {isWinterBadge && (
+                        <span className={styles.snowflakes} aria-hidden="true">
+                          <span>❄︎</span><span>❄︎</span><span>❄︎</span>
+                        </span>
+                      )}
                     </OptionalLink>
                   ) : null}
                   {hero.primaryCta.visible && hero.primaryCta.label ? (

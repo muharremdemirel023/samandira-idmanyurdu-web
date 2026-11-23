@@ -11,6 +11,8 @@ const NO_INDEX_SLUGS = new Set(["kvkk-aydinlatma-metni", "tesekkurler"]);
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteUrl, changeFrequency: "weekly", priority: 1 },
+    { url: `${siteUrl}/kis-kampanyasi`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${siteUrl}/on-kayit`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/akademi`, changeFrequency: "monthly", priority: 0.8 },
     {
       url: `${siteUrl}/akademi/teknik-kadro`,
@@ -22,7 +24,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/akademi/sik-sorulan-sorular`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteUrl}/lig-merkezi`, changeFrequency: "daily", priority: 0.7 },
     { url: `${siteUrl}/iletisim`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteUrl}/on-kayit`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/duyurular`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteUrl}/galeri/fotograflar`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${siteUrl}/galeri/videolar`, changeFrequency: "weekly", priority: 0.6 },

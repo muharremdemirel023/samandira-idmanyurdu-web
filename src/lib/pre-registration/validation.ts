@@ -3,11 +3,11 @@ import "server-only";
 import { z } from "zod";
 
 import {
+  ACCEPTED_NEW_CAMPAIGN_TYPES,
   PRE_REGISTRATION_EMAIL_MAX_LENGTH,
   PRE_REGISTRATION_MAX_AGE,
   PRE_REGISTRATION_MIN_AGE,
   PRE_REGISTRATION_NOTE_MAX_LENGTH,
-  preRegistrationCampaignLabels,
 } from "@/lib/pre-registration/constants";
 
 const currentYear = new Date().getUTCFullYear();
@@ -26,10 +26,8 @@ const birthYearField = (label: string) =>
 const preRegistrationSchema = z
   .object({
     campaignType: z.enum(
-      Object.keys(preRegistrationCampaignLabels) as [
-        keyof typeof preRegistrationCampaignLabels,
-        ...Array<keyof typeof preRegistrationCampaignLabels>,
-      ],
+      // online_15 bu listede yer almaz - yeni basururularda kabul edilmez.
+      ACCEPTED_NEW_CAMPAIGN_TYPES as unknown as [string, ...string[]],
       { message: "Lütfen bir kampanya seçin." },
     ),
     guardianName: z.string().trim().min(2, "Veli adı en az 2 karakter olmalıdır.").max(100, "Veli adı en fazla 100 karakter olabilir."),

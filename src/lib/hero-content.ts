@@ -110,7 +110,7 @@ export const heroFallbacks: ResolvedHeroContent = {
   lead: "Samandıra İdman Yurdu olarak 35 yıllık spor kültürümüzü yeni nesillere aktarmaya devam ediyoruz.",
   primaryCta: {
     visible: true,
-    label: "Ücretsiz Deneme Antrenmanı",
+    label: "Kış Paketlerini İncele",
     href: "/on-kayit",
     style: "primary",
   },
@@ -146,7 +146,7 @@ export const heroFallbacks: ResolvedHeroContent = {
   features: defaultHeroFeatures,
   campaignBadge: {
     visible: true,
-    text: "🎉 Online Kayıtlara Özel %15 İndirim",
+    text: "Yeni Kayıtlara Özel Kış Kampanyası",
     href: "/on-kayit",
     style: "highlight",
   },

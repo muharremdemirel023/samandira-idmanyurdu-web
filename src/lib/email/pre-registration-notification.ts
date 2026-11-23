@@ -1,7 +1,7 @@
 import "server-only";
 
 import {
-  preRegistrationCampaignLabels,
+  resolveCampaignEmailLabel,
   type PreRegistrationCampaignType,
 } from "@/lib/pre-registration/constants";
 
@@ -115,7 +115,7 @@ export async function sendPreRegistrationNotification(
   const submittedAt = formatSubmittedAt(input.submittedAt);
   const guardianEmail = input.email?.trim() || "Belirtilmedi";
   const safeNote = input.note.trim() || "Not eklenmedi.";
-  const campaignLabel = preRegistrationCampaignLabels[input.campaignType] ?? input.campaignType;
+  const campaignLabel = resolveCampaignEmailLabel(input.campaignType);
   const isFriendCampaign = input.campaignType === "friend_20" && input.student2Name;
 
   const studentLines = isFriendCampaign

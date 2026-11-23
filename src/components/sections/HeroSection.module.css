@@ -1,0 +1,63 @@
+.winterBadge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.625rem 2rem;
+  overflow: hidden;
+  border: 1px solid var(--accent);
+  border-radius: 9999px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.winterBadge:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.winterBadge::before,
+.winterBadge::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 22%;
+  max-width: 4rem;
+  height: 0.35rem;
+  background: white;
+  pointer-events: none;
+  clip-path: polygon(0 0, 100% 0, 94% 30%, 80% 40%, 72% 65%, 60% 45%, 42% 85%, 28% 70%, 12% 100%, 0 68%);
+}
+
+.winterBadge::before { left: 0.5rem; }
+.winterBadge::after { right: 0.4rem; width: 18%; transform: scaleX(-1); }
+
+.snowflakes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: #657000;
+  line-height: 1;
+}
+
+.snowflakes > span { position: absolute; }
+.snowflakes > :first-child { left: 0.55rem; top: 45%; font-size: 0.62rem; }
+.snowflakes > :nth-child(2) { right: 0.95rem; top: 25%; font-size: 0.55rem; }
+.snowflakes > :last-child { right: 0.45rem; top: 63%; font-size: 0.42rem; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .snowflakes > span { animation: snowDrift 5s ease-in-out infinite alternate; }
+  .snowflakes > :nth-child(2) { animation-delay: -3s; }
+  .snowflakes > :last-child { animation-delay: -1.5s; }
+}
+
+@keyframes snowDrift {
+  from { transform: translate(-1px, -3px) rotate(-10deg); }
+  to { transform: translate(2px, 4px) rotate(12deg); }
+}
