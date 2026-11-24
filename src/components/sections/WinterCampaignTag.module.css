@@ -349,26 +349,45 @@
   .cta:hover { background: #fff; }
 }
 
-@media (max-width: 639px) {
+@media (max-width: 640px) {
   .rail {
-    --tag-width: min(13rem, 65vw);
+    --tag-width: min(140px, 65vw);
     --right-gap: max(0.85rem, env(safe-area-inset-right, 0px));
-    --cord-length: 1.5rem;
-    --crown: 2.45rem;
-    --hem: .55rem;
+    --cord-length: 1.1rem;
+    --crown: 3.1rem;
+    --hem: .4rem;
     --swing: 2.5deg;
   }
+  .tag { border-radius: 17% 17% .65rem .65rem; }
+  .copy { margin-inline: .4rem; padding: .2rem .25rem; }
+  .kicker, .badge { font-size: .53rem; letter-spacing: .08em; }
+  .badge { padding: .2rem .45rem; }
+  .question, .title { margin-block: .4rem .25rem; }
+  .question { font-size: .94rem; }
+  .title { font-size: 1.02rem; }
+  .description { font-size: .68rem; }
+  .note { margin-top: .2rem; font-size: .62rem; }
+  .cta {
+    gap: .25rem;
+    min-height: 2rem;
+    margin-top: .55rem;
+    padding: .3rem .5rem;
+    font-size: .7rem;
+  }
+  .secondary { min-height: 1.8rem; font-size: .62rem; }
+  .snow { top: -.45rem; height: 1.95rem; }
+  .crumbs { top: .45rem; }
+  .eyelet { top: .3rem; width: .8rem; height: .8rem; }
+  .cord { width: .75rem; }
+  .pin { width: .4rem; height: .4rem; }
   .close {
-    top: 0.35rem;
-    right: 0.45rem;
-    width: 2.85rem;
-    height: 2.85rem;
+    top: .2rem;
+    right: .2rem;
+    width: 44px;
+    height: 44px;
     background: radial-gradient(circle, rgba(65, 25, 12, 0.95) 0 55%, transparent 58%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
   }
-  .question { font-size: 1.35rem; }
-  .title { font-size: 1.48rem; }
-  .description { font-size: .85rem; }
 }
 
 @media (max-height: 32rem) {
@@ -376,6 +395,10 @@
   .assembly:not([data-scene="offer"]) .offer,
   .assembly[data-scene="offer"] .intro { display: none; }
   .copy { display: block; }
+}
+
+@media (max-width: 640px) and (max-height: 32rem) {
+  .rail { --crown: 3.1rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
