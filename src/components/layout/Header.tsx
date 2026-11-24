@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ClubLogo } from "@/components/navigation/ClubLogo";
 import { DesktopNav } from "@/components/navigation/DesktopNav";
@@ -28,6 +28,11 @@ type HeaderProps = {
 export function Header({ customPages = [] }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeMenu = useCallback(() => {
+    menuButtonRef.current?.focus({ preventScroll: true });
+    setMenuOpen(false);
+  }, []);
   const pathname = usePathname();
   const isHome = pathname === "/";
   /** Ana sayfada, sayfa henüz kaydırılmadan önce hero fotoğrafı üzerinde yüzen cam header. */
@@ -58,7 +63,7 @@ export function Header({ customPages = [] }: HeaderProps) {
     document.body.style.overflow = "hidden";
 
     const onEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMenuOpen(false);
+      if (e.key === "Escape") closeMenu();
     };
     window.addEventListener("keydown", onEscape);
 
@@ -67,7 +72,7 @@ export function Header({ customPages = [] }: HeaderProps) {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", onEscape);
     };
-  }, [menuOpen]);
+  }, [menuOpen, closeMenu]);
 
   const headerSurface = scrolled
     ? "border-border-subtle bg-white/92 shadow-shell backdrop-blur-[14px]"
@@ -135,6 +140,7 @@ export function Header({ customPages = [] }: HeaderProps) {
           </div>
 
           <button
+            ref={menuButtonRef}
             type="button"
             className={cn(
               "flex size-10 shrink-0 items-center justify-center rounded-full border motion-safe:transition motion-safe:duration-200 nav:hidden",
@@ -148,7 +154,7 @@ export function Header({ customPages = [] }: HeaderProps) {
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
-            onClick={() => setMenuOpen((prev) => !prev)}
+            onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
           >
             <svg
               className="block size-5"
@@ -175,7 +181,7 @@ export function Header({ customPages = [] }: HeaderProps) {
         </div>
       </div>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} items={navItems} />
+      <MobileMenu open={menuOpen} onClose={closeMenu} items={navItems} />
     </header>
   );
 }

@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 import { mainNavigation, type NavItem } from "@/components/navigation/nav-config";
 import { cn } from "@/lib/cn";
@@ -16,6 +17,11 @@ type MobileMenuProps = {
 export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
   const pathname = usePathname();
   const navItems = items ?? mainNavigation;
+  const navRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (open) navRef.current?.querySelector("a")?.focus({ preventScroll: true });
+  }, [open]);
 
   return (
     <AnimatePresence>
@@ -30,8 +36,7 @@ export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
         >
           <motion.button
             type="button"
-            aria-hidden
-            tabIndex={-1}
+            aria-label="Menüyü kapat"
             className="absolute inset-0 bg-maroon-deep/35 backdrop-blur-[2px] motion-reduce:backdrop-blur-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -40,6 +45,7 @@ export function MobileMenu({ open, onClose, items }: MobileMenuProps) {
           />
 
           <motion.nav
+            ref={navRef}
             id="mobile-menu"
             aria-label="Mobil navigasyon"
             className={cn(
